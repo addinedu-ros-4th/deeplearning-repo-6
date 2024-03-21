@@ -1,73 +1,69 @@
 import pyaudio
+import struct
 import numpy as np
 import wave
-import struct
+import signal
 
+# 마이크에서 음성을 받아들이는 파라미터 설정
+FORMAT = pyaudio.paInt16
+CHANNELS = 1
+RATE = 16000  # 샘플링 레이트 (Hz)
+CHUNK = 1024  # 버퍼 사이즈
 
-class Mike:
-    def __init__(self) -> None:
-        self.mike_on = False
-        self.FORMAT = pyaudio.paInt16
-        self.CHANNELS = 1
-        self.RATE = 16000  # 샘플링 주파수 (Hz)
-        self.CHUNK = 2048  # 오디오 프레임 크기, n_fft 값과 같게 설정
-        self.RECORD_SECONDS = 5  # 녹음할 시간(초)
-        self.WAVE_OUTPUT_FILENAME = "output.wav"
-        self.THRESHOLD_ENERGY = 50000
-        self.audio = pyaudio.PyAudio()
+# 에너지 기반 음성 활동 감지 임계값 설정
+THRESHOLD_ENERGY = 10
 
-    def change_mike_state(self):
-        self.mike_on = not self.mike_on
-        print(self.mike_on)
+# 마이크 스트림 열기
+audio = pyaudio.PyAudio()
+stream = audio.open(format=FORMAT, channels=CHANNELS,
+                    rate=RATE, input=True,
+                    frames_per_buffer=CHUNK)
 
-    def get_audio(self):
-        return self.audio
-    
-    def on_mike(self):
-        audio = self.get_audio()
-        stream = audio.open(format=self.FORMAT,
-                            channels=self.CHANNELS,
-                            rate=self.RATE,
-                            input=True,
-                            frames_per_buffer=self.CHUNK)
-        
-        frame = []
-        while True:
-            data = stream.read(self.CHUNK)
-            frame.append(data)
-            # 바이너리 데이터를 숫자 배열로 변환
-            samples = struct.unpack(f'{self.CHUNK}h', data)
-            # 음성 신호의 에너지 계산
-            energy = np.sum(np.square(samples)) / self.CHUNK
-            print(f'Energy: {energy}')
-            # 음성 활동 감지
-            if energy > self.THRESHOLD_ENERGY:
-                print("Voice activity detected!")
-            else:
-                print("Silence detected!")
-                stream.stop_stream()
-                stream.close()
-                audio.terminate()
-                break
-        return frame
-        
-        
+print("Listening...")
 
-    def make_audio_file(self):
-        frame = self.on_mike()
-        audio = self.audio
-        with wave.open(self.WAVE_OUTPUT_FILENAME, 'wb') as wf:
-            wf.setnchannels(self.CHANNELS)
-            wf.setsampwidth(audio.get_sample_size(self.FORMAT))
-            wf.setframerate(self.RATE)
-            wf.writeframes(b''.join(frame))
+# 녹음 시작 시간 기록
 
+# Ctrl+C 핸들링 함수
+def signal_handler(sig, frame):
+    # 마이크 스트림 닫기
+    stream.stop_stream()
+    stream.close()  
+    audio.terminate()
 
-def main():
-    m = Mike()
-    m.change_mike_state()
-    m.change_mike_state()
+    # 녹음된 음성 데이터 반환
+    # 녹음된 음성을 WAV 파일로 저장
+    output_wav_path = "recorded_audio.wav"
+    with wave.open(output_wav_path, 'wb') as wf:
+        wf.setnchannels(CHANNELS)
+        wf.setsampwidth(audio.get_sample_size(FORMAT))
+        wf.setframerate(RATE)
+        wf.writeframes(b''.join(frames))
 
+    print(f"Recorded audio saved at: {output_wav_path}")
+    exit(0)
 
-if __name__ == "__main__":
-    main()
+# Ctrl+C 시그널 핸들러 등록
+signal.signal(signal.SIGINT, signal_handler)
+
+# 에너지 기반 VAD 알고리즘 적용
+frames = []
+try:
+    while True:
+        data = stream.read(CHUNK)
+        frames.append(data)
+        # 바이너리 데이터를 숫자 배열로 변환
+        samples = struct.unpack(f'{CHUNK}h', data)
+        # 음성 신호의 에너지 계산
+        energy = np.sum(np.square(samples)) / CHUNK
+        print(f'Energy: {energy}')
+        # 음성 활동 감지
+        if energy >= THRESHOLD_ENERGY:
+            print("Voice activity detected!")
+        else:
+            stream.stop_stream()
+            stream.close()  
+            audio.terminate()
+except KeyboardInterrupt:
+    pass
+finally:
+    signal_handler(None, None)
