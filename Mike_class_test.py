@@ -47,7 +47,18 @@ class VoiceRecorder:
             audio.terminate()
             self.save_recording()
 
-    def save_recording(self, filename="recorded_audio.wav"):
+    def save_recording(self):
+        path = "/Users/djy/Desktop/project/"
+
+        # 클래스 속성으로 name을 초기화합니다.
+        if not hasattr(self.__class__, 'name'):
+            self.__class__.name = 0
+        else:
+            self.__class__.name += 1
+
+        file = ".wav"
+        filename = path + str(self.__class__.name) + file
+
         with wave.open(filename, 'wb') as wf:
             wf.setnchannels(self.CHANNELS)
             wf.setsampwidth(pyaudio.PyAudio().get_sample_size(self.FORMAT))
@@ -62,4 +73,5 @@ class VoiceRecorder:
 if __name__ == "__main__":
     recorder = VoiceRecorder()
     signal.signal(signal.SIGINT, recorder.handle_interrupt)
-    recorder.start_recording()
+    for i in range(1,5):
+        recorder.start_recording()
