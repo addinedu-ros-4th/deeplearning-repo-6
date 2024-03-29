@@ -51,10 +51,7 @@ class VoiceRecorder:
 
     def save_recording(self):
         path = "/home/djy0404/amr_ws/project/communication_model/record/"
-        """
-        사용자의 파일 안에 레코드 파일 만들어서 거기다 음성 저장 할 수 있게
-        음성 파일 이름은 output
-        """
+        
         if not os.listdir(path):
             # 폴더가 비어있을 때
             new_file_name = "0.wav"
