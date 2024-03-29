@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>602</width>
-    <height>429</height>
+    <width>514</width>
+    <height>532</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -16,10 +16,10 @@
   <widget class="QPushButton" name="btn_Mike_on">
    <property name="geometry">
     <rect>
-     <x>190</x>
-     <y>230</y>
-     <width>81</width>
-     <height>81</height>
+     <x>340</x>
+     <y>330</y>
+     <width>91</width>
+     <height>61</height>
     </rect>
    </property>
    <property name="styleSheet">
@@ -30,11 +30,11 @@ font: 75 13pt &quot;Ubuntu Mono&quot;;</string>
     <string>Mic On</string>
    </property>
   </widget>
-  <widget class="QLabel" name="label_User">
+  <widget class="QLabel" name="Label_User_Name">
    <property name="geometry">
     <rect>
-     <x>80</x>
-     <y>40</y>
+     <x>70</x>
+     <y>20</y>
      <width>91</width>
      <height>31</height>
     </rect>
@@ -49,10 +49,10 @@ font: 75 13pt &quot;Ubuntu Mono&quot;;</string>
   <widget class="QPushButton" name="btn_Output">
    <property name="geometry">
     <rect>
-     <x>490</x>
-     <y>230</y>
-     <width>81</width>
-     <height>81</height>
+     <x>340</x>
+     <y>450</y>
+     <width>91</width>
+     <height>61</height>
     </rect>
    </property>
    <property name="styleSheet">
@@ -66,8 +66,8 @@ font: 75 13pt &quot;Ubuntu Mono&quot;;</string>
   <widget class="QComboBox" name="cbox_Model">
    <property name="geometry">
     <rect>
-     <x>390</x>
-     <y>40</y>
+     <x>70</x>
+     <y>420</y>
      <width>86</width>
      <height>25</height>
     </rect>
@@ -88,30 +88,53 @@ font: 75 13pt &quot;Ubuntu Mono&quot;;</string>
     </property>
    </item>
   </widget>
-  <widget class="QLabel" name="User_label">
+  <widget class="QLabel" name="Label_User_Text">
    <property name="geometry">
     <rect>
-     <x>20</x>
-     <y>80</y>
+     <x>70</x>
+     <y>330</y>
      <width>261</width>
-     <height>141</height>
+     <height>61</height>
     </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: rgb(255, 255, 255);</string>
    </property>
    <property name="text">
     <string>마이크에서 입력받은 말을 텍스트로 출력</string>
    </property>
   </widget>
-  <widget class="QLabel" name="Model_label">
+  <widget class="QLabel" name="Label_Model_Text">
    <property name="geometry">
     <rect>
-     <x>320</x>
-     <y>80</y>
+     <x>70</x>
+     <y>450</y>
      <width>261</width>
-     <height>141</height>
+     <height>61</height>
     </rect>
    </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: rgb(255, 255, 255);</string>
+   </property>
    <property name="text">
-    <string>마이크에서 입력받은 말을 텍스트로 출력</string>
+    <string>모델에서 생성한 텍스트 출력</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="Cam_window">
+   <property name="geometry">
+    <rect>
+     <x>70</x>
+     <y>60</y>
+     <width>361</width>
+     <height>261</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">background-color: rgb(255, 255, 255);
+</string>
+   </property>
+   <property name="text">
+    <string>web_cam</string>
    </property>
   </widget>
  </widget>

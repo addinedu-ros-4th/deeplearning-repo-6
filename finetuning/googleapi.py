@@ -39,13 +39,16 @@ class FileMonitor(threading.Thread):
 
             time.sleep(1)
 
+    def stop(self):
+        self.running = False
+
 class AudioTranscriber:
     def __init__(self, audio_file):
         self.audio_file = audio_file
 
     def transcribe_audio(self):
         try:
-            os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "/home/ito/amr_ws/mechine learing/project/mic/data/google_api.json"
+            os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "/home/ito/amr_ws/mechine learing/project/mic/data/google_key.json"
             client = speech.SpeechClient()
 
             with open(self.audio_file, "rb") as audio_file:

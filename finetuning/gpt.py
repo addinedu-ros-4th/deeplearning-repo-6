@@ -16,12 +16,13 @@ class ChatGPTAssistant:
             "/home/ito/amr_ws/mechine learing/project/mic/gpt/models/Default.json"
         ]
 
+    # 모델 설정 업데이트 메서드
     def update_model_config(self, model_configs):
         self.model_configs = model_configs
         print("Model configurations updated")
 
         
-
+    # 모델 설정 파일에서 메시지 로드하는 메서드
     def get_messages(self, model_index):
         try:
             file_path = self.model_config_file_paths[model_index]
@@ -31,7 +32,8 @@ class ChatGPTAssistant:
         except Exception as e:
             print("Failed to load messages for model {}: {}".format(model_index, str(e)))
             return None
-
+        
+    # OpenAI를 사용하여 GPT와 대화하는 메서드
     def chat_with_gpt(self, user_input_msg, model_index):
         try:
             OPENAI_YOUR_KEY = "api-key"
@@ -60,6 +62,7 @@ class ChatGPTAssistant:
 
             return None
 
+    # 오디오 파일 처리하는 메서드
     def process_audio(self, file_path, model_key):
         print("Processing audio:", file_path)
         audio_transcriber = AudioTranscriber(file_path)

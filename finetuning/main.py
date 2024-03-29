@@ -7,25 +7,139 @@ from mic import VoiceRecorder
 from gpt import ChatGPTAssistant, ModelConfigThread
 import time
 import threading
-from PyQt5 import QtWidgets
-from PyQt5 import uic
+from PyQt5 import QtWidgets,uic
 from googleapi import FileMonitor, AudioTranscriber
-from PyQt5.QtCore import pyqtSignal
-from PyQt5.QtCore import QObject
+from PyQt5.QtCore import pyqtSignal, QThread, QObject
 from PyQt5.QtWidgets import QMainWindow, QApplication
+from PyQt5.QtGui import QImage, QPixmap
+import cv2
+
+import speech_recognition as sr
+import os
+from datetime import datetime
 
 
-Ui_MainWindow, QtBaseClass = uic.loadUiType("/home/ito/amr_ws/mechine learing/project/mic/gpt+stt/SR_gui.ui")
+ui = "/home/ito/amr_ws/mechine learing/project/mic/finetuning/SR_gui.ui"
+# .ui 파일을 파이썬 코드로 변환
+Ui_MainWindow, QtBaseClass = uic.loadUiType(ui)
 
 class Signal(QObject):
     mike_off = pyqtSignal()
+
+
+class Mike_thread(QThread):
+    result_text = pyqtSignal(str)
+    finished = pyqtSignal()
+
+    def __init__(self):
+        super().__init__()
+        self.running = True
+
+    def stop(self):
+        self.running = False
+
+    def run(self):
+        recognizer = sr.Recognizer()
+
+        print("마이크 입력을 시작합니다.")
+        with sr.Microphone() as source:
+            while self.running:
+                try:
+                    print("음성 입력을 기다리는 중...")
+                    audio_data = recognizer.listen(source)
+                    """
+                    # 현재 시간을 기반으로 파일 이름 생성
+                    now = datetime.now()
+                    filename = f"audio_{now.strftime('%Y%m%d_%H%M%S')}.wav"
+                    file_path = os.path.join(os.getcwd(), filename)
+
+                    # 음성 녹음 파일 저장
+                    with open(file_path, "wb") as f:
+                        f.write(audio_data.get_wav_data())
+                        print(f"음성 파일이 '{file_path}'에 저장되었습니다.")
+                    """
+                    text = recognizer.recognize_google(audio_data, language="ko-KR")
+                    self.result_text.emit(text)
+
+                    
+                except sr.UnknownValueError:
+                    text = "음성을 인식할 수 없습니다."
+                    self.result_text.emit(text)
+                except sr.RequestError:
+                    print("Google Web API 요청이 실패했습니다. 에러 메시지:")
+                except sr.WaitTimeoutError:
+                    print("녹음 1번이 끝남")
+
+                if not self.running:
+                    break
+
+        self.finished.emit()
+
+class Mike_thread2(QThread):
+    result_text = pyqtSignal(str)
+    finished = pyqtSignal()
+
+    def __init__(self):
+        super().__init__()
+        self.running = True
+
+    def stop(self):
+        self.running = False
+
+    def run(self):
+        vr = VoiceRecorder()
+        recognizer = sr.Recognizer()
+        print("마이크 입력을 시작합니다.")
+        while self.running:
+            vr.start_recording()
+            vr.save_recording()
+            audio_path = vr.get_audio_path()
+            
+            with sr.AudioFile(audio_path) as source:
+                audio_data = recognizer.record(source)
+                try:
+                    # Google 웹 API를 사용하여 음성을 텍스트로 변환
+                    text = recognizer.recognize_google(audio_data, language="ko-KR")
+                    print("인식된 텍스트:", text)
+                    self.result_text.emit(text)
+     
+                except sr.UnknownValueError:
+                    print("음성을 인식할 수 없습니다.")
+                except sr.RequestError:
+                    print("Google 웹 API 요청이 실패했습니다. 에러 메시지:")
+
+            
+
+        self.finished.emit()
+
+class WebCamThread(QThread):
+    change_pixmap_signal = pyqtSignal(QImage)
+    def run(self):
+        cap = cv2.VideoCapture(0)
+
+        while True:
+            ret, frame = cap.read()  # 웹캠에서 프레임 읽기
+            if ret:
+                # OpenCV에서 읽은 이미지를 PyQt용 QImage으로 변환
+                rgb_image = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+                h, w, ch = rgb_image.shape
+                bytes_per_line = ch * w
+                qt_image = QImage(rgb_image.data, w, h, bytes_per_line, QImage.Format_RGB888)
+
+                # 이미지 변경 신호를 발생시켜 메인 스레드로 이미지 전달
+                self.change_pixmap_signal.emit(qt_image)
+            else:
+                print("Failed to receive frame")
+                break
+
+        cap.release()  # 웹캠 연결 해제
 
 class ChatModule(QtWidgets.QMainWindow):
     def __init__(self):
         super(ChatModule, self).__init__()
 
         # 데이터 경로 설정
-        self.data_path = "/home/ito/amr_ws/mechine learing/project/mic/mic_data"
+        self.data_path = "/home/ito/amr_ws/mechine learing/project/mic/mic_data/"
 
         # 모델 구성 정의
         self.model_configs = [
@@ -36,18 +150,26 @@ class ChatModule(QtWidgets.QMainWindow):
 
         # UI 요소 생성을 메인 스레드에서 수행
         self.create_ui_elements()
-
+        
+        # 웹캠 시작 시 스레드 실행
+        self.webcam_thread = WebCamThread()
+        self.webcam_thread.change_pixmap_signal.connect(self.update_image)  # 이미지 업데이트 신호 연결
+        self.webcam_thread.start()  # 웹캠 스레드 시작
+        
         # 마이크 상태 변경 시그널
         self.signals = Signal()
 
         # 마이크 버튼 클릭 이벤트 핸들러 연결
-        self.ui.btn_Mike_on.clicked.connect(self.toggle_mike)
+        #self.ui.btn_Mike_on.clicked.connect(self.toggle_mike)
+        self.ui.btn_Mike_on.clicked.connect(self.on_mike_button_clicked)
 
         # 마이크 상태 변수
         self.mike_on = False
+        self.mike_status = False
+        self.mike_thread = None
 
-        # 마이크 버튼 텍스트 업데이트
-        self.update_mike_button()
+        # 음성 출력 버튼 이벤트 핸들러 연결
+        self.ui.btn_Output.clicked.connect(self.voice_button_clicked)
 
         self.selected_model_index = 1  # 초기 모델 인덱스 설정
         
@@ -67,33 +189,56 @@ class ChatModule(QtWidgets.QMainWindow):
         self.ui.setupUi(self)
 
         # 기존에 생성된 User_label QLabel 위젯 가져오기
-        self.User_label = self.ui.User_label
+        self.User_label = self.ui.Label_User_Text
         self.User_label.setWordWrap(True)  # 텍스트 자동 줄 바꿈 활성화
 
         # 기존에 생성된 Model_label QLabel 위젯 가져오기
-        self.Model_label = self.ui.Model_label
+        self.Model_label = self.ui.Label_Model_Text
         self.Model_label.setWordWrap(True)  # 텍스트 자동 줄 바꿈 활성화
 
          # 콤보박스 선택 시그널 연결
         self.ui.cbox_Model.currentIndexChanged.connect(self.handle_model_selection)
+
+    def update_image(self, image):
+        # 이미지 라벨 업데이트
+        self.ui.Cam_window.setPixmap(QPixmap.fromImage(image))
 
     # 마이크 버튼 클릭 이벤트 핸들러
     def toggle_mike(self):
         self.mike_on = not self.mike_on  # 마이크 상태 변경
         self.update_mike_button()  # 마이크 버튼 텍스트 업데이트 요청
 
-    # 마이크 버튼 텍스트 업데이트
-    def update_mike_button(self):
-        if self.mike_on:
-            self.ui.btn_Mike_on.setText("Mic On")
+    # 마이크 스레드 시작, 입력 받아 텍스트 추출
+    def start_mike_thread(self):
+        self.mike_thread = Mike_thread2()
+        self.mike_thread.result_text.connect(self.update_user_txt)
+        self.mike_thread.start()
+
+    # 마이크 종료 및 재시작
+    def stop_mike_thread(self):
+        if self.mike_thread is not None and self.mike_thread.isRunning():
+            self.mike_thread.stop() 
+            self.mike_thread.finished.connect(self.mike_thread_finished)  
+            self.mike_thread.start() 
+
+    def mike_thread_finished(self):
+        self.mike_thread.wait() 
+        print("마이크가 종료되었습니다.")
+
+    def on_mike_button_clicked(self):
+        if not self.mike_status:
+            self.start_mike_thread()
+            self.mike_status = True
+            self.ui.btn_Mike_on.setText("Stop Mike")
         else:
-            self.ui.btn_Mike_on.setText("Mic Off")
+            self.stop_mike_thread()
+            self.mike_status = False
+            self.ui.btn_Mike_on.setText("Start Mike")
+ 
 
-    # 모델 구성 업데이트 스레드 시작
-    def start_model_config_thread(self):
-        self.model_config_thread = ModelConfigThread(self.model_configs, self.assistant)
-        self.model_config_thread.start()
-
+    def update_user_txt(self, text):
+        print(text)
+        self.ui.Label_User_Text.setText(text)
 
     # 모델 구성 업데이트 스레드 시작
     def start_model_config_thread(self):
@@ -119,7 +264,7 @@ class ChatModule(QtWidgets.QMainWindow):
 
     # 오디오 처리 콜백 함수
     def process_audio(self, file_path, model_index):
-        # AudioTranscriber 인스턴스 생성
+    # AudioTranscriber 인스턴스 생성
         transcriber = AudioTranscriber(file_path)
         # transcribe_audio 메서드 호출하여 transcript 값을 받아옴
         transcript = transcriber.transcribe_audio()
@@ -128,13 +273,26 @@ class ChatModule(QtWidgets.QMainWindow):
             self.User_label.setText(transcript)  # User_label의 텍스트를 transcript로 설정
 
             # 모델에 따른 대답 생성
-            response = self.assistant.chat_with_gpt(transcript, self.selected_model_index)
-            if response:
-                self.ui.Model_label.setText(response)  # Model_label의 텍스트를 생성된 대답으로 설정
-         # 파일 삭제
+        response = self.assistant.chat_with_gpt(transcript, self.selected_model_index)
+        if response:
+            self.Model_label.setText(response) # Model_label의 텍스트를 생성된 대답으로 설정
+        # 파일 삭제
         os.remove(file_path)
         # UI 업데이트 요청을 보냅니다.
         self.signals.mike_off.emit()
+
+
+    def voice_button_clicked(self):
+        model_txt = self.Label_Model_Text.text()
+        
+        pass
+
+     # 윈도우가 닫힐 때 호출되는 이벤트 핸들러
+    def closeEvent(self, event):
+        # 각 스레드 중지
+        self.model_config_thread.stop()
+        self.file_monitor.stop()
+        event.accept()
 
 if __name__ == "__main__":
     app = QtWidgets.QApplication([])
