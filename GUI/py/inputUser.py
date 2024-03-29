@@ -6,9 +6,9 @@ from PyQt5 import uic
 from PyQt5.QtCore import *
 import cv2
 from PIL import Image
+import threading
 
 from Camera import Camera
-from frame import init_camera
 from Loading import Loading
 
 from_class = uic.loadUiType("./ui/inputUser.ui")[0]
@@ -37,7 +37,11 @@ class WindowClass(QMainWindow, from_class) :
         self.camera.update.connect(self.updateCamera)
         self.userCamScreen.setText("camera를 켜주세요")
         
+        # 녹화 종료 시그널
+        self.camera.finishedRecording.connect(self.GIFLoading)
+        
         self.frameStartBtn.hide()
+        self.completeBtn.hide()
         self.frameStartBtn.clicked.connect(self.clickReady)
 
     def clickCamera(self):
@@ -107,13 +111,19 @@ class WindowClass(QMainWindow, from_class) :
 
 
     def GIFLoading(self):
-        self.loadingInstance = Loading(self)
-        
-        self.cameraBtn.setEnabled(False)
-        self.frameStartBtn.setEnabled(False)
-        
-        # 3초 후에 로딩 인스턴스를 자동으로 삭제하는 타이머 설정
-        QTimer.singleShot(2900, self.GIFLoading_finished)
+        if self.camera.recordingCount < 2:
+            self.loadingInstance = Loading(self)
+            
+            self.cameraBtn.setEnabled(False)
+            self.frameStartBtn.setEnabled(False)
+            
+            # 3초 후에 로딩 인스턴스를 자동으로 삭제하는 타이머 설정
+            QTimer.singleShot(2900, self.GIFLoading_finished)
+        else:
+            self.message.setText("촬영이 종료되었습니다.")
+            self.frameStartBtn.hide()
+            self.cameraBtn.hide()
+            self.completeBtn.show()
         
         
     def GIFLoading_finished(self):
@@ -130,7 +140,19 @@ class WindowClass(QMainWindow, from_class) :
         self.cameraBtn.setText("🔴REC")
         self.frameStartBtn.setText("등록 중")
         
-        
+        if self.camera.recordingCount == 1:
+            self.message.setText("가까이 와주세요")
+            threading.Timer(5, self.printMsg).start() # 3초뒤엔 다른 멘트 출력
+        elif self.camera.recordingCount == 2:
+            self.message.setText("멀리 가주세요")
+            threading.Timer(5, self.printMsg).start() # 3초뒤엔 다른 멘트 출력
+    
+    
+    # 촬영 조건 msg 출력
+    def printMsg(self):
+        self.message.setText("고개를 양옆으로 살짝씩 움직여주세요.")   
+          
+          
 if __name__ == "__main__":
     app = QApplication(sys.argv)
     
