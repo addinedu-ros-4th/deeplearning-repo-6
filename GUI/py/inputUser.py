@@ -1,0 +1,141 @@
+### 계산기
+import sys
+from PyQt5.QtWidgets import *
+from PyQt5.QtGui import *
+from PyQt5 import uic
+from PyQt5.QtCore import *
+import cv2
+from PIL import Image
+
+from Camera import Camera
+from frame import init_camera
+from Loading import Loading
+
+from_class = uic.loadUiType("./ui/inputUser.ui")[0]
+
+
+class WindowClass(QMainWindow, from_class) :
+    
+    def __init__(self):
+        super().__init__()
+        self.setupUi(self)
+        
+        self.setWindowTitle("사용자 등록")
+        
+        self.pixmap = QPixmap()
+        
+        self.cameraBtn.clicked.connect(self.clickCamera)
+        self.isCameraOn = False
+        self.camera = Camera(self)
+        self.camera.demon = True
+        self.count = 0
+        self.loadingInstance = None
+        
+        # 프레임 촬영 가능 여부
+        self.ox = False
+        
+        self.camera.update.connect(self.updateCamera)
+        self.userCamScreen.setText("camera를 켜주세요")
+        
+        self.frameStartBtn.hide()
+        self.frameStartBtn.clicked.connect(self.clickReady)
+
+    def clickCamera(self):
+        # 촬영 중 X
+        if self.isCameraOn == False:
+            self.isCameraOn = True
+            self.cameraBtn.setText("카메라 켜짐")
+            self.frameStartBtn.show()
+            
+            self.cameraStart()
+            
+        # 촬영 중
+        else:
+            self.isCameraOn = False
+            self.cameraBtn.setText("카메라 꺼짐")
+            self.frameStartBtn.hide()
+            
+            self.cameraStop()
+            
+            
+    def cameraStart(self):
+        self.camera.isRunning = True
+        self.camera.start()
+        
+           
+    def cameraStop(self):
+        self.count = 0
+        self.camera.stop()
+        
+        self.pixmap = QPixmap()
+        self.userCamScreen.setPixmap(self.pixmap)
+        self.userCamScreen.setText("camera를 켜주세요")
+    
+    
+    def updateCamera(self):
+        retval, image = self.camera.video.read()
+        
+        if retval:
+            image = cv2.cvtColor(image, cv2.COLOR_BGR2RGB)
+
+            h, w, c = image.shape
+            qimage = QImage(image.data, w, h, w*c, QImage.Format_RGB888)
+        
+            self.pixmap = self.pixmap.fromImage(qimage)
+            self.pixmap = self.pixmap.scaled(self.userCamScreen.width(), self.userCamScreen.height())
+            
+            self.userCamScreen.setPixmap(self.pixmap)
+        
+        self.count += 1
+    
+
+    # 촬영 조건 확인
+    def clickReady(self):
+        result = QMessageBox.question(self, '사용자 등록 준비', '정면을 보셨나요?',
+                                    QMessageBox.Yes | QMessageBox.No, QMessageBox.No)
+
+        if result == QMessageBox.Yes:
+            result = QMessageBox.question(self, '사용자 등록 준비', '혼자 있으신가요?',
+                                        QMessageBox.Yes | QMessageBox.No, QMessageBox.No)
+            
+            if result == QMessageBox.No:
+                QMessageBox.warning(self, '사용자 등록 준비', '한 명만 인식할 수 있습니다.')
+            else:
+                self.GIFLoading()  # loading 메서드의 결과에 따라 complete 변수를 설정
+        else:
+            QMessageBox.warning(self, '사용자 등록 준비', '정면만 인식 가능합니다.')
+
+
+    def GIFLoading(self):
+        self.loadingInstance = Loading(self)
+        
+        self.cameraBtn.setEnabled(False)
+        self.frameStartBtn.setEnabled(False)
+        
+        # 3초 후에 로딩 인스턴스를 자동으로 삭제하는 타이머 설정
+        QTimer.singleShot(2900, self.GIFLoading_finished)
+        
+        
+    def GIFLoading_finished(self):
+        # 로딩 인스턴스가 있으면 삭제하고 None으로 설정
+        if self.loadingInstance is not None:
+            self.loadingInstance.deleteLater()
+            self.loadingInstance = None
+            self.startRecord()
+
+
+    def startRecord(self):
+        # GIF 재생이 완료된 후 실행할 동작
+        self.camera.startRecording()
+        self.cameraBtn.setText("🔴REC")
+        self.frameStartBtn.setText("등록 중")
+        
+        
+if __name__ == "__main__":
+    app = QApplication(sys.argv)
+    
+    myWindows = WindowClass()
+    
+    myWindows.show()
+    
+    sys.exit(app.exec_())
