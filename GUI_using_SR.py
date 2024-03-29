@@ -17,6 +17,8 @@ import cv2
 import speech_recognition as sr
 import os
 from datetime import datetime
+
+
 ui = "/home/djy0404/amr_ws/project/communication_model/test_files/GUI/SR_gui.ui"
 # .ui 파일을 파이썬 코드로 변환
 Ui_MainWindow, QtBaseClass = uic.loadUiType(ui)
@@ -44,8 +46,8 @@ class Mike_thread(QThread):
             while self.running:
                 try:
                     print("음성 입력을 기다리는 중...")
-                    audio_data = recognizer.listen(source, timeout=2,phrase_time_limit=5)
-
+                    audio_data = recognizer.listen(source)
+                    """
                     # 현재 시간을 기반으로 파일 이름 생성
                     now = datetime.now()
                     filename = f"audio_{now.strftime('%Y%m%d_%H%M%S')}.wav"
@@ -55,18 +57,58 @@ class Mike_thread(QThread):
                     with open(file_path, "wb") as f:
                         f.write(audio_data.get_wav_data())
                         print(f"음성 파일이 '{file_path}'에 저장되었습니다.")
-
+                    """
                     text = recognizer.recognize_google(audio_data, language="ko-KR")
                     self.result_text.emit(text)
 
+                    
                 except sr.UnknownValueError:
                     text = "음성을 인식할 수 없습니다."
                     self.result_text.emit(text)
-                except sr.RequestError as e:
-                    print("Google Web API 요청이 실패했습니다. 에러 메시지:", e)
+                except sr.RequestError:
+                    print("Google Web API 요청이 실패했습니다. 에러 메시지:")
+                except sr.WaitTimeoutError:
+                    print("녹음 1번이 끝남")
 
                 if not self.running:
                     break
+
+        self.finished.emit()
+
+class Mike_thread2(QThread):
+    result_text = pyqtSignal(str)
+    finished = pyqtSignal()
+
+    def __init__(self):
+        super().__init__()
+        self.running = True
+
+    def stop(self):
+        self.running = False
+
+    def run(self):
+        vr = VoiceRecorder()
+        recognizer = sr.Recognizer()
+        print("마이크 입력을 시작합니다.")
+        while self.running:
+            vr.start_recording()
+            vr.save_recording()
+            audio_path = vr.get_audio_path()
+            
+            with sr.AudioFile(audio_path) as source:
+                audio_data = recognizer.record(source)
+                try:
+                    # Google 웹 API를 사용하여 음성을 텍스트로 변환
+                    text = recognizer.recognize_google(audio_data, language="ko-KR")
+                    print("인식된 텍스트:", text)
+                    self.result_text.emit(text)
+     
+                except sr.UnknownValueError:
+                    print("음성을 인식할 수 없습니다.")
+                except sr.RequestError:
+                    print("Google 웹 API 요청이 실패했습니다. 에러 메시지:")
+
+            
 
         self.finished.emit()
 
@@ -129,6 +171,9 @@ class ChatModule(QtWidgets.QMainWindow):
         # 마이크 버튼 텍스트 업데이트
         self.update_mike_button()
 
+        # 음성 출력 버튼 이벤트 핸들러 연결
+        self.ui.btn_Output.clicked.connect(self.voice_button_clicked)
+
         self.selected_model_index = 1  # 초기 모델 인덱스 설정
         
         # ChatGPTAssistant 인스턴스 생성
@@ -173,12 +218,13 @@ class ChatModule(QtWidgets.QMainWindow):
         else:
             self.ui.btn_Mike_on.setText("Mic Off")
 
-
+    # 마이크 스레드 시작, 입력 받아 텍스트 추출
     def start_mike_thread(self):
-        self.mike_thread = Mike_thread()
+        self.mike_thread = Mike_thread2()
         self.mike_thread.result_text.connect(self.update_user_txt)
         self.mike_thread.start()
 
+    # 마이크 종료 및 재시작
     def stop_mike_thread(self):
         if self.mike_thread is not None and self.mike_thread.isRunning():
             self.mike_thread.stop() 
@@ -198,6 +244,7 @@ class ChatModule(QtWidgets.QMainWindow):
             self.stop_mike_thread()
             self.mike_status = False
             self.ui.btn_Mike_on.setText("Start Mike")
+ 
 
     def update_user_txt(self, text):
         print(text)
@@ -249,6 +296,11 @@ class ChatModule(QtWidgets.QMainWindow):
         os.remove(file_path)
         # UI 업데이트 요청을 보냅니다.
         self.signals.mike_off.emit()
+
+    def voice_button_clicked(self):
+        
+        pass
+
 
 if __name__ == "__main__":
     app = QtWidgets.QApplication([])
