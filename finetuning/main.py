@@ -17,7 +17,8 @@ import cv2
 import speech_recognition as sr
 import os
 from datetime import datetime
-
+from gtts import gTTS
+import pygame
 
 ui = "/home/ito/amr_ws/mechine learing/project/mic/finetuning/SR_gui.ui"
 # .ui 파일을 파이썬 코드로 변환
@@ -160,7 +161,6 @@ class ChatModule(QtWidgets.QMainWindow):
         self.signals = Signal()
 
         # 마이크 버튼 클릭 이벤트 핸들러 연결
-        #self.ui.btn_Mike_on.clicked.connect(self.toggle_mike)
         self.ui.btn_Mike_on.clicked.connect(self.on_mike_button_clicked)
 
         # 마이크 상태 변수
@@ -181,9 +181,6 @@ class ChatModule(QtWidgets.QMainWindow):
         
         # 모니터링 스레드 시작
         self.start_monitoring()  
-
-        #챗GPT 스레드 시작
-        # self.start_chat_thread()
 
     # UI 요소 생성
     def create_ui_elements(self):
@@ -303,10 +300,26 @@ class ChatModule(QtWidgets.QMainWindow):
         # 생성된 응답을 Model_label에 업데이트합니다.
         if response:
             self.Model_label.setText(response)
+
     def voice_button_clicked(self):
-        model_txt = self.Label_Model_Text.text()
+        # Model_label에서 텍스트 가져오기
+        model_txt = self.Model_label.text()
+
+        # gTTS를 사용하여 텍스트를 음성으로 변환
+        tts = gTTS(text=model_txt, lang='ko')
         
-        pass
+        # 재생할 음성 파일 생성
+        tts_path = 'output.mp3'
+        tts.save(tts_path)
+
+        # 음성 파일 재생
+        pygame.mixer.init()
+        pygame.mixer.music.load(tts_path)
+        pygame.mixer.music.play()
+        while pygame.mixer.music.get_busy():
+            pygame.time.Clock().tick(10)
+
+        os.remove(tts_path)
 
      # 윈도우가 닫힐 때 호출되는 이벤트 핸들러
     def closeEvent(self, event):
@@ -319,14 +332,11 @@ class ChatModule(QtWidgets.QMainWindow):
             self.mike_thread.stop()  # 마이크 스레드 종료 요청
             self.mike_thread.finished.connect(self.mike_thread_finished)  # 스레드가 종료될 때까지 대기
 
-        if self.model_config_thread.isRunning():
+        #속성이나 메서드의 존재 여부를 확인
+        if hasattr(self.model_config_thread, 'is_alive') and self.model_config_thread.is_alive():
             self.model_config_thread.stop()  # 모델 구성 업데이트 스레드 종료
-            self.model_config_thread.wait()  # 종료될 때까지 대기
-
-        if self.file_monitor.isRunning():
+        if self.file_monitor.running:
             self.file_monitor.stop()  # 모니터링 스레드 종료
-            self.file_monitor.wait()  # 종료될 때까지 대기
-
         event.accept()  # GUI 종료
 
 if __name__ == "__main__":
