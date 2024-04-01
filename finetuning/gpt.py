@@ -36,7 +36,7 @@ class ChatGPTAssistant:
     # OpenAI를 사용하여 GPT와 대화하는 메서드
     def chat_with_gpt(self, user_input_msg, model_index):
         try:
-            OPENAI_YOUR_KEY = "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"
+            OPENAI_YOUR_KEY = "openai_key"
             openai.api_key = OPENAI_YOUR_KEY
 
             MAX_TOKENS = 100
