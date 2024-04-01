@@ -4,7 +4,7 @@ from time import sleep
 import signal
 from mic_amp import AudioAmplifier
 from mic import VoiceRecorder
-from gpt import ChatGPTAssistant, ModelConfigThread
+from gpt import ChatGPTAssistant, ModelConfigThread, ChatThread
 import time
 import threading
 from PyQt5 import QtWidgets,uic
@@ -182,6 +182,8 @@ class ChatModule(QtWidgets.QMainWindow):
         # 모니터링 스레드 시작
         self.start_monitoring()  
 
+        #챗GPT 스레드 시작
+        self.start_chat_thread()
 
     # UI 요소 생성
     def create_ui_elements(self):
@@ -249,6 +251,10 @@ class ChatModule(QtWidgets.QMainWindow):
     def start_monitoring(self):
         self.file_monitor = FileMonitor(self.data_path, self.process_audio, model_index=0, ui_signal=self.signals.mike_off)
         self.file_monitor.start()
+
+    def start_chat_thread(self):
+        self.chat_thread = ChatThread(self.assistant)
+        self.chat_thread.start()
 
     def handle_model_selection(self):
     # 콤보박스에서 선택된 텍스트에 따라 모델 설정

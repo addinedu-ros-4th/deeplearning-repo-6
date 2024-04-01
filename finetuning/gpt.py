@@ -36,7 +36,7 @@ class ChatGPTAssistant:
     # OpenAI를 사용하여 GPT와 대화하는 메서드
     def chat_with_gpt(self, user_input_msg, model_index):
         try:
-            OPENAI_YOUR_KEY = "api-key"
+            OPENAI_YOUR_KEY = "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"
             openai.api_key = OPENAI_YOUR_KEY
 
             MAX_TOKENS = 150
@@ -102,6 +102,27 @@ class ModelConfigThread(threading.Thread):
             time.sleep(self.interval)  # 일정 시간 간격으로만 실행하도록 수정
             self.assistant.update_model_config(self.model_configs)  # 모델 설정 업데이트
             print("Model configurations updated")
+
+    def stop(self):
+        self.stop_event.set()
+
+class ChatThread(threading.Thread):
+    def __init__(self, assistant, interval=15):
+        super(ChatThread, self).__init__()
+        self.assistant = assistant
+        self.interval = interval
+        self.stop_event = threading.Event()
+
+    def run(self):
+        while not self.stop_event.is_set():
+            user_input_msg = input("User: ")
+            self.handle_user_input(user_input_msg)
+            time.sleep(self.interval)
+
+    def handle_user_input(self, user_input_msg):
+        last_response = self.assistant.chat_with_gpt(user_input_msg, self.assistant.model_key)
+        if last_response:
+            print("Assistant:", last_response)
 
     def stop(self):
         self.stop_event.set()
