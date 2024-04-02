@@ -4,7 +4,7 @@ from time import sleep
 import signal
 from mic_amp import AudioAmplifier
 from mic import VoiceRecorder
-from gpt import ChatGPTAssistant, ModelConfigThread #, ChatThread
+from gpt import ChatGPTAssistant, ModelConfigThread
 import time
 import threading
 from PyQt5 import QtWidgets,uic
@@ -141,7 +141,7 @@ class ChatModule(QtWidgets.QMainWindow):
         super(ChatModule, self).__init__(parent)
 
         # 데이터 경로 설정
-        self.data_path = "/home/ito/amr_ws/mechine learing/project/mic/mic_data/"
+        self.data_path = "mic_data/"
 
         # 모델 구성 정의
         self.model_configs = [
