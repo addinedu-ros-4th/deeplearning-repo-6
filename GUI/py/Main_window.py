@@ -4,7 +4,8 @@ from PyQt5.QtGui import QPixmap
 from PyQt5 import uic
 from Login import LoginWindow
 from SR import ChatModule
-from userSetting import UserSetting
+from userSetting import UserRegistrationForm
+from inputUser import WindowClass
 
 
 
@@ -49,9 +50,15 @@ class MainWindow(QMainWindow):
         self.stacked_widget.setCurrentWidget(self.Sr_page)
 
     def show_regist_page(self):
-        self.user_setting_page = UserSetting(self) 
+        self.user_setting_page = UserRegistrationForm(self) 
         self.stacked_widget.addWidget(self.user_setting_page) #SR 페이지를 stacked widget에 추가
         self.stacked_widget.setCurrentWidget(self.user_setting_page)
+
+
+    def show_inputUser_page(self):
+        self.inputUser_page = WindowClass(self) 
+        self.stacked_widget.addWidget(self.inputUser_page) #SR 페이지를 stacked widget에 추가
+        self.stacked_widget.setCurrentWidget(self.inputUser_page)
 
     def closeEvent(self, event):
         if hasattr(self.Sr_page, 'closeEvent'):

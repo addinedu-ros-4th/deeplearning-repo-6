@@ -6,10 +6,10 @@ from PyQt5.uic import loadUi
 from DatabaseControl import DatabaseManager #데이터베이스 관리 클래스
 
 class UserRegistrationForm(QMainWindow):
-    def __init__(self):
-        super().__init__()
+    def __init__(self,parent = None):
+        super().__init__(parent)
         # UI 파일 로드
-        loadUi("/home/addinedu/git_ws/deeplearning-repo-6/GUI/ui/userSetting.ui", self)
+        loadUi("/deeplearning-repo-6/GUI/ui/userSetting.ui", self)
         self.setWindowTitle("사용자 정보 입력")
         
         # 사용자 등록 버튼에 클릭 이벤트 핸들러 연결

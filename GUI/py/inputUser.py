@@ -11,7 +11,7 @@ import threading
 from Camera import Camera
 from Loading import Loading
 
-from_class = uic.loadUiType("./ui/inputUser.ui")[0]
+from_class = uic.loadUiType("/home/djy0404/amr_ws/project/deeplearning-repo-6/GUI/ui/inputUser.ui")[0]
 
 
 class WindowClass(QMainWindow, from_class) :
