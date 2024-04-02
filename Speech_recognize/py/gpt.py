@@ -1,5 +1,5 @@
 import openai
-from googleapi import AudioTranscriber, FileMonitor
+from Speech_recognize.py.googleapi import AudioTranscriber, FileMonitor
 import os
 import json
 import random
