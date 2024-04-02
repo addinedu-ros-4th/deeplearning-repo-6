@@ -142,7 +142,7 @@ class ChatModule(QtWidgets.QMainWindow):
 
         # 데이터 경로 설정
         self.data_path = "mic_data/"
-        
+
         if not os.path.exists(self.data_path):
             os.makedirs(self.data_path)
 
@@ -219,12 +219,10 @@ class ChatModule(QtWidgets.QMainWindow):
         self.mike_thread.result_text.connect(self.update_user_txt)
         self.mike_thread.start()
 
-    # 마이크 종료 및 재시작
+    # 마이크 종료
     def stop_mike_thread(self):
         if self.mike_thread is not None and self.mike_thread.isRunning():
             self.mike_thread.stop() 
-            self.mike_thread.finished.connect(self.mike_thread_finished)  
-            self.mike_thread.start() 
 
     def mike_thread_finished(self):
         self.mike_thread.wait() 
