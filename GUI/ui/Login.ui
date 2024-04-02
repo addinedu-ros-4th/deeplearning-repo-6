@@ -16,15 +16,16 @@
   <widget class="QPushButton" name="Btn_Login">
    <property name="geometry">
     <rect>
-     <x>300</x>
-     <y>310</y>
+     <x>310</x>
+     <y>320</y>
      <width>101</width>
      <height>41</height>
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">selection-background-color: rgb(220, 138, 221);
-background-color: rgb(87, 227, 137);</string>
+    <string notr="true">color: white;
+	background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0.857143, y2:0.857955, stop:0 rgba(10, 242, 251, 255), stop:1 rgba(224, 6, 159, 255));
+	border-radius: 20px;</string>
    </property>
    <property name="text">
     <string>log in</string>
@@ -34,52 +35,78 @@ background-color: rgb(87, 227, 137);</string>
    <property name="geometry">
     <rect>
      <x>160</x>
-     <y>150</y>
-     <width>240</width>
+     <y>160</y>
+     <width>251</width>
      <height>41</height>
     </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">
+	color: rgb(58, 134, 255);
+	background-color: white;
+	border: 2px solid rgb(58, 134, 255);</string>
    </property>
   </widget>
   <widget class="QLabel" name="Label_Name">
    <property name="geometry">
     <rect>
      <x>160</x>
-     <y>110</y>
-     <width>161</width>
+     <y>120</y>
+     <width>121</width>
      <height>31</height>
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">background-color: rgb(255, 255, 255);</string>
+    <string notr="true">
+	color: white;
+	background-color: rgb(58, 134, 255);
+	border-radius: 5px;
+</string>
    </property>
    <property name="text">
-    <string>당신의 이름은?</string>
+    <string> 당신의 이름은?</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
    </property>
   </widget>
   <widget class="QTextEdit" name="Txt_Pw">
    <property name="geometry">
     <rect>
      <x>160</x>
-     <y>250</y>
-     <width>240</width>
+     <y>260</y>
+     <width>251</width>
      <height>41</height>
     </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">
+	color: rgb(58, 134, 255);
+	background-color: white;
+	border: 2px solid rgb(58, 134, 255);</string>
    </property>
   </widget>
   <widget class="QLabel" name="Label_Pw">
    <property name="geometry">
     <rect>
      <x>160</x>
-     <y>210</y>
+     <y>220</y>
      <width>131</width>
      <height>31</height>
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">background-color: rgb(255, 255, 255);</string>
+    <string notr="true">
+	color: white;
+	background-color: rgb(58, 134, 255);
+	border-radius: 5px;
+</string>
    </property>
    <property name="text">
     <string>비밀번호 4자리</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
    </property>
   </widget>
  </widget>
