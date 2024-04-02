@@ -50,7 +50,11 @@ class VoiceRecorder:
 
 
     def save_recording(self):
-        path = "/home/djy0404/amr_ws/project/communication_model/record/"
+        path = "mic_data/"
+        
+        # 폴더가 없으면 생성
+        if not os.path.exists(path):
+            os.makedirs(path)
         
         if not os.listdir(path):
             # 폴더가 비어있을 때
@@ -68,6 +72,7 @@ class VoiceRecorder:
         
 
         filename = os.path.join(path,new_file_name)
+        
         with wave.open(filename, 'wb') as wf:
             wf.setnchannels(self.CHANNELS)
             wf.setsampwidth(pyaudio.PyAudio().get_sample_size(self.FORMAT))
