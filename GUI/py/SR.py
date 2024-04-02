@@ -2,13 +2,12 @@ import os
 import threading
 from time import sleep
 import signal
-from mic_amp import AudioAmplifier
-from VoiceRecorder import VoiceRecorder
-from gpt import ChatGPTAssistant, ModelConfigThread
+from Speech_recognize.py.VoiceRecorder import VoiceRecorder
+from Speech_recognize.py.gpt import ChatGPTAssistant, ModelConfigThread
 import time
 import threading
 from PyQt5 import QtWidgets,uic
-from googleapi import FileMonitor, AudioTranscriber
+from Speech_recognize.py.googleapi import FileMonitor, AudioTranscriber
 from PyQt5.QtCore import pyqtSignal, QThread, QObject
 from PyQt5.QtWidgets import QMainWindow, QApplication
 from PyQt5.QtGui import QImage, QPixmap
