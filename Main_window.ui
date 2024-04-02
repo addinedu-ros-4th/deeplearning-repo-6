@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>585</width>
-    <height>600</height>
+    <width>580</width>
+    <height>470</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -18,10 +18,13 @@
     <property name="geometry">
      <rect>
       <x>60</x>
-      <y>40</y>
+      <y>20</y>
       <width>471</width>
       <height>301</height>
      </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: rgb(255, 255, 255);</string>
     </property>
     <property name="text">
      <string>이미지 출력용</string>
@@ -30,19 +33,27 @@
    <widget class="QPushButton" name="Btn_Login">
     <property name="geometry">
      <rect>
-      <x>440</x>
-      <y>390</y>
+      <x>60</x>
+      <y>350</y>
       <width>101</width>
       <height>61</height>
      </rect>
     </property>
-    <property name="styleSheet">
-     <string notr="true">color: white;
-	background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0.857143, y2:0.857955, stop:0 rgba(10, 242, 251, 255), stop:1 rgba(224, 6, 159, 255));
-	border-radius: 20px;</string>
-    </property>
     <property name="text">
      <string>log in</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="Btn_regist">
+    <property name="geometry">
+     <rect>
+      <x>430</x>
+      <y>350</y>
+      <width>101</width>
+      <height>61</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>사용자 등록</string>
     </property>
    </widget>
   </widget>
@@ -51,7 +62,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>585</width>
+     <width>580</width>
      <height>22</height>
     </rect>
    </property>
