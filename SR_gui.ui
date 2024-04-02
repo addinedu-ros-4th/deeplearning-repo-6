@@ -16,15 +16,16 @@
   <widget class="QPushButton" name="btn_Mike_on">
    <property name="geometry">
     <rect>
-     <x>380</x>
-     <y>460</y>
+     <x>430</x>
+     <y>470</y>
      <width>91</width>
      <height>61</height>
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">background-color: rgb(240, 52, 197);
-font: 75 13pt &quot;Ubuntu Mono&quot;;</string>
+    <string notr="true">color: white;
+	background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0.857143, y2:0.857955, stop:0 rgba(10, 242, 251, 255), stop:1 rgba(224, 6, 159, 255));
+	border-radius: 20px;</string>
    </property>
    <property name="text">
     <string>Mic On</string>
@@ -35,12 +36,16 @@ font: 75 13pt &quot;Ubuntu Mono&quot;;</string>
     <rect>
      <x>70</x>
      <y>20</y>
-     <width>91</width>
+     <width>211</width>
      <height>31</height>
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">background-color: rgb(255, 255, 255);</string>
+    <string notr="true">
+	color: rgb(58, 134, 255);
+	background-color: white;
+	border: 2px solid rgb(58, 134, 255);
+</string>
    </property>
    <property name="text">
     <string>사용자 명</string>
@@ -49,15 +54,16 @@ font: 75 13pt &quot;Ubuntu Mono&quot;;</string>
   <widget class="QPushButton" name="btn_Output">
    <property name="geometry">
     <rect>
-     <x>380</x>
-     <y>580</y>
+     <x>430</x>
+     <y>590</y>
      <width>91</width>
      <height>61</height>
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">background-color: rgb(192, 255, 96);
-font: 75 13pt &quot;Ubuntu Mono&quot;;</string>
+    <string notr="true">color: white;
+	background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0.857143, y2:0.857955, stop:0 rgba(10, 242, 251, 255), stop:1 rgba(224, 6, 159, 255));
+	border-radius: 20px;</string>
    </property>
    <property name="text">
     <string>음성 출력</string>
@@ -66,11 +72,18 @@ font: 75 13pt &quot;Ubuntu Mono&quot;;</string>
   <widget class="QComboBox" name="cbox_Model">
    <property name="geometry">
     <rect>
-     <x>110</x>
-     <y>550</y>
-     <width>86</width>
-     <height>25</height>
+     <x>430</x>
+     <y>20</y>
+     <width>91</width>
+     <height>31</height>
     </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">
+	color: rgb(58, 134, 255);
+	background-color: white;
+	border: 2px solid rgb(58, 134, 255);
+</string>
    </property>
    <item>
     <property name="text">
@@ -91,14 +104,18 @@ font: 75 13pt &quot;Ubuntu Mono&quot;;</string>
   <widget class="QLabel" name="Label_User_Text">
    <property name="geometry">
     <rect>
-     <x>110</x>
+     <x>70</x>
      <y>460</y>
-     <width>261</width>
-     <height>61</height>
+     <width>341</width>
+     <height>81</height>
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">background-color: rgb(255, 255, 255);</string>
+    <string notr="true">
+	color: rgb(58, 134, 255);
+	background-color: white;
+	border: 2px solid rgb(58, 134, 255);
+</string>
    </property>
    <property name="text">
     <string>마이크에서 입력받은 말을 텍스트로 출력</string>
@@ -107,14 +124,18 @@ font: 75 13pt &quot;Ubuntu Mono&quot;;</string>
   <widget class="QLabel" name="Label_Model_Text">
    <property name="geometry">
     <rect>
-     <x>110</x>
-     <y>580</y>
-     <width>261</width>
-     <height>61</height>
+     <x>70</x>
+     <y>570</y>
+     <width>341</width>
+     <height>101</height>
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">background-color: rgb(255, 255, 255);</string>
+    <string notr="true">
+	color: rgb(58, 134, 255);
+	background-color: white;
+	border: 2px solid rgb(58, 134, 255);
+</string>
    </property>
    <property name="text">
     <string>모델에서 생성한 텍스트 출력</string>
@@ -130,7 +151,10 @@ font: 75 13pt &quot;Ubuntu Mono&quot;;</string>
     </rect>
    </property>
    <property name="styleSheet">
-    <string notr="true">background-color: rgb(255, 255, 255);
+    <string notr="true">
+	color: rgb(58, 134, 255);
+	background-color: white;
+	border: 2px solid rgb(58, 134, 255);
 </string>
    </property>
    <property name="text">
