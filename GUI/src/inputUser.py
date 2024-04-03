@@ -16,8 +16,8 @@ from_class = uic.loadUiType("GUI/ui/inputUser.ui")[0]
 
 class WindowClass(QMainWindow, from_class) :
     
-    def __init__(self):
-        super().__init__()
+    def __init__(self,parent = None):
+        super().__init__(parent)
         self.setupUi(self)
         
         self.setWindowTitle("사용자 등록")
