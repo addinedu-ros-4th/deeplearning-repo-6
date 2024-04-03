@@ -9,12 +9,13 @@ import cvlib as cv
 class Camera(QThread):                         
     update = pyqtSignal(np.ndarray)
     finishedRecording = pyqtSignal()
+    signalNoFace = pyqtSignal()
     
     def __init__(self, parent=None):
         super().__init__()
         self.isRunning = False # 카메라 동작 플래그
         self.recording = False # 녹화 시작 플래그
-        self.name = 'hyegyeong'
+        self.name = 'gaeun'
         self.mode = 'close' # 첫 촬영은 근접촬영
         self.recordingCount = 0 #녹화 순서 지정을 위한 횟수 추적
 
@@ -41,20 +42,16 @@ class Camera(QThread):
                     faces, confidences = cv.detect_face(frame)
                     timestamp = int(time.time() * 2000)  # 밀리초 단위 타임스탬프
                     
-                    # 근접 촬영인지 떨어져서 촬영인지 판단
-                    if self.mode == 'close':
-                        filename = f'/home/addinedu/git_ws/deeplearning-repo-6/GUI/data/face/{self.mode}_{self.name}_frame_{timestamp}.jpg'
-                    elif self.mode == 'far':
-                        filename = f'/home/addinedu/git_ws/deeplearning-repo-6/GUI/data/face/{self.mode}_{self.name}_frame_{timestamp}.jpg'
+                    if faces:
+                        # 근접 촬영인지 떨어져서 촬영인지 판단
+                        for index, ((x, y, x2, y2), conf) in enumerate(zip(faces, confidences)):
+                            # 감지된 얼굴 영역을 잘라내서 저장
+                            face_img = frame[y:y2, x:x2]
+                            timestamp = int(time.time() * 2000)  # 밀리초 단위 타임스탬프
+                            filename = f'/home/addinedu/git_ws/deeplearning-repo-6/GUI/data/face/{self.mode}_{self.name}_frame_{timestamp}_{index}.jpg'
+                            cv2.imwrite(filename, face_img)
                     else:
-                        print("해당 모드가 없습니다.")
-                        break
-                    
-                    for (x, y, x2, y2), conf in zip(faces, confidences):
-                        # 감지된 얼굴 영역을 잘라내서 저장
-                        face_img = frame[y:y2, x:x2]  # 얼굴 영역을 잘라냄
-                
-                    cv2.imwrite(filename, face_img)
+                        self.signalNoFace.emit()
                     
             time.sleep(0.1)
         
