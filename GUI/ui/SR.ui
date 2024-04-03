@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>580</width>
-    <height>730</height>
+    <height>731</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -93,6 +93,11 @@
    <item>
     <property name="text">
      <string>T</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>Thanos</string>
     </property>
    </item>
    <item>

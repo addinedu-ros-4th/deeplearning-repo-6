@@ -8,8 +8,8 @@ import cv2
 from PIL import Image
 import threading
 
-from Camera import Camera
-from Loading import Loading
+from GUI.src.Camera import Camera
+from GUI.src.Loading import Loading
 
 from_class = uic.loadUiType("GUI/ui/inputUser.ui")[0]
 

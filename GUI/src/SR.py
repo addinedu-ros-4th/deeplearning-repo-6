@@ -149,6 +149,7 @@ class ChatModule(QtWidgets.QMainWindow):
             {"model": "gpt-3.5-turbo", "system_message": "반말을 사용하고, 감정적이고 친화적인 경향을 가지며, 친근하고 상냥한 말투로 해줘.", "assistant_message": "좋은 하루 보내!"},
             {"model": "gpt-3.5-turbo", "system_message": "반말을 사용하고, 주로 논리적이고 분석적인 성향을 가지고 있으며, 객관적인 사고와 문제 해결에 뛰어나.", "assistant_message": "무슨 문제 있어?"},
             {"model": "gpt-3.5-turbo", "system_message": "딱딱한 말투를 사용하고, 자신이 저지른 악행에 대해 합리화를 잘할뿐더러 타인과 타협도 잘 하지 않는 완고한 성격이야", "assistant_message": "나는 필연적인 존재다."},
+            {"model": "gpt-3.5-turbo", "system_message": "친절한 챗 GPT그대로 활동하면 돼. 존대해줘.", "assistant_message": "도움이 필요하신가요?"},
         ]
 
         # UI 요소 생성을 메인 스레드에서 수행
@@ -260,9 +261,9 @@ class ChatModule(QtWidgets.QMainWindow):
         self.file_monitor.start()
 
     def handle_model_selection(self):
-    # 콤보박스에서 선택된 텍스트에 따라 모델 설정
+        # 콤보박스에서 선택된 텍스트에 따라 모델 설정
         selected_text = self.ui.cbox_Model.currentText()
-        model_index_map = {"F": 0, "T": 1, "Default": 2}
+        model_index_map = {"F": 0, "T": 1, "Thanos": 2, "Default": 3}
         selected_index = model_index_map.get(selected_text)
         if selected_index is not None:
             self.selected_model_index = selected_index  # 선택된 모델 인덱스 업데이트

@@ -2,10 +2,10 @@ import sys
 from PyQt5.QtWidgets import QApplication, QMainWindow, QStackedWidget, QWidget
 from PyQt5.QtGui import QPixmap
 from PyQt5 import uic
-from Login import LoginWindow
-from SR import ChatModule
-from userSetting import UserRegistrationForm
-from inputUser import WindowClass
+from GUI.src.Login import LoginWindow
+from GUI.src.SR import ChatModule
+from GUI.src.userSetting import UserRegistrationForm
+from GUI.src.inputUser import WindowClass
 
 
 class MainWindow(QMainWindow):
@@ -24,7 +24,7 @@ class MainWindow(QMainWindow):
 
         self.main_page.Btn_Login.clicked.connect(self.show_login_page)  # 로그인 페이지로 전환
         self.main_page.Btn_regist.clicked.connect(self.show_regist_page)  # 사용자등록 페이지로 전환
-
+        
         
         image_path = 'GUI/data/robot.png'
         self.show_image(image_path)
