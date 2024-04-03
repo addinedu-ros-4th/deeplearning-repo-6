@@ -3,9 +3,6 @@ import sys
 from PyQt5.QtWidgets import QApplication, QMainWindow, QStackedWidget, QWidget
 from PyQt5.QtGui import QPixmap
 from PyQt5 import uic
-from GUI.src.Login import LoginWindow
-from GUI.src.SR import ChatModule
-from GUI.src.userSetting import UserRegistrationForm
 from GUI.src.inputUser import WindowClass
 import sys
 from PyQt5.QtWidgets import QApplication, QMainWindow, QMessageBox
