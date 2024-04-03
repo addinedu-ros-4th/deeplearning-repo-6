@@ -6,8 +6,8 @@ from PyQt5.uic import loadUi
 from GUI.src.DatabaseControl import DatabaseManager #데이터베이스 관리 클래스
 
 class UserRegistrationForm(QMainWindow):
-    def __init__(self):
-        super().__init__()
+    def __init__(self,parent = None):
+        super().__init__(parent)
         # UI 파일 로드
         loadUi("GUI/ui/userSetting.ui", self)
         
