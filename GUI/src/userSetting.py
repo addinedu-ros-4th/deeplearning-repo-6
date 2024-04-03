@@ -19,7 +19,6 @@ class UserRegistrationForm(QMainWindow):
 
         # UI 파일 로드
         loadUi("GUI/ui/userSetting.ui", self)
-        self.window = window
         
         self.setWindowTitle("사용자 정보 입력")
 
@@ -74,7 +73,7 @@ class UserRegistrationForm(QMainWindow):
             self.DBManager.save_data(name, gender, birth, password)
             self.DBManager.close_connection()
             # 화면 전환
-            self.window.show_inputUser_page()
+            self.main_window.show_inputUser_page()
             
         else:
             # 입력 필드 중 하나 이상이 비어있는 경우에는 알림 메시지 표시

@@ -24,8 +24,7 @@ class MainWindow(QMainWindow):
 
         self.main_page.Btn_Login.clicked.connect(self.show_login_page)  # 로그인 페이지로 전환
         self.main_page.Btn_regist.clicked.connect(self.show_regist_page)  # 사용자등록 페이지로 전환
-        
-        
+
         image_path = 'GUI/data/robot.png'
         self.show_image(image_path)
 
@@ -47,7 +46,6 @@ class MainWindow(QMainWindow):
         self.stacked_widget.addWidget(self.Sr_page) #SR 페이지를 stacked widget에 추가
         self.stacked_widget.setCurrentWidget(self.Sr_page)
 
-
     def show_regist_page(self):
         self.user_setting_page = UserRegistrationForm(self) 
         self.stacked_widget.addWidget(self.user_setting_page) #SR 페이지를 stacked widget에 추가
@@ -58,7 +56,6 @@ class MainWindow(QMainWindow):
         self.inputUser_page = WindowClass(self) 
         self.stacked_widget.addWidget(self.inputUser_page) #SR 페이지를 stacked widget에 추가
         self.stacked_widget.setCurrentWidget(self.inputUser_page)
-
 
     def closeEvent(self, event):
         if hasattr(self.Sr_page, 'closeEvent'):
