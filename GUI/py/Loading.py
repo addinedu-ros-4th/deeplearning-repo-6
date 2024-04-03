@@ -5,7 +5,7 @@ from PyQt5.QtGui import QMovie
 from PyQt5.QtWidgets import QLabel
 from PyQt5.QtCore import QSize
 
-FROM_CLASS_Loading = uic.loadUiType("./ui/load.ui")[0]
+FROM_CLASS_Loading = uic.loadUiType("GUI/ui/load.ui")[0]
 #%% Loading Img
 class Loading(QLabel, FROM_CLASS_Loading):
     finished = pyqtSignal() #GIF 종료 시그널

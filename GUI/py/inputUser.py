@@ -11,7 +11,7 @@ import threading
 from Camera import Camera
 from Loading import Loading
 
-from_class = uic.loadUiType("./ui/inputUser.ui")[0]
+from_class = uic.loadUiType("GUI/ui/inputUser.ui")[0]
 
 
 class WindowClass(QMainWindow, from_class) :
@@ -33,6 +33,9 @@ class WindowClass(QMainWindow, from_class) :
         
         # 프레임 촬영 가능 여부
         self.ox = False
+        
+        # 카메라 내에 얼굴 존재 여부
+        self.camera.signalNoFace.connect(self.noFace)
         
         self.camera.update.connect(self.updateCamera)
         self.userCamScreen.setText("camera를 켜주세요")
@@ -151,6 +154,10 @@ class WindowClass(QMainWindow, from_class) :
     # 촬영 조건 msg 출력
     def printMsg(self):
         self.message.setText("고개를 양옆으로 살짝씩 움직여주세요.")   
+    
+    
+    def noFace(self):
+        self.message.setText("얼굴이 인식되지 않습니다.")
           
           
 if __name__ == "__main__":
