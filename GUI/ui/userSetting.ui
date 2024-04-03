@@ -38,22 +38,6 @@
     <set>Qt::AlignCenter</set>
    </property>
   </widget>
-  <widget class="QTextEdit" name="Txt_name">
-   <property name="geometry">
-    <rect>
-     <x>80</x>
-     <y>90</y>
-     <width>240</width>
-     <height>45</height>
-    </rect>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">
-	color: rgb(58, 134, 255);
-	background-color: white;
-	border: 2px solid rgb(58, 134, 255);</string>
-   </property>
-  </widget>
   <widget class="QLabel" name="Label_gender">
    <property name="geometry">
     <rect>
@@ -120,25 +104,6 @@
     <set>Qt::AlignCenter</set>
    </property>
   </widget>
-  <widget class="QTextEdit" name="Txt_pw">
-   <property name="geometry">
-    <rect>
-     <x>80</x>
-     <y>360</y>
-     <width>240</width>
-     <height>45</height>
-    </rect>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">
-	color: rgb(58, 134, 255);
-	background-color: white;
-	border: 2px solid rgb(58, 134, 255);</string>
-   </property>
-   <property name="inputMethodHints">
-    <set>Qt::ImhDigitsOnly|Qt::ImhMultiLine</set>
-   </property>
-  </widget>
   <widget class="QPushButton" name="Btn_resist">
    <property name="geometry">
     <rect>
@@ -194,10 +159,10 @@
     </property>
    </item>
   </widget>
-  <widget class="QRadioButton" name="radioButton">
+  <widget class="QRadioButton" name="radio_man">
    <property name="geometry">
     <rect>
-     <x>90</x>
+     <x>80</x>
      <y>190</y>
      <width>71</width>
      <height>23</height>
@@ -217,10 +182,10 @@ QRadioButton::indicator:checked {
     <string>남자</string>
    </property>
   </widget>
-  <widget class="QRadioButton" name="radioButton_2">
+  <widget class="QRadioButton" name="radio_woman">
    <property name="geometry">
     <rect>
-     <x>210</x>
+     <x>160</x>
      <y>190</y>
      <width>112</width>
      <height>23</height>
@@ -256,7 +221,7 @@ QRadioButton::indicator:checked {
     <set>Qt::AlignCenter</set>
    </property>
    <property name="displayFormat">
-    <string>yyyy.mm.dd</string>
+    <string>yyyy-MM-dd</string>
    </property>
    <property name="calendarPopup">
     <bool>true</bool>
@@ -273,6 +238,59 @@ QRadioButton::indicator:checked {
      <month>2</month>
      <day>1</day>
     </date>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="Txt_pw">
+   <property name="geometry">
+    <rect>
+     <x>80</x>
+     <y>360</y>
+     <width>240</width>
+     <height>45</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">	color: rgb(58, 134, 255);
+	background-color: white;
+	border: 2px solid rgb(58, 134, 255);</string>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="Txt_name">
+   <property name="geometry">
+    <rect>
+     <x>80</x>
+     <y>90</y>
+     <width>240</width>
+     <height>45</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">	color: rgb(58, 134, 255);
+	background-color: white;
+	border: 2px solid rgb(58, 134, 255);</string>
+   </property>
+   <property name="inputMask">
+    <string/>
+   </property>
+  </widget>
+  <widget class="QRadioButton" name="radio_other">
+   <property name="geometry">
+    <rect>
+     <x>240</x>
+     <y>190</y>
+     <width>112</width>
+     <height>23</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: rgb(58, 134, 255);
+QRadioButton::indicator:checked {
+    background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0.857143, y2:0.857955, stop:0 rgba(10, 242, 251, 255), stop:1 rgba(224, 6, 159, 255));
+}
+</string>
+   </property>
+   <property name="text">
+    <string>Other</string>
    </property>
   </widget>
  </widget>

@@ -5,11 +5,11 @@ import pandas as pd
 class DatabaseManager:
     def __init__(self, host, user):
         self.host = host
-        self.user = user
+        self.user = "root"
         self.db_name = "tier"
         self.cur = None
         self.conn = None
-    
+        self.password = "1234"
     
     # 데이터베이스 연결
     def connect_database(self, db_name=None):
@@ -19,13 +19,15 @@ class DatabaseManager:
             self.conn = mysql.connector.connect(
                 host=self.host,
                 user=self.user,
-                database=db_name
+                database=db_name,
+                password = self.password
             )
         except mysql.connector.Error as err:
             if err.errno == mysql.connector.errorcode.ER_BAD_DB_ERROR:
                 self.conn = mysql.connector.connect(
                     host=self.host,
-                    user=self.user
+                    user=self.user,
+                    password=self.password
                 )
                 self.cur = self.conn.cursor()
                 self.create_database(db_name)
