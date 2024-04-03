@@ -1,8 +1,8 @@
 import sys
-from PyQt5.QtWidgets import QApplication, QWidget
+from PyQt5.QtWidgets import QApplication, QWidget, QMainWindow
 from PyQt5.uic import loadUi
 
-class LoginWindow(QWidget):
+class LoginWindow(QMainWindow):
     def __init__(self,main_window):
         super().__init__()
         # UI 파일 로드
@@ -20,7 +20,7 @@ class LoginWindow(QWidget):
         password = self.ui.Txt_Pw.toPlainText()
         print("이름:", name)
         print("비밀번호:", password)
-        if name == "11" and password == "11":
+        if name == "최가은" and password == "1234":
             self.main_window.show_Sr_page()  # MainWindow 객체의 show_Sr_page 메서드 호출
     
 

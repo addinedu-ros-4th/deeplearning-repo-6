@@ -6,10 +6,11 @@ from PyQt5.uic import loadUi
 from GUI.src.DatabaseControl import DatabaseManager #데이터베이스 관리 클래스
 
 class UserRegistrationForm(QMainWindow):
-    def __init__(self,parent = None):
-        super().__init__(parent)
+    def __init__(self):
+        super().__init__()
         # UI 파일 로드
         loadUi("GUI/ui/userSetting.ui", self)
+        
         self.setWindowTitle("사용자 정보 입력")
         
         # 사용자 등록 버튼에 클릭 이벤트 핸들러 연결
@@ -30,12 +31,17 @@ class UserRegistrationForm(QMainWindow):
             # 모든 필드에 값이 존재하는 경우에만 사용자 등록 수행
             self.DBManager.save_data(name, gender, birth, password)
             self.DBManager.close_connection()
-            print("사용자 등록 완료")
+            # 화면 전환
+            self.main_window.show_inputUser_page()
             
         else:
             # 입력 필드 중 하나 이상이 비어있는 경우에는 알림 메시지 표시
             QMessageBox.critical(self, "오류", "모든 필드를 입력하세요.")
-
+            
+            
+    
+    
+    
     
     def db_connect(self):
         self.DBManager = DatabaseManager("localhost", "root")   # manager 객체 생성

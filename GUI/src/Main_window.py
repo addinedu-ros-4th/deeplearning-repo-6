@@ -24,7 +24,7 @@ class MainWindow(QMainWindow):
 
         self.main_page.Btn_Login.clicked.connect(self.show_login_page)  # 로그인 페이지로 전환
         self.main_page.Btn_regist.clicked.connect(self.show_regist_page)  # 사용자등록 페이지로 전환
-
+        
         
         image_path = 'GUI/data/robot.png'
         self.show_image(image_path)
