@@ -161,3 +161,4 @@ cython_debug/
 yolov5/
 GUI/data/face
 Speech_recognize/config.py
+GUI/data/mic_data

@@ -6,11 +6,10 @@ class LoginWindow(QWidget):
     def __init__(self,main_window):
         super().__init__()
         # UI 파일 로드
-        self.main_window = main_window
-        
+        self.main_window = main_window     
         self.resize(476,470)
 
-        self.ui = loadUi('GUI/Login.ui', self)
+        self.ui = loadUi('GUI/ui/Login.ui', self)
         # 버튼 클릭 이벤트 핸들러 연결
         self.Btn_Login.clicked.connect(self.login_clicked)
 

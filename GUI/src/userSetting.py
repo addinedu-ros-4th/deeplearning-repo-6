@@ -3,7 +3,7 @@
 import sys
 from PyQt5.QtWidgets import QApplication, QMainWindow, QMessageBox
 from PyQt5.uic import loadUi
-from DatabaseControl import DatabaseManager #데이터베이스 관리 클래스
+from GUI.src.DatabaseControl import DatabaseManager #데이터베이스 관리 클래스
 
 class UserRegistrationForm(QMainWindow):
     def __init__(self,parent = None):

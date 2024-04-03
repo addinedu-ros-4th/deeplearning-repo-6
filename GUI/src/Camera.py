@@ -4,7 +4,6 @@ import cv2
 import numpy as np
 import time
 import threading
-from Loading import Loading
 import cvlib as cv
 
 class Camera(QThread):                         

@@ -2,10 +2,10 @@ import sys
 from PyQt5.QtWidgets import QApplication, QMainWindow, QStackedWidget, QWidget
 from PyQt5.QtGui import QPixmap
 from PyQt5 import uic
-from Login import LoginWindow
-from SR import ChatModule
-from userSetting import UserRegistrationForm
-from inputUser import WindowClass
+from GUI.src.Login import LoginWindow
+from GUI.src.SR import ChatModule
+from GUI.src.userSetting import UserRegistrationForm
+from GUI.src.inputUser import WindowClass
 
 
 class MainWindow(QMainWindow):

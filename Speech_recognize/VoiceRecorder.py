@@ -50,7 +50,7 @@ class VoiceRecorder:
 
 
     def save_recording(self):
-        path = "mic_data/"
+        path = "GUI/data/mic_data/"
         
         # 폴더가 없으면 생성
         if not os.path.exists(path):
