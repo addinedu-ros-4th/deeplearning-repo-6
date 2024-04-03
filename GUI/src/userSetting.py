@@ -1,15 +1,23 @@
 # 사용자 정보 등록 UI
-
+import sys
+from PyQt5.QtWidgets import QApplication, QMainWindow, QStackedWidget, QWidget
+from PyQt5.QtGui import QPixmap
+from PyQt5 import uic
+from GUI.src.Login import LoginWindow
+from GUI.src.SR import ChatModule
+from GUI.src.userSetting import UserRegistrationForm
+from GUI.src.inputUser import WindowClass
 import sys
 from PyQt5.QtWidgets import QApplication, QMainWindow, QMessageBox
 from PyQt5.uic import loadUi
 from GUI.src.DatabaseControl import DatabaseManager #데이터베이스 관리 클래스
 
 class UserRegistrationForm(QMainWindow):
-    def __init__(self):
+    def __init__(self, window):
         super().__init__()
         # UI 파일 로드
         loadUi("GUI/ui/userSetting.ui", self)
+        self.window = window
         
         self.setWindowTitle("사용자 정보 입력")
         
@@ -32,7 +40,7 @@ class UserRegistrationForm(QMainWindow):
             self.DBManager.save_data(name, gender, birth, password)
             self.DBManager.close_connection()
             # 화면 전환
-            self.main_window.show_inputUser_page()
+            self.window.show_inputUser_page()
             
         else:
             # 입력 필드 중 하나 이상이 비어있는 경우에는 알림 메시지 표시
