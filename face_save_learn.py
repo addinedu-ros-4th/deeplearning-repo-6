@@ -85,6 +85,31 @@ class FaceImageCollectorAndRecognizerTrainer:
 
         print("학습 완료")
 
+    def check_training_success(self):
+        model_path = os.path.splitext(self.model_save_path)[0] + '_labels.yaml'
+        
+        # 모델 파일 및 라벨 파일이 모두 존재하는지 확인
+        if os.path.exists(self.model_save_path) and os.path.exists(model_path):
+            # 모델 파일이 정상적으로 읽어지는지 확인
+            try:
+                self.recognizer.read(self.model_save_path)
+            except Exception as e:
+                print(f"Error loading model: {e}")
+                return False
+            
+            # 라벨 파일이 정상적으로 읽어지는지 확인
+            try:
+                with open(model_path, 'r', encoding='utf-8') as file:
+                    self.label_dict = yaml.safe_load(file)
+            except Exception as e:
+                print(f"Error loading label file: {e}")
+                return False
+            
+            return True
+        else:
+            print("모델 또는 이름 파일이 존재 하지 않습니다!")
+            return False
+
 if __name__ == "__main__":
     user_id = input("사용자 이름을 입력하세요: ")
     image_folder = '/home/jongchanjang/amr_ws/opencv_study/source/faces/'
@@ -93,3 +118,8 @@ if __name__ == "__main__":
     face_collector_and_trainer = FaceImageCollectorAndRecognizerTrainer(image_folder, model_save_path)
     face_collector_and_trainer.collect_face_images(user_id)
     face_collector_and_trainer.train_model()
+
+    if face_collector_and_trainer.check_training_success():
+        print("학습 성공!")
+    else:
+        print("학습 실패!")
