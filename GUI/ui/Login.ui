@@ -70,22 +70,6 @@
     <set>Qt::AlignCenter</set>
    </property>
   </widget>
-  <widget class="QTextEdit" name="Txt_Pw">
-   <property name="geometry">
-    <rect>
-     <x>160</x>
-     <y>260</y>
-     <width>251</width>
-     <height>41</height>
-    </rect>
-   </property>
-   <property name="styleSheet">
-    <string notr="true">
-	color: rgb(58, 134, 255);
-	background-color: white;
-	border: 2px solid rgb(58, 134, 255);</string>
-   </property>
-  </widget>
   <widget class="QLabel" name="Label_Pw">
    <property name="geometry">
     <rect>
@@ -107,6 +91,22 @@
    </property>
    <property name="alignment">
     <set>Qt::AlignCenter</set>
+   </property>
+  </widget>
+  <widget class="QLineEdit" name="Txt_Pw">
+   <property name="geometry">
+    <rect>
+     <x>160</x>
+     <y>260</y>
+     <width>251</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">
+	color: rgb(58, 134, 255);
+	background-color: white;
+	border: 2px solid rgb(58, 134, 255);</string>
    </property>
   </widget>
  </widget>
