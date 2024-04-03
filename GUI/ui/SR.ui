@@ -97,6 +97,11 @@
    </item>
    <item>
     <property name="text">
+     <string>Thanos</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
      <string>Default</string>
     </property>
    </item>

@@ -16,7 +16,7 @@
   <widget class="QLabel" name="Label_name">
    <property name="geometry">
     <rect>
-     <x>110</x>
+     <x>80</x>
      <y>57</y>
      <width>67</width>
      <height>21</height>
@@ -38,7 +38,7 @@
   <widget class="QTextEdit" name="Txt_name">
    <property name="geometry">
     <rect>
-     <x>110</x>
+     <x>80</x>
      <y>90</y>
      <width>240</width>
      <height>45</height>
@@ -54,7 +54,7 @@
   <widget class="QTextEdit" name="Txt_gender">
    <property name="geometry">
     <rect>
-     <x>110</x>
+     <x>80</x>
      <y>180</y>
      <width>240</width>
      <height>45</height>
@@ -70,7 +70,7 @@
   <widget class="QLabel" name="Label_gender">
    <property name="geometry">
     <rect>
-     <x>110</x>
+     <x>80</x>
      <y>147</y>
      <width>67</width>
      <height>21</height>
@@ -92,7 +92,7 @@
   <widget class="QTextEdit" name="Txt_birth">
    <property name="geometry">
     <rect>
-     <x>110</x>
+     <x>80</x>
      <y>270</y>
      <width>240</width>
      <height>45</height>
@@ -108,7 +108,7 @@
   <widget class="QLabel" name="Label_birth">
    <property name="geometry">
     <rect>
-     <x>110</x>
+     <x>80</x>
      <y>236</y>
      <width>67</width>
      <height>21</height>
@@ -130,7 +130,7 @@
   <widget class="QLabel" name="Label_pw">
    <property name="geometry">
     <rect>
-     <x>110</x>
+     <x>80</x>
      <y>327</y>
      <width>67</width>
      <height>21</height>
@@ -152,7 +152,7 @@
   <widget class="QTextEdit" name="Txt_pw">
    <property name="geometry">
     <rect>
-     <x>110</x>
+     <x>80</x>
      <y>360</y>
      <width>240</width>
      <height>45</height>
@@ -168,8 +168,8 @@
   <widget class="QPushButton" name="Btn_resist">
    <property name="geometry">
     <rect>
-     <x>310</x>
-     <y>350</y>
+     <x>360</x>
+     <y>340</y>
      <width>91</width>
      <height>61</height>
     </rect>
@@ -182,6 +182,43 @@
    <property name="text">
     <string>사용자 등록</string>
    </property>
+  </widget>
+  <widget class="QComboBox" name="cbox_Model">
+   <property name="geometry">
+    <rect>
+     <x>360</x>
+     <y>270</y>
+     <width>91</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">
+	color: rgb(58, 134, 255);
+	background-color: white;
+	border: 2px solid rgb(58, 134, 255);
+</string>
+   </property>
+   <item>
+    <property name="text">
+     <string>F</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>T</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>Thanos</string>
+    </property>
+   </item>
+   <item>
+    <property name="text">
+     <string>Default</string>
+    </property>
+   </item>
   </widget>
  </widget>
  <resources/>

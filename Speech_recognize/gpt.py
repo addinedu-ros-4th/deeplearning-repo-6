@@ -12,9 +12,9 @@ class ChatGPTAssistant:
         self.model_configs = model_configs
 
         self.model_config_file_paths = [
-            "GUI/models/F.json",
-            "GUI/models/T.json",
-            "GUI/models/Default.json"
+            "models/F.json",
+            "models/T.json",
+            "models/Thanos.json"
         ]
 
     # 모델 설정 업데이트 메서드
@@ -91,7 +91,7 @@ class ChatGPTAssistant:
             os.remove(file_path)
 
 class ModelConfigThread(threading.Thread):
-    def __init__(self, model_configs, assistant, interval=10):
+    def __init__(self, model_configs, assistant, interval=1):
         super(ModelConfigThread, self).__init__()
         self.model_configs = model_configs
         self.assistant = assistant
