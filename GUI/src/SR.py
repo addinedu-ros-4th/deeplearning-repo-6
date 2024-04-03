@@ -1,33 +1,25 @@
 
-import sys
-sys.path.append('../../../deeplearning-repo-6')  # SR 폴더의 상위 디렉토리를 시스템 경로에 추가합니다.
-from Speech_recognize.py.VoiceRecorder import VoiceRecorder  
-from Speech_recognize.py.gpt import ChatGPTAssistant, ModelConfigThread
-from Speech_recognize.py.googleapi import FileMonitor, AudioTranscriber
+from Speech_recognize.VoiceRecorder import VoiceRecorder  
+from Speech_recognize.gpt import ChatGPTAssistant, ModelConfigThread
+from Speech_recognize.googleapi import FileMonitor, AudioTranscriber
 
 import os
-import threading
-from time import sleep
-import signal
 import sys
-
-
-import time
+import cv2
 import threading
 from PyQt5 import QtWidgets,uic
 from PyQt5.QtCore import pyqtSignal, QThread, QObject
 from PyQt5.QtWidgets import QMainWindow, QApplication
 from PyQt5.QtGui import QImage, QPixmap
-import cv2
+
 
 import speech_recognition as sr
-import os
 from datetime import datetime
 from gtts import gTTS
 import pygame
 
-#ui = "/home/ito/amr_ws/mechine learing/project/mic/finetuning/SR_gui.ui"
-ui = "/home/djy0404/amr_ws/project/deeplearning-repo-6/GUI/ui/SR.ui"
+
+ui = "GUI/ui/SR.ui"
 # .ui 파일을 파이썬 코드로 변환
 Ui_MainWindow, QtBaseClass = uic.loadUiType(ui)
 
@@ -147,7 +139,7 @@ class ChatModule(QtWidgets.QMainWindow):
         super(ChatModule, self).__init__(parent)
 
         # 데이터 경로 설정
-        self.data_path = "mic_data/"
+        self.data_path = "GUI/mic_data/"
 
         if not os.path.exists(self.data_path):
             os.makedirs(self.data_path)

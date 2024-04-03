@@ -8,12 +8,10 @@ from userSetting import UserRegistrationForm
 from inputUser import WindowClass
 
 
-
-
 class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
-        self.main_page = uic.loadUi('/home/djy0404/amr_ws/project/deeplearning-repo-6/GUI/ui/Main_window.ui')
+        self.main_page = uic.loadUi('GUI/ui/Main_window.ui')
 
         self.stacked_widget = QStackedWidget(self)  # QStackedWidget 인스턴스 생성
         self.setCentralWidget(self.stacked_widget)  # MainWindow의 중앙 위젯으로 설정
@@ -28,7 +26,7 @@ class MainWindow(QMainWindow):
         self.main_page.Btn_regist.clicked.connect(self.show_regist_page)  # 사용자등록 페이지로 전환
 
         
-        image_path = '/home/djy0404/amr_ws/project/deeplearning-repo-6/GUI/data/robot.png'
+        image_path = 'GUI/data/robot.png'
         self.show_image(image_path)
 
     

@@ -10,7 +10,7 @@ class LoginWindow(QWidget):
         
         self.resize(476,470)
 
-        self.ui = loadUi('/home/djy0404/amr_ws/project/communication_model/test_files/GUI/Login.ui', self)
+        self.ui = loadUi('GUI/Login.ui', self)
         # 버튼 클릭 이벤트 핸들러 연결
         self.Btn_Login.clicked.connect(self.login_clicked)
 
@@ -23,9 +23,6 @@ class LoginWindow(QWidget):
         print("비밀번호:", password)
         if name == "11" and password == "11":
             self.main_window.show_Sr_page()  # MainWindow 객체의 show_Sr_page 메서드 호출
-    
-
-
     
 
 

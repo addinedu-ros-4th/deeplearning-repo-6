@@ -22,7 +22,7 @@ class Loading(QLabel, FROM_CLASS_Loading):
         self.setGeometry(30, 40, 520, 281)
         
         # 동적 이미지 추가
-        self.movie = QMovie('/home/addinedu/git_ws/deeplearning-repo-6/GUI/data/countdown.gif', QByteArray(), self)
+        self.movie = QMovie('GUI/data/countdown.gif', QByteArray(), self)
         self.movie.setCacheMode(QMovie.CacheAll)
         self.movie.setScaledSize(QSize(self.labelWidth, self.labelHeight))
         
