@@ -48,7 +48,7 @@ class AudioTranscriber:
 
     def transcribe_audio(self):
         try:
-            os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "/home/djy0404/amr_ws/project/communication_model/test_files/GUI/google_key.json"
+            os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "GUI/google_key.json"
             client = speech.SpeechClient()
 
             with open(self.audio_file, "rb") as audio_file:

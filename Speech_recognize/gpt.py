@@ -1,5 +1,6 @@
 import openai
-from Speech_recognize.py.googleapi import AudioTranscriber, FileMonitor
+from Speech_recognize.googleapi import AudioTranscriber, FileMonitor
+from Speech_recognize.config import api_key
 import os
 import json
 import random
@@ -11,9 +12,9 @@ class ChatGPTAssistant:
         self.model_configs = model_configs
 
         self.model_config_file_paths = [
-            "/home/djy0404/amr_ws/project/communication_model/test_files/GUI/models/F.json",
-            "/home/djy0404/amr_ws/project/communication_model/test_files/GUI/models/T.json",
-            "/home/djy0404/amr_ws/project/communication_model/test_files/GUI/models/Default.json"
+            "GUI/models/F.json",
+            "GUI/models/T.json",
+            "GUI/models/Default.json"
         ]
 
     # 모델 설정 업데이트 메서드
@@ -36,7 +37,7 @@ class ChatGPTAssistant:
     # OpenAI를 사용하여 GPT와 대화하는 메서드
     def chat_with_gpt(self, user_input_msg, model_index):
         try:
-            OPENAI_YOUR_KEY = "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"
+            OPENAI_YOUR_KEY = api_key
             openai.api_key = OPENAI_YOUR_KEY
 
             MAX_TOKENS = 150

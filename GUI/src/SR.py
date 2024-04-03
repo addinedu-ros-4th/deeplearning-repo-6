@@ -139,7 +139,7 @@ class ChatModule(QtWidgets.QMainWindow):
         super(ChatModule, self).__init__(parent)
 
         # 데이터 경로 설정
-        self.data_path = "GUI/mic_data/"
+        self.data_path = "GUI/mic_data"
 
         if not os.path.exists(self.data_path):
             os.makedirs(self.data_path)
