@@ -17,15 +17,17 @@ class FaceRecognizer:
     def recognize_faces(self, frame):
         gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
         faces, confidences = cv.detect_face(frame)
+        recognized_name = ""
 
         for face, confidence in zip(faces, confidences):
             startX, startY, endX, endY = face
             face_img_gray = gray[startY:endY, startX:endX]
 
             id, confidence = self.recognizer.predict(face_img_gray)
-
+            
             if confidence >= 50 and confidence <= 100:
                 name = list(self.names_dict.keys())[list(self.names_dict.values()).index(id)]
+                recognized_name = name
                 color = (0, 0, 255)  # 빨간색
             else:
                 name = "Unknown"
@@ -37,7 +39,7 @@ class FaceRecognizer:
             cv2.putText(frame, name, (startX+5, startY-5), cv2.FONT_HERSHEY_SIMPLEX, 1, color, 2)
             cv2.putText(frame, confidence_str, (startX+5, endY-5), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 255, 0), 1)
 
-        return frame
+        return frame, recognized_name
 
 if __name__ == "__main__":
     model_path = '/home/jongchanjang/amr_ws/opencv_study/source/faces_trained.yaml'
@@ -56,7 +58,8 @@ if __name__ == "__main__":
             print("Failed to grab frame")
             break
 
-        frame = face_recognizer.recognize_faces(frame)
+        frame, recognized_name = face_recognizer.recognize_faces(frame)
+        print(recognized_name)
 
         cv2.imshow('Camera', frame)
 

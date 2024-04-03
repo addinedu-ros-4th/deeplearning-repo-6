@@ -41,10 +41,13 @@ class FaceImageCollectorAndRecognizerTrainer:
                 input("300장 저장되었습니다. 엔터를 누르면 다음 단계로 넘어갑니다.")
             elif image_count == 400:
                 input("400장 저장되었습니다. 엔터를 누르면 다음 단계로 넘어갑니다.")
+            elif image_count == 500:
+                print("500장 저장되었습니다. 엔터를 누르면 종료됩니다.")
+                break
 
             key = cv2.waitKey(1)
-            if key == ord('q') or image_count >= 500:
-                input("500장 저장되었습니다. 엔터를 누르면 종료됩니다.")
+            if key == ord('q') :
+                input("종료")
                 break
 
         cam.release()
