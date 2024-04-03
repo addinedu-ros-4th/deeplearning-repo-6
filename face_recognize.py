@@ -25,7 +25,7 @@ class FaceRecognizer:
 
             id, confidence = self.recognizer.predict(face_img_gray)
             
-            if confidence >= 50 and confidence <= 100:
+            if confidence >= 45 and confidence <= 100:
                 name = list(self.names_dict.keys())[list(self.names_dict.values()).index(id)]
                 recognized_name = name
                 color = (0, 0, 255)  # 빨간색
