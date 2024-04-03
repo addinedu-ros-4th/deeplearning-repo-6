@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>585</width>
-    <height>600</height>
+    <width>580</width>
+    <height>731</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -17,10 +17,10 @@
    <widget class="QLabel" name="Label_Image">
     <property name="geometry">
      <rect>
-      <x>60</x>
-      <y>40</y>
-      <width>471</width>
-      <height>301</height>
+      <x>80</x>
+      <y>140</y>
+      <width>401</width>
+      <height>341</height>
      </rect>
     </property>
     <property name="styleSheet">
@@ -34,10 +34,15 @@
     <property name="geometry">
      <rect>
       <x>50</x>
-      <y>380</y>
-      <width>101</width>
-      <height>61</height>
+      <y>500</y>
+      <width>141</width>
+      <height>71</height>
      </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>13</pointsize>
+     </font>
     </property>
     <property name="styleSheet">
      <string notr="true">color: white;
@@ -51,11 +56,19 @@
    <widget class="QPushButton" name="Btn_regist">
     <property name="geometry">
      <rect>
-      <x>430</x>
-      <y>370</y>
-      <width>101</width>
-      <height>61</height>
+      <x>370</x>
+      <y>500</y>
+      <width>141</width>
+      <height>71</height>
      </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Ubuntu</family>
+      <pointsize>13</pointsize>
+      <weight>50</weight>
+      <bold>false</bold>
+     </font>
     </property>
     <property name="styleSheet">
      <string notr="true">color: white;
@@ -63,7 +76,54 @@
 	border-radius: 20px;</string>
     </property>
     <property name="text">
-     <string>사용자 등록</string>
+     <string>Sing up</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label">
+    <property name="geometry">
+     <rect>
+      <x>120</x>
+      <y>50</y>
+      <width>361</width>
+      <height>91</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <pointsize>13</pointsize>
+      <italic>true</italic>
+     </font>
+    </property>
+    <property name="text">
+     <string>빛나는 미래를 선물할, 당신만의 로봇 동반자</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_2">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>120</y>
+      <width>581</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>Droid Sans Fallback</family>
+      <pointsize>18</pointsize>
+      <weight>75</weight>
+      <italic>true</italic>
+      <bold>true</bold>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color : blue; color : white; </string>
+    </property>
+    <property name="text">
+     <string>'Tier'</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
     </property>
    </widget>
   </widget>
@@ -72,7 +132,7 @@
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>585</width>
+     <width>580</width>
      <height>22</height>
     </rect>
    </property>
