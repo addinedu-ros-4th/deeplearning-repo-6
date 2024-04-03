@@ -12,6 +12,15 @@ class FaceImageCollectorAndRecognizerTrainer:
         self.label_dict = {}  # 사용자 이름과 정수 라벨을 매핑하는 딕셔너리
 
     def collect_face_images(self, user_id):
+        # images 폴더가 없으면 생성
+        if not os.path.exists(image_folder):
+            os.makedirs(image_folder)
+
+        # 사용자 이름으로 된 폴더를 생성하여 이미지 저장
+        user_dir = os.path.join(image_folder, user_id)
+        if not os.path.exists(user_dir):
+            os.makedirs(user_dir)
+            
         cam = cv2.VideoCapture(0)
         image_count = 0
 
@@ -25,7 +34,7 @@ class FaceImageCollectorAndRecognizerTrainer:
                 face_img = frame[y:y2, x:x2]
 
                 image_count += 1
-                file_path = os.path.join(self.image_folder, f"USER.{user_id}.{image_count}.jpg")
+                file_path = os.path.join(self.image_folder, user_id, f"{user_id}_{image_count}.jpg")
                 cv2.imwrite(file_path, face_img)
 
                 cv2.rectangle(frame, (x, y), (x2, y2), (0, 255, 0), 2)
@@ -54,21 +63,25 @@ class FaceImageCollectorAndRecognizerTrainer:
         cv2.destroyAllWindows()
 
     def prepare_training_data(self):
-        image_paths = [os.path.join(self.image_folder, f) for f in os.listdir(self.image_folder) if not f.startswith('.front') and f.endswith(('.jpg', '.jpeg', '.png'))]
         faces = []
         labels = []
 
-        for image_path in image_paths:
-            image = cv2.imread(image_path, cv2.IMREAD_GRAYSCALE)
-            faces.append(image)
-            user_name = os.path.splitext(os.path.basename(image_path))[0].split(".")[1].split(".")[0]
-            
-            # 이미 등록된 사용자인지 확인 후 라벨 부여
-            if user_name not in self.label_dict:
-                self.label_dict[user_name] = len(self.label_dict)  # 새로운 사용자일 경우 정수 라벨 부여
-            label = self.label_dict[user_name]
-            
-            labels.append(label)
+        for root, dirs, files in os.walk(self.image_folder):
+            for dir_name in dirs:
+                user_folder = os.path.join(self.image_folder, dir_name)
+                image_paths = [os.path.join(user_folder, f) for f in os.listdir(user_folder) if f.endswith(('.jpg', '.jpeg', '.png'))]
+
+                for image_path in image_paths:
+                    image = cv2.imread(image_path, cv2.IMREAD_GRAYSCALE)
+                    faces.append(image)
+                    user_name = dir_name
+
+                    # 이미 등록된 사용자인지 확인 후 라벨 부여
+                    if user_name not in self.label_dict:
+                        self.label_dict[user_name] = len(self.label_dict)  # 새로운 사용자일 경우 정수 라벨 부여
+                    label = self.label_dict[user_name]
+
+                    labels.append(label)
 
         return faces, labels
 
@@ -112,8 +125,9 @@ class FaceImageCollectorAndRecognizerTrainer:
 
 if __name__ == "__main__":
     user_id = input("사용자 이름을 입력하세요: ")
-    image_folder = '/home/jongchanjang/amr_ws/opencv_study/source/faces/'
-    model_save_path = '/home/jongchanjang/amr_ws/opencv_study/source/faces_trained.yaml'
+    current_path = os.getcwd()  # 현재 경로 가져오기
+    image_folder = os.path.join(current_path, 'images')  # 현재 경로의 images 폴더로 경로 설정
+    model_save_path = os.path.join(current_path, 'faces_trained.yaml')  # 현재 경로의 faces_trained.yaml로 경로 설정
     
     face_collector_and_trainer = FaceImageCollectorAndRecognizerTrainer(image_folder, model_save_path)
     face_collector_and_trainer.collect_face_images(user_id)

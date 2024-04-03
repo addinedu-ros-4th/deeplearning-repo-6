@@ -42,8 +42,9 @@ class FaceRecognizer:
         return frame, recognized_name
 
 if __name__ == "__main__":
-    model_path = '/home/jongchanjang/amr_ws/opencv_study/source/faces_trained.yaml'
-    names_dict_path = '/home/jongchanjang/amr_ws/opencv_study/source/faces_trained_labels.yaml' 
+    current_path = os.getcwd()  # 현재 경로 가져오기
+    model_path = os.path.join(current_path, 'faces_trained.yaml')  # 현재 경로의 faces_trained.yaml로 경로 설정
+    names_dict_path = os.path.join(current_path, 'faces_trained_labels.yaml')  
 
     face_recognizer = FaceRecognizer(model_path, names_dict_path)
 
