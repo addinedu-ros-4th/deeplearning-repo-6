@@ -1,4 +1,5 @@
 from  PyQt5.QtCore import *
+import os
 import cv2
 import numpy as np
 import time
@@ -48,8 +49,13 @@ class Camera(QThread):
                             # 감지된 얼굴 영역을 잘라내서 저장
                             face_img = frame[y:y2, x:x2]
                             timestamp = int(time.time() * 2000)  # 밀리초 단위 타임스탬프
-                            filename = f'/home/addinedu/git_ws/deeplearning-repo-6/GUI/data/face/{self.mode}_{self.name}_frame_{timestamp}_{index}.jpg'
-                            cv2.imwrite(filename, face_img)
+                            data_path = 'GUI/data/face'
+                            
+                            if not os.path.exists(data_path):
+                                os.mkdir(data_path)
+                            else:
+                                filename = f'{data_path}/{self.mode}_{self.name}_frame_{timestamp}_{index}.jpg'
+                                cv2.imwrite(filename, face_img)
                     else:
                         self.signalNoFace.emit()
                     
