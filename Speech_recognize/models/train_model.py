@@ -2,7 +2,9 @@ import json
 import openai
 
 # OpenAI API 키 설정
-# openai.api_key = api_key
+api_key = "your-api-key"
+openai.api_key = api_key
+
 
 class ChatGPTAssistant:
     def __init__(self, model_configs):
