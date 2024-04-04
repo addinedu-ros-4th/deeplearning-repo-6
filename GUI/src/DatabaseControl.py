@@ -88,7 +88,7 @@ class DatabaseManager:
         self.cur.execute(query, (user_id, model))
         self.conn.commit()
 
-    # 최근 등록한 이름 가져오기
+    # 최근 등록한 이름 가져오기 
     def get_last_user_name(self):
         query = "SELECT Name FROM Users ORDER BY UserID DESC LIMIT 1"
         self.cur.execute(query)

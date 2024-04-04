@@ -7,7 +7,7 @@ from GUI.src.inputUser import WindowClass
 import sys
 from PyQt5.QtWidgets import QApplication, QMainWindow, QMessageBox
 from PyQt5.uic import loadUi
-from PyQt5.QtCore import QDate
+from PyQt5.QtCore import QDate 
 from PyQt5.QtGui import QIntValidator
 
 from GUI.src.DatabaseControl import DatabaseManager #데이터베이스 관리 클래스

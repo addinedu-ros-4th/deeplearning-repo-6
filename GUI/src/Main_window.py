@@ -55,7 +55,7 @@ class MainWindow(QMainWindow):
 
 
     def show_inputUser_page(self):
-        self.inputUser_page = WindowClass(self) 
+        self.inputUser_page = WindowClass(self)
         self.stacked_widget.addWidget(self.inputUser_page) #SR 페이지를 stacked widget에 추가
         self.stacked_widget.setCurrentWidget(self.inputUser_page)
 

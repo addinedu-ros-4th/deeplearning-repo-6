@@ -21,7 +21,7 @@ class WindowClass(QMainWindow, from_class) :
         self.setupUi(self)
         
         self.setWindowTitle("사용자 등록")
-        
+
         self.pixmap = QPixmap()
         
         self.cameraBtn.clicked.connect(self.clickCamera)
