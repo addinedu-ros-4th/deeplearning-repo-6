@@ -5,7 +5,8 @@ from PyQt5 import uic
 from GUI.src.Login import LoginWindow
 from GUI.src.SR import ChatModule
 from GUI.src.userSetting import UserRegistrationForm
-from GUI.src.inputUser import WindowClass
+from GUI.src.inputUser import InputUserClass
+from GUI.src.train import TrainClass
 
 
 class MainWindow(QMainWindow):
@@ -55,10 +56,15 @@ class MainWindow(QMainWindow):
 
 
     def show_inputUser_page(self):
-        self.inputUser_page = WindowClass(self) 
+        self.inputUser_page = InputUserClass(self) 
         self.stacked_widget.addWidget(self.inputUser_page) #SR 페이지를 stacked widget에 추가
         self.stacked_widget.setCurrentWidget(self.inputUser_page)
 
+
+    def show_train_page(self):
+        self.train_page = TrainClass(self) 
+        self.stacked_widget.addWidget(self.train_page) #train 페이지를 stacked widget에 추가
+        self.stacked_widget.setCurrentWidget(self.train_page)
 
     def closeEvent(self, event):
         if hasattr(self.Sr_page, 'closeEvent'):
