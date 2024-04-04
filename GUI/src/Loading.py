@@ -18,6 +18,7 @@ class Loading(QLabel, FROM_CLASS_Loading):
         self.windowSize = windowSize
         self.initUI(hideWindowHeader)
         
+        
     def initUI(self, hideWindowHeader):
         self.countdown.setFixedSize(self.labelWidth, self.labelHeight)
         self.setGeometry(*self.windowPosition, *self.windowSize)
