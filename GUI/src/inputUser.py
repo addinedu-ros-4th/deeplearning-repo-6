@@ -14,7 +14,7 @@ from GUI.src.Loading import Loading
 from_class = uic.loadUiType("GUI/ui/inputUser.ui")[0]
 
 
-class WindowClass(QMainWindow, from_class) :
+class InputUserClass(QMainWindow, from_class) :
     
     def __init__(self,main_window):
         super().__init__()
