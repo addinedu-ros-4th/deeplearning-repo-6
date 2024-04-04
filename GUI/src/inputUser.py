@@ -1,4 +1,4 @@
-### 계산기
+# User face info 등록 페이지
 import sys
 from PyQt5.QtWidgets import *
 from PyQt5.QtGui import *
@@ -30,6 +30,9 @@ class WindowClass(QMainWindow, from_class) :
         self.camera.demon = True
         self.count = 0
         self.loadingInstance = None
+        self.layout().setContentsMargins(0, 0, 0, 0)
+        self.layout().setSpacing(0)
+
         
         # 프레임 촬영 가능 여부
         self.ox = False
@@ -46,6 +49,10 @@ class WindowClass(QMainWindow, from_class) :
         self.frameStartBtn.hide()
         self.completeBtn.hide()
         self.frameStartBtn.clicked.connect(self.clickReady)
+        
+        # 종료되면 DB저장, 다음 페이지 전환
+        self.completeBtn.clicked.connect(self.clickCompleteBtn)
+
 
     def clickCamera(self):
         # 촬영 중 X
@@ -108,14 +115,15 @@ class WindowClass(QMainWindow, from_class) :
             if result == QMessageBox.No:
                 QMessageBox.warning(self, '사용자 등록 준비', '한 명만 인식할 수 있습니다.')
             else:
-                self.GIFLoading()  # loading 메서드의 결과에 따라 complete 변수를 설정
+                self.success = self.GIFLoading()  # loading 메서드의 결과에 따라 complete 변수를 설정
         else:
             QMessageBox.warning(self, '사용자 등록 준비', '정면만 인식 가능합니다.')
 
 
     def GIFLoading(self):
+        img_path = "GUI/data/countdown.gif"
         if self.camera.recordingCount < 2:
-            self.loadingInstance = Loading(self)
+            self.loadingInstance = Loading(self, img_path, 521, 271, (30, 50), (521, 271), True)
             
             self.cameraBtn.setEnabled(False)
             self.frameStartBtn.setEnabled(False)
@@ -158,8 +166,14 @@ class WindowClass(QMainWindow, from_class) :
     
     def noFace(self):
         self.message.setText("얼굴이 인식되지 않습니다.")
-          
-          
+    
+    
+    # 해당 사용자의 face 정보를 database에 insert
+    def clickCompleteBtn(self):
+        pass
+    
+    
+    
 if __name__ == "__main__":
     app = QApplication(sys.argv)
     
