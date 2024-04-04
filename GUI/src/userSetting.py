@@ -3,7 +3,7 @@ import sys
 from PyQt5.QtWidgets import QApplication, QMainWindow, QStackedWidget, QWidget
 from PyQt5.QtGui import QPixmap
 from PyQt5 import uic
-from GUI.src.inputUser import WindowClass
+from GUI.src.inputUser import InputUserClass
 import sys
 from PyQt5.QtWidgets import QApplication, QMainWindow, QMessageBox
 from PyQt5.uic import loadUi

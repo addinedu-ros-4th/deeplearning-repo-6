@@ -17,7 +17,7 @@ from_class = uic.loadUiType("GUI/ui/train.ui")[0]
 data_path = "GUI/data/face"
 model_save_path = "Face_recognize/model"
 
-class WindowClass(QMainWindow, from_class) :
+class TrainClass(QMainWindow, from_class) :
     
     def __init__(self,parent = None):
         super().__init__(parent)
@@ -28,7 +28,7 @@ class WindowClass(QMainWindow, from_class) :
         self.loadingInstance = None
         self.createDirectory(model_save_path)
         
-        self.faceReconizer = FaceImageCollectorAndRecognizerTrainer(data_path, model_save_path)
+        self.faceRecognizer = FaceImageCollectorAndRecognizerTrainer(data_path, model_save_path)
         self.successBtn.hide()
         self.initGIF()
     
@@ -65,7 +65,7 @@ class WindowClass(QMainWindow, from_class) :
 if __name__ == "__main__":
     app = QApplication(sys.argv)
     
-    myWindows = WindowClass()
+    myWindows = TrainClass()
     
     myWindows.show()
     

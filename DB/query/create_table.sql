@@ -8,7 +8,7 @@ CREATE TABLE IF NOT EXISTS Users (
     Password VARCHAR(255) NOT NULL
 );
 
-CREATE TABLE RobotSetting (
+CREATE TABLE IF NOT EXISTS RobotSetting (
     SettingID INT AUTO_INCREMENT PRIMARY KEY,
     UserID INT,
     Model ENUM('F', 'T', 'Thanos', 'Default') NOT NULL,
