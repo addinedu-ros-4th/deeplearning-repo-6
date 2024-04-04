@@ -1,30 +1,54 @@
+# 얼굴 학습 페이지
+import sys
+from PyQt5.QtWidgets import *
+from PyQt5.QtGui import *
+from PyQt5 import uic
+from PyQt5.QtCore import *
+import cv2
+import os
+from PIL import Image
+import threading
 
-class MainWindow(QMainWindow):
-    def __init__(self):
-        super().__init__()
-        self.main_page = uic.loadUi('GUI/ui/Main_window.ui')
+from GUI.src.Loading import Loading
+from Face_recognize.face_recognize import FaceRecognizer
+from Face_recognize.face_save_learn import FaceImageCollectorAndRecognizerTrainer
 
-        self.stacked_widget = QStackedWidget(self)  # QStackedWidget 인스턴스 생성
-        self.setCentralWidget(self.stacked_widget)  # MainWindow의 중앙 위젯으로 설정
 
-        self.stacked_widget.addWidget(self.main_page)  # Main 페이지를 stacked widget에 추가
-        main_widget_size = self.size()
-        self.resize(main_widget_size)
+from_class = uic.loadUiType("GUI/ui/train.ui")[0]
+folder_path = "GUI/data/face"
+model_save_path = "Face_rocognize/model"
 
-        self.stacked_widget.setCurrentWidget(self.main_page)  # 처음에 Main 페이지를 보여줌
-
-        self.main_page.Btn_Login.clicked.connect(self.show_login_page)  # 로그인 페이지로 전환
-        self.main_page.Btn_regist.clicked.connect(self.show_regist_page)  # 사용자등록 페이지로 전환
+class WindowClass(QMainWindow, from_class) :
+    
+    def __init__(self,parent = None):
+        super().__init__(parent)
+        self.setupUi(self)
         
+        self.setWindowTitle("사용자 등록 중입니다.")
         
-        image_path = 'GUI/data/robot.png'
-        self.show_image(image_path)
+        self.pixmap = QPixmap()
+        
+        self.createDirectory(model_save_path)
+        
+        self.faceReconizer = FaceRecognizer()
 
+    
+    # 폴더 생성
+    def createDirectory(self, directory):
+        try:
+            if not os.path.exists(directory):
+                os.makedirs(directory)
+        except OSError:
+            print("Error: Failed to create the directory.")
 
-
-if __name__ == '__main__':
+    
+    def gif 
+    
+if __name__ == "__main__":
     app = QApplication(sys.argv)
-    window = MainWindow()
-
-    window.show()
+    
+    myWindows = WindowClass()
+    
+    myWindows.show()
+    
     sys.exit(app.exec_())
