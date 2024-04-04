@@ -9,7 +9,8 @@ class DatabaseManager:
         self.db_name = "tier"
         self.cur = None
         self.conn = None
-    
+
+
     # 데이터베이스 연결
     def connect_database(self, db_name=None):
         if db_name is None:
@@ -19,12 +20,16 @@ class DatabaseManager:
                 host=self.host,
                 user=self.user,
                 database=db_name,
+                password="1234"
             )
+            
         except mysql.connector.Error as err:
             if err.errno == mysql.connector.errorcode.ER_BAD_DB_ERROR:
                 self.conn = mysql.connector.connect(
                     host=self.host,
                     user=self.user,
+                    database=db_name,
+                    password="1234"
                 )
                 self.cur = self.conn.cursor()
                 self.create_database(db_name)
@@ -99,3 +104,9 @@ class DatabaseManager:
         if self.conn:
             self.conn.close()
     
+    def find_elements(self, name, password):
+        query = "select UserId, Name, Password from Users where Name = %s and (Password) = %s;"
+        self.cur.execute(query, (name, password))
+        result = self.cur.fetchone()
+        self.close_connection()
+        return result is not None
