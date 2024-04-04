@@ -8,10 +8,14 @@ from PyQt5.QtGui import QIntValidator
 
 from GUI.src.DatabaseControl import DatabaseManager #데이터베이스 관리 클래스
 
+# 전역 변수로 사용자 이름 저장
+global global_user_name
+global_user_name = ""
+
 class UserRegistrationForm(QMainWindow):
     def __init__(self,main_window):
         super().__init__()
-        self.main_window = main_window     
+        self.main_window = main_window 
 
         # UI 파일 로드
         loadUi("GUI/ui/userSetting.ui", self)
@@ -53,7 +57,7 @@ class UserRegistrationForm(QMainWindow):
         # 사용자가 입력한 정보 가져오기
         name = self.Txt_name.text() 
         password = self.Txt_pw.text()
-        if len(password) < 4:
+        if len(password) > 4:
             QMessageBox.warning(self, "경고", "비밀번호는 4자리만 가능합니다.")
         birth = self.dateEdit.date().toString("yyyy-MM-dd")  
         if self.radio_man.isChecked():
@@ -68,12 +72,13 @@ class UserRegistrationForm(QMainWindow):
             # 모든 필드에 값이 존재하는 경우에만 사용자 등록 수행
             self.DBManager.save_data(name, gender, birth, password)
             self.DBManager.close_connection()
+            global_user_name = name # 이름을 전역변수에 입력
             # 화면 전환
             self.main_window.show_inputUser_page()
-            
         else:
             # 입력 필드 중 하나 이상이 비어있는 경우에는 알림 메시지 표시
             QMessageBox.critical(self, "오류", "모든 필드를 입력하세요.")
+
     
     def db_connect(self):
         self.DBManager = DatabaseManager("localhost", "root")   # manager 객체 생성
