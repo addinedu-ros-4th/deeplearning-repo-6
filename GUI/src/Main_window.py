@@ -15,13 +15,15 @@ class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
         self.main_page = uic.loadUi('GUI/ui/Main_window.ui')
+        main_size = self.main_page.size()
+        width = main_size.width()
+        height = main_size.height()
+        self.main_page.setFixedSize(width, height)  # width와 height는 원하는 크기입니다.
 
         self.stacked_widget = QStackedWidget(self)  # QStackedWidget 인스턴스 생성
         self.setCentralWidget(self.stacked_widget)  # MainWindow의 중앙 위젯으로 설정
 
         self.stacked_widget.addWidget(self.main_page)  # Main 페이지를 stacked widget에 추가
-        main_widget_size = self.size()
-        self.resize(main_widget_size)
 
         self.stacked_widget.setCurrentWidget(self.main_page)  # 처음에 Main 페이지를 보여줌
 
