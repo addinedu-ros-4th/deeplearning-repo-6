@@ -17,7 +17,7 @@ from_class = uic.loadUiType("GUI/ui/train.ui")[0]
 data_path = "GUI/data/face"
 model_save_path = "Face_recognize/model"
 
-class WindowClass(QMainWindow, from_class) :
+class TrainClass(QMainWindow, from_class) :
     
     def __init__(self,parent = None):
         super().__init__(parent)
