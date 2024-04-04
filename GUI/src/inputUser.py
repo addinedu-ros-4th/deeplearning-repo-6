@@ -16,12 +16,13 @@ from_class = uic.loadUiType("GUI/ui/inputUser.ui")[0]
 
 class InputUserClass(QMainWindow, from_class) :
     
-    def __init__(self,parent = None):
-        super().__init__(parent)
+    def __init__(self,main_window):
+        super().__init__()
+        self.main_window = main_window
         self.setupUi(self)
         
         self.setWindowTitle("사용자 등록")
-
+        
         self.pixmap = QPixmap()
         
         self.cameraBtn.clicked.connect(self.clickCamera)
@@ -170,7 +171,8 @@ class InputUserClass(QMainWindow, from_class) :
     
     # 해당 사용자의 face 정보를 database에 insert
     def clickCompleteBtn(self):
-        pass
+        self.main_window.show_train_page()
+        print("clicekc")
     
     
     
