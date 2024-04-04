@@ -9,7 +9,7 @@ class DatabaseManager:
         self.db_name = "tier"
         self.cur = None
         self.conn = None
-    
+        self.password = "0320"
     
     # 데이터베이스 연결
     def connect_database(self, db_name=None):
@@ -19,7 +19,8 @@ class DatabaseManager:
             self.conn = mysql.connector.connect(
                 host=self.host,
                 user=self.user,
-                database=db_name
+                database=db_name,
+                password = self.password
             )
         except mysql.connector.Error as err:
             if err.errno == mysql.connector.errorcode.ER_BAD_DB_ERROR:
@@ -69,17 +70,25 @@ class DatabaseManager:
     
     
     # 데이터베이스에 사용자 정보 저장
-    def save_data(self, name, gender, birth, password):
-        if gender in ["남성", "남자", "Male", "남"]:
-            gender = "남"
-        elif gender in ["여성", "여자", "Female", "여"]:
-            gender = "여"
-        else:
-            gender = "Other"
-            
+    def save_data(self, name, gender, birth, password):   
         query = "INSERT INTO Users (Name, Gender, DOB, Password) VALUES (%s, %s, %s, %s)"
         self.cur.execute(query, (name, gender, birth, password))
         self.conn.commit()
+
+        query = "SELECT UserID FROM Users ORDER BY UserID DESC LIMIT 1;"
+        self.cur.execute(query)
+        user_id = self.cur.fetchone()[0]
+        
+        return user_id
+    
+    # 데이터베이스에 로봇 정보 저장
+    def save_robot_setting(self, user_id, model):
+        query = "INSERT INTO RobotSetting (UserID, Model) VALUES (%s, %s)"
+        self.cur.execute(query, (user_id, model))
+        self.conn.commit()
+
+
+
 
     
     def close_connection(self):
