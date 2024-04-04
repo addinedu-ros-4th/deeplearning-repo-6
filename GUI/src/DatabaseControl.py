@@ -19,13 +19,16 @@ class DatabaseManager:
             self.conn = mysql.connector.connect(
                 host=self.host,
                 user=self.user,
-                database=db_name
+                database=db_name,
+                password = "1234"
             )
         except mysql.connector.Error as err:
             if err.errno == mysql.connector.errorcode.ER_BAD_DB_ERROR:
                 self.conn = mysql.connector.connect(
                     host=self.host,
-                    user=self.user
+                    user=self.user,
+                    password = "1234"
+
                 )
                 self.cur = self.conn.cursor()
                 self.create_database(db_name)
