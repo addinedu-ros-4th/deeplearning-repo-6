@@ -8,7 +8,6 @@ from GUI.src.userSetting import UserRegistrationForm
 from GUI.src.inputUser import InputUserClass
 from GUI.src.train import TrainClass
 
-
 class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
@@ -65,6 +64,12 @@ class MainWindow(QMainWindow):
     def show_train_page(self):
         self.train_page = TrainClass(self)
         self.stacked_widget.addWidget(self.train_page)
+        self.stacked_widget.setCurrentWidget(self.train_page)
+
+
+    def show_train_page(self):
+        self.train_page = TrainClass(self) 
+        self.stacked_widget.addWidget(self.train_page) #SR 페이지를 stacked widget에 추가
         self.stacked_widget.setCurrentWidget(self.train_page)
 
 
