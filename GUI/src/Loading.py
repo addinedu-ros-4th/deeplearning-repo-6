@@ -8,7 +8,7 @@ FROM_CLASS_Loading = uic.loadUiType("GUI/ui/load.ui")[0]
 class Loading(QLabel, FROM_CLASS_Loading):
     finished = pyqtSignal()  # GIF 종료 시그널
 
-    def __init__(self, parent, img_path, labelWidth, labelHeight, windowPosition, windowSize, hideWindowHeader=False):
+    def __init__(self, parent, img_path, labelWidth=231, labelHeight=221, windowPosition=(170,250), windowSize=(231,221), hideWindowHeader=False):
         super().__init__(parent)
         self.setupUi(self)
         self.img_path = img_path

@@ -13,6 +13,9 @@
   <property name="windowTitle">
    <string>Dialog</string>
   </property>
+  <property name="styleSheet">
+   <string notr="true">background-color:white;</string>
+  </property>
   <widget class="QLabel" name="label">
    <property name="geometry">
     <rect>
@@ -45,7 +48,7 @@
     <string/>
    </property>
   </widget>
-  <widget class="QPushButton" name="frameStartBtn">
+  <widget class="QPushButton" name="successBtn">
    <property name="geometry">
     <rect>
      <x>190</x>
