@@ -65,7 +65,7 @@ class MainWindow(QMainWindow):
     def show_train_page(self):
         self.train_page = TrainClass(self)
         self.stacked_widget.addWidget(self.train_page)
-        self.show_image.setCurrentWidget(self.train_page)
+        self.stacked_widget.setCurrentWidget(self.train_page)
 
 
     def closeEvent(self, event):
