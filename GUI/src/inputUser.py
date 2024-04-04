@@ -1,4 +1,4 @@
-### 계산기
+# User face info 등록 페이지
 import sys
 from PyQt5.QtWidgets import *
 from PyQt5.QtGui import *
@@ -30,6 +30,9 @@ class WindowClass(QMainWindow, from_class) :
         self.camera.demon = True
         self.count = 0
         self.loadingInstance = None
+        self.layout().setContentsMargins(0, 0, 0, 0)
+        self.layout().setSpacing(0)
+
         
         # 프레임 촬영 가능 여부
         self.ox = False
@@ -118,8 +121,9 @@ class WindowClass(QMainWindow, from_class) :
 
 
     def GIFLoading(self):
+        img_path = "GUI/data/countdown.gif"
         if self.camera.recordingCount < 2:
-            self.loadingInstance = Loading(self)
+            self.loadingInstance = Loading(self, img_path, 521, 271, (30, 50), (521, 271), True)
             
             self.cameraBtn.setEnabled(False)
             self.frameStartBtn.setEnabled(False)
