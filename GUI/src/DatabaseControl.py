@@ -24,7 +24,7 @@ class DatabaseManager:
             if err.errno == mysql.connector.errorcode.ER_BAD_DB_ERROR:
                 self.conn = mysql.connector.connect(
                     host=self.host,
-                    user=self.user
+                    user=self.user,
                 )
                 self.cur = self.conn.cursor()
                 self.create_database(db_name)
@@ -86,6 +86,13 @@ class DatabaseManager:
         self.conn.commit()
 
     
+    # 데이터베이스에 로봇 정보 저장
+    def save_robot_setting(self, user_id, model):
+        query = "INSERT INTO RobotSetting (UserID, Model) VALUES (%s, %s)"
+        self.cur.execute(query, (user_id, model))
+        self.conn.commit()
+
+
     def close_connection(self):
         if self.cur:
             self.cur.close()
