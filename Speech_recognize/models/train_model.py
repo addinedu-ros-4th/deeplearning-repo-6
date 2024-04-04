@@ -2,7 +2,6 @@ import json
 import openai
 
 # OpenAI API 키 설정
-api_key = ""
 openai.api_key = api_key
 
 class ChatGPTAssistant:
