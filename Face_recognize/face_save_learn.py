@@ -3,8 +3,12 @@ import cv2
 import numpy as np
 import yaml
 import cvlib as cv
+from PyQt5.QtCore import QObject, pyqtSignal # GUI 통신
 
-class FaceImageCollectorAndRecognizerTrainer:
+# Face Recognize train
+class FaceTrainer(QObject):
+    trainingCompleted = pyqtSignal(bool)    # 훈련 완료 시그널
+    
     def __init__(self, image_folder, model_save_path):
         self.image_folder = image_folder
         self.model_save_path = model_save_path
@@ -15,9 +19,9 @@ class FaceImageCollectorAndRecognizerTrainer:
     def prepare_training_data(self):
         faces = []
         labels = []
-
-        for root, dirs, files in os.walk(self.image_folder):
-            for dir_name in dirs:
+            
+        for dirpath, dirnames, filenames in os.walk(self.image_folder):
+            for dir_name in dirnames:
                 user_folder = os.path.join(self.image_folder, dir_name)
                 image_paths = [os.path.join(user_folder, f) for f in os.listdir(user_folder) if f.endswith(('.jpg', '.jpeg', '.png'))]
 
@@ -39,20 +43,29 @@ class FaceImageCollectorAndRecognizerTrainer:
     # 사용자 얼굴 학습
     def train_model(self):
         print("학습 중")
-        faces, labels = self.prepare_training_data()
-        self.recognizer.train(faces, np.array(labels))
-        print("학습된 얼굴 라벨 갯수 :", len(set(labels)))
-        self.recognizer.save(self.model_save_path)
         
-        # 딕셔너리도 함께 저장
-        with open(os.path.splitext(self.model_save_path)[0] + '_labels.yaml', 'w') as file:
-            yaml.dump(self.label_dict, file, allow_unicode=True)
+        faces, labels = self.prepare_training_data()
+        
+        if self.possible_train(faces, labels):
+            self.recognizer.train(faces, np.array(labels))
+                        
+            print("학습된 얼굴 라벨 갯수 :", len(set(labels)))
+            
+            model_file_name = 'model.yaml'
+            label_file_name = 'labels.yaml'
+            
+            # 훈련 모델 저장
+            self.recognizer.save(os.path.join(self.model_save_path, model_file_name))
+            
+            # 딕셔너리 라벨 저장
+            with open(os.path.join(self.model_save_path, label_file_name), 'w') as file:
+                yaml.dump(self.label_dict, file, allow_unicode=True)
 
-        print("학습 완료")
-
+            print("학습 완료")
+            
 
     def check_training_success(self):
-        model_path = os.path.splitext(self.model_save_path)[0] + '_labels.yaml'
+        model_path = os.path.splitext(self.model_save_path)[0] + 'labels.yaml'
         
         # 모델 파일 및 라벨 파일이 모두 존재하는지 확인
         if os.path.exists(self.model_save_path) and os.path.exists(model_path):
@@ -71,7 +84,18 @@ class FaceImageCollectorAndRecognizerTrainer:
                 print(f"Error loading label file: {e}")
                 return False
             
+            self.trainingCompleted.emit(True)   # 성공 시그널 전달
+            return True
+
+        else:
+            self.trainingCompleted.emit(False)  # 실패 시그널 전달
+            return False
+    
+    
+    # 훈련하기 전 라벨, 이미지 확인
+    def possible_train(self, faces, label):
+        if len(label) > 0 and len(faces) > 0:
             return True
         else:
-            print("모델 또는 이름 파일이 존재 하지 않습니다!")
-            return False
+            print("훈련 데이터가 충분하지 않습니다.")
+            return False      
