@@ -62,7 +62,7 @@ class Camera(QThread):
                             # 감지된 얼굴 영역을 잘라내서 저장
                             face_img = frame[y:y2, x:x2]
                             timestamp = int(time.time() * 2000)  # 밀리초 단위 타임스탬프
-                            data_path = 'GUI/data/face'
+                            data_path = f'GUI/data/face/{self.name}'
                             
                             if not os.path.exists(data_path):
                                 os.mkdir(data_path)
