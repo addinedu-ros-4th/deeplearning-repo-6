@@ -2,6 +2,7 @@
 from Speech_recognize.VoiceRecorder import VoiceRecorder  
 from Speech_recognize.gpt import ChatGPTAssistant, ModelConfigThread
 from Speech_recognize.googleapi import FileMonitor, AudioTranscriber
+from GUI.src.DatabaseControl import DatabaseManager
 
 import os
 import sys
@@ -175,6 +176,9 @@ class ChatModule(QtWidgets.QMainWindow):
         if not os.path.exists(self.data_path):
             os.makedirs(self.data_path)
 
+        # Database search
+        self.db_manager = DatabaseManager("localhost", "root")
+
         # 모델 구성 정의
         self.model_configs = [
             {"model": "gpt-3.5-turbo", "system_message": "반말을 사용하고, 감정적이고 친화적인 경향을 가지며, 친근하고 상냥한 말투로 해줘.", "assistant_message": "좋은 하루 보내!"},
@@ -182,6 +186,9 @@ class ChatModule(QtWidgets.QMainWindow):
             {"model": "gpt-3.5-turbo", "system_message": "딱딱한 말투를 사용하고, 자신이 저지른 악행에 대해 합리화를 잘할뿐더러 타인과 타협도 잘 하지 않는 완고한 성격이야", "assistant_message": "나는 필연적인 존재다."},
             {"model": "gpt-3.5-turbo", "system_message": "친절한 챗 GPT그대로 활동하면 돼. 존대해줘.", "assistant_message": "도움이 필요하신가요?"},
         ]
+
+         # ChatGPTAssistant 인스턴스 생성
+        self.assistant = ChatGPTAssistant(self.model_configs)
 
         # UI 요소 생성을 메인 스레드에서 수행
         self.create_ui_elements()
@@ -204,11 +211,6 @@ class ChatModule(QtWidgets.QMainWindow):
 
         # 음성 출력 버튼 이벤트 핸들러 연결
         self.ui.btn_Output.clicked.connect(self.voice_button_clicked)
-
-        self.selected_model_index = 1  # 초기 모델 인덱스 설정
-        
-        # ChatGPTAssistant 인스턴스 생성
-        self.assistant = ChatGPTAssistant(self.model_configs)
         
         # 모델 구성 업데이트 스레드 시작
         self.start_model_config_thread()
@@ -218,6 +220,7 @@ class ChatModule(QtWidgets.QMainWindow):
         self.setFixedSize(600, 900)  # 고정된 크기 설정
 
         self.ui.btn_back.clicked.connect(self.back_page)
+
     # UI 요소 생성
     def create_ui_elements(self):
         self.ui = Ui_MainWindow()
@@ -234,9 +237,25 @@ class ChatModule(QtWidgets.QMainWindow):
          # 콤보박스 선택 시그널 연결
         self.ui.cbox_Model.currentIndexChanged.connect(self.handle_model_selection)
 
+        #유저 정보에 맞게 GUI 수정
+        self.user_name_label()
+        self.user_model_label()
+
     def update_image(self, image):
         # 이미지 라벨 업데이트
         self.ui.Cam_window.setPixmap(QPixmap.fromImage(image))
+
+    def user_name_label(self):
+        self.db_manager.connect_database()
+        username = self.db_manager.find_username()
+        self.ui.Label_User_Name.setText(username)
+
+    def user_model_label(self):
+        self.db_manager.connect_database()
+        usermodel = self.db_manager.find_usermodel()
+        index = self.ui.cbox_Model.findText(usermodel)
+        if index != -1:  # 문자열이 존재하는 경우
+            self.ui.cbox_Model.setCurrentIndex(index)
 
     # 마이크 버튼 클릭 이벤트 핸들러
     def toggle_mike(self):
@@ -301,7 +320,8 @@ class ChatModule(QtWidgets.QMainWindow):
             selected_model_config = self.model_configs[self.selected_model_index]
             self.assistant.update_model_config(selected_model_config)  # 모델 구성 업데이트
             print("현재 선택된 모델:", selected_text)
-
+            self.db_manager.connect_database()
+            self.db_manager.update_usermodel(selected_text)
 
     # 오디오 처리 콜백 함수
     def process_audio(self, file_path, model_index):
@@ -386,10 +406,6 @@ class ChatModule(QtWidgets.QMainWindow):
             self.model_config_thread.stop()  # 모델 구성 업데이트 스레드 종료
         if self.file_monitor.running:
             self.file_monitor.stop()  # 모니터링 스레드 종료
-        
-
-        
-
 
 if __name__ == "__main__":
     app = QtWidgets.QApplication([])
