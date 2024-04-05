@@ -31,7 +31,7 @@ class Camera(QThread):
             self.name = self.DBManager.get_last_user_name()  # 최신 사용자 이름 가져오기
         except Exception as e:
             print("Failed to get the last user name:", e)
-
+    
     def run(self):
         self.video = cv2.VideoCapture(-1)
         self.connect_to_database()  # 데이터베이스에 연결 

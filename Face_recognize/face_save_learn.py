@@ -15,7 +15,7 @@ class FaceImageCollectorAndRecognizerTrainer:
         # images 폴더가 없으면 생성
         if not os.path.exists(image_folder):
             os.makedirs(image_folder)
-
+    
         # 사용자 이름으로 된 폴더를 생성하여 이미지 저장
         user_dir = os.path.join(image_folder, user_id)
         if not os.path.exists(user_dir):
@@ -124,13 +124,13 @@ class FaceImageCollectorAndRecognizerTrainer:
             return False
 
 if __name__ == "__main__":
-    user_id = input("사용자 이름을 입력하세요: ")
-    current_path = os.getcwd()  # 현재 경로 가져오기
-    image_folder = os.path.join(current_path, 'images')  # 현재 경로의 images 폴더로 경로 설정
-    model_save_path = os.path.join(current_path, 'faces_trained.yaml')  # 현재 경로의 faces_trained.yaml로 경로 설정
+    # user_id = input("사용자 이름을 입력하세요: ")
+    # current_path = os.getcwd()  # 현재 경로 가져오기
+    image_folder = "/home/jongchanjang/amr_ws/git_ws/deeplearning-repo-6/GUI/data/face"  # 현재 경로의 images 폴더로 경로 설정
+    model_save_path = "/home/jongchanjang/amr_ws/git_ws/deeplearning-repo-6/GUI/data"  # 현재 경로의 faces_trained.yaml로 경로 설정
     
     face_collector_and_trainer = FaceImageCollectorAndRecognizerTrainer(image_folder, model_save_path)
-    face_collector_and_trainer.collect_face_images(user_id)
+    # face_collector_and_trainer.collect_face_images(user_id)
     face_collector_and_trainer.train_model()
 
     if face_collector_and_trainer.check_training_success():
