@@ -8,7 +8,7 @@ from PyQt5.QtCore import QThread, pyqtSignal # PyQt 시그널 정의
 
 # Face Recognize train
 class FaceTrainer(QThread):
-    trainCompleted = pyqtSignal(bool) # 훈련 완료 시그널
+    trainCompleted = pyqtSignal(object) # 훈련 완료 시그널
     
     def __init__(self, image_folder, model_save_path):
         super().__init__()
@@ -66,6 +66,7 @@ class FaceTrainer(QThread):
 
             print("학습 완료")
             self.trainCompleted.emit(True)  # 학습 성공 시그널 발생
+            print("this is test" , self.trainCompleted)
         else:
             self.trainCompleted.emit(False)  # 학습 실패 또는 불가능 시    
 
