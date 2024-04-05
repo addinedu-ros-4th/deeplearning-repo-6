@@ -6,7 +6,6 @@ from PyQt5 import uic
 from PyQt5.QtCore import *
 import os
 from PyQt5.QtCore import QTimer
-from GUI.src.DesignManager import DesignManager
 
 from GUI.src.Loading import Loading # GIF
 from Face_recognize.face_save_learn import FaceTrainer # Face 학습 model
@@ -35,7 +34,6 @@ class TrainClass(QMainWindow, from_class) :
         
         
     def initUI(self):
-        self.designManager = DesignManager()
         self.setWindowTitle("사용자 등록 중입니다.")
         self.successBtn.hide()
         self.initGIF()

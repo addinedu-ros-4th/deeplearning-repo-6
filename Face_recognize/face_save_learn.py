@@ -77,15 +77,6 @@ class FaceTrainer(QThread):
         else:
             print("훈련 데이터가 충분하지 않습니다.")
             return False
-<<<<<<< HEAD
-
-if __name__ == "__main__":
-    # user_id = input("사용자 이름을 입력하세요: ")
-    # current_path = os.getcwd()  # 현재 경로 가져오기
-    image_folder = "/home/jongchanjang/amr_ws/git_ws/deeplearning-repo-6/GUI/data/face"  # 현재 경로의 images 폴더로 경로 설정
-    model_save_path = "/home/jongchanjang/amr_ws/git_ws/deeplearning-repo-6/GUI/data"  # 현재 경로의 faces_trained.yaml로 경로 설정
-=======
->>>>>>> 8d595c97c41150293289619ce328fd391812c2e5
     
         
     # def check_training_success(self):

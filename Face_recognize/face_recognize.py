@@ -35,36 +35,36 @@ class FaceRecognizer:
             
             confidence_str = "  {0}%".format(round(confidence))
             
-            cv2.rectangle(frame, (startX, startY), (endX, endY), (0, 255, 0), 2)
-            cv2.putText(frame, name, (startX+5, startY-5), cv2.FONT_HERSHEY_SIMPLEX, 1, color, 2)
-            cv2.putText(frame, confidence_str, (startX+5, endY-5), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 255, 0), 1)
+            # cv2.rectangle(frame, (startX, startY), (endX, endY), (0, 255, 0), 2)
+            # cv2.putText(frame, name, (startX+5, startY-5), cv2.FONT_HERSHEY_SIMPLEX, 1, color, 2)
+            # cv2.putText(frame, confidence_str, (startX+5, endY-5), cv2.FONT_HERSHEY_SIMPLEX, 1, (255, 255, 0), 1)
 
         return frame, recognized_name
 
-if __name__ == "__main__":
-    current_path = os.getcwd()  # 현재 경로 가져오기
-    model_path = os.path.join(current_path, 'faces_trained.yaml')  # 현재 경로의 faces_trained.yaml로 경로 설정
-    names_dict_path = os.path.join(current_path, 'faces_trained_labels.yaml')  
+# if __name__ == "__main__":
+#     current_path = os.getcwd()  # 현재 경로 가져오기
+#     model_path = os.path.join(current_path, 'faces_trained.yaml')  # 현재 경로의 faces_trained.yaml로 경로 설정
+#     names_dict_path = os.path.join(current_path, 'faces_trained_labels.yaml')  
 
-    face_recognizer = FaceRecognizer(model_path, names_dict_path)
+#     face_recognizer = FaceRecognizer(model_path, names_dict_path)
 
-    cam = cv2.VideoCapture(0)
-    cam.set(cv2.CAP_PROP_FRAME_WIDTH, 640)
-    cam.set(cv2.CAP_PROP_FRAME_HEIGHT, 480)
+#     cam = cv2.VideoCapture(0)
+#     cam.set(cv2.CAP_PROP_FRAME_WIDTH, 640)
+#     cam.set(cv2.CAP_PROP_FRAME_HEIGHT, 480)
 
-    while True:
-        ret, frame = cam.read()
+#     while True:
+#         ret, frame = cam.read()
 
-        if not ret:
-            print("Failed to grab frame")
-            break
+#         if not ret:
+#             print("Failed to grab frame")
+#             break
 
-        frame, recognized_name = face_recognizer.recognize_faces(frame)
-        print(recognized_name)
+#         frame, recognized_name = face_recognizer.recognize_faces(frame)
+#         print(recognized_name)
 
-        cv2.imshow('Camera', frame)
+#         cv2.imshow('Camera', frame)
 
-        if cv2.waitKey(1) & 0xFF == ord('q'):
-            break
+#         if cv2.waitKey(1) & 0xFF == ord('q'):
+#             break
 
-    cam.release()
+#     cam.release()
