@@ -11,57 +11,7 @@ class FaceImageCollectorAndRecognizerTrainer:
         self.recognizer = cv2.face.LBPHFaceRecognizer_create()
         self.label_dict = {}  # 사용자 이름과 정수 라벨을 매핑하는 딕셔너리
 
-    def collect_face_images(self, user_id):
-        # images 폴더가 없으면 생성
-        if not os.path.exists(image_folder):
-            os.makedirs(image_folder)
-
-        # 사용자 이름으로 된 폴더를 생성하여 이미지 저장
-        user_dir = os.path.join(image_folder, user_id)
-        if not os.path.exists(user_dir):
-            os.makedirs(user_dir)
-            
-        cam = cv2.VideoCapture(0)
-        image_count = 0
-
-        while True:
-            ret, frame = cam.read()
-            gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-
-            faces, confidences = cv.detect_face(frame)
-
-            for (x, y, x2, y2), conf in zip(faces, confidences):
-                face_img = frame[y:y2, x:x2]
-
-                image_count += 1
-                file_path = os.path.join(self.image_folder, user_id, f"{user_id}_{image_count}.jpg")
-                cv2.imwrite(file_path, face_img)
-
-                cv2.rectangle(frame, (x, y), (x2, y2), (0, 255, 0), 2)
-                cv2.putText(frame, str(image_count), (x, y), cv2.FONT_HERSHEY_SIMPLEX, 1, (0, 0, 255), 2, cv2.LINE_AA)
-
-            cv2.imshow('image', frame)
-
-            if image_count == 100:
-                input("100장 저장되었습니다. 엔터를 누르면 다음 단계로 넘어갑니다.")
-            elif image_count == 200:
-                input("200장 저장되었습니다. 엔터를 누르면 다음 단계로 넘어갑니다.")
-            elif image_count == 300:
-                input("300장 저장되었습니다. 엔터를 누르면 다음 단계로 넘어갑니다.")
-            elif image_count == 400:
-                input("400장 저장되었습니다. 엔터를 누르면 다음 단계로 넘어갑니다.")
-            elif image_count == 500:
-                print("500장 저장되었습니다. 엔터를 누르면 종료됩니다.")
-                break
-
-            key = cv2.waitKey(1)
-            if key == ord('q') :
-                input("종료")
-                break
-
-        cam.release()
-        cv2.destroyAllWindows()
-
+    # 데이터 준비 (얼굴)
     def prepare_training_data(self):
         faces = []
         labels = []
@@ -85,6 +35,8 @@ class FaceImageCollectorAndRecognizerTrainer:
 
         return faces, labels
 
+
+    # 사용자 얼굴 학습
     def train_model(self):
         print("학습 중")
         faces, labels = self.prepare_training_data()
@@ -97,6 +49,7 @@ class FaceImageCollectorAndRecognizerTrainer:
             yaml.dump(self.label_dict, file, allow_unicode=True)
 
         print("학습 완료")
+
 
     def check_training_success(self):
         model_path = os.path.splitext(self.model_save_path)[0] + '_labels.yaml'
@@ -122,18 +75,3 @@ class FaceImageCollectorAndRecognizerTrainer:
         else:
             print("모델 또는 이름 파일이 존재 하지 않습니다!")
             return False
-
-if __name__ == "__main__":
-    user_id = input("사용자 이름을 입력하세요: ")
-    current_path = os.getcwd()  # 현재 경로 가져오기
-    image_folder = os.path.join(current_path, 'images')  # 현재 경로의 images 폴더로 경로 설정
-    model_save_path = os.path.join(current_path, 'faces_trained.yaml')  # 현재 경로의 faces_trained.yaml로 경로 설정
-    
-    face_collector_and_trainer = FaceImageCollectorAndRecognizerTrainer(image_folder, model_save_path)
-    # face_collector_and_trainer.collect_face_images(user_id)
-    face_collector_and_trainer.train_model()
-
-    if face_collector_and_trainer.check_training_success():
-        print("학습 성공!")
-    else:
-        print("학습 실패!")
