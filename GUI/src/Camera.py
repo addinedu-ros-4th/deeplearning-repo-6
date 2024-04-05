@@ -5,6 +5,7 @@ import numpy as np
 import time
 import threading
 import cvlib as cv
+from GUI.src.DatabaseControl import DatabaseManager #데이터베이스 관리 클래스
 
 class Camera(QThread):                         
     update = pyqtSignal(np.ndarray)
@@ -15,13 +16,26 @@ class Camera(QThread):
         super().__init__()
         self.isRunning = False # 카메라 동작 플래그
         self.recording = False # 녹화 시작 플래그
-        self.name = 'gaeun'
+        self.DBManager = DatabaseManager("localhost", "root") 
+        self.name = ""
         self.mode = 'close' # 첫 촬영은 근접촬영
         self.recordingCount = 0 #녹화 순서 지정을 위한 횟수 추적
 
-    
+    def connect_to_database(self): 
+        try:
+            self.DBManager.connect_database()  # 데이터베이스에 연결
+        except Exception as e:
+            print("Failed to connect to the database:", e)
+    def get_last_user_name(self): 
+        try:
+            self.name = self.DBManager.get_last_user_name()  # 최신 사용자 이름 가져오기
+        except Exception as e:
+            print("Failed to get the last user name:", e)
+
     def run(self):
         self.video = cv2.VideoCapture(-1)
+        self.connect_to_database()  # 데이터베이스에 연결 
+        self.get_last_user_name()  # 최신 사용자 이름 가져오기 
         
         if not self.video.isOpened():
             print("카메라를 열 수 없습니다.")

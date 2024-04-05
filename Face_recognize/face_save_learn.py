@@ -130,7 +130,7 @@ if __name__ == "__main__":
     model_save_path = os.path.join(current_path, 'faces_trained.yaml')  # 현재 경로의 faces_trained.yaml로 경로 설정
     
     face_collector_and_trainer = FaceImageCollectorAndRecognizerTrainer(image_folder, model_save_path)
-    face_collector_and_trainer.collect_face_images(user_id)
+    # face_collector_and_trainer.collect_face_images(user_id)
     face_collector_and_trainer.train_model()
 
     if face_collector_and_trainer.check_training_success():

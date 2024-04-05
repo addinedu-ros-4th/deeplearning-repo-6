@@ -35,7 +35,7 @@ class Loading(QLabel, FROM_CLASS_Loading):
             self.setWindowFlags(Qt.FramelessWindowHint)
 
         self.show()
-
+    
     def center(self):
         qr = self.frameGeometry()
         cp = QDesktopWidget().availableGeometry().center()

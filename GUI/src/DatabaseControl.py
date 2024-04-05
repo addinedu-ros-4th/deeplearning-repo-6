@@ -5,12 +5,14 @@ import pandas as pd
 class DatabaseManager:
     def __init__(self, host, user):
         self.host = host
-        self.user = user
+        self.user = "root"
         self.db_name = "tier"
         self.cur = None
         self.conn = None
 
 
+        self.password = "1234"
+    
     # 데이터베이스 연결
     def connect_database(self, db_name=None):
         if db_name is None:
@@ -28,8 +30,7 @@ class DatabaseManager:
                 self.conn = mysql.connector.connect(
                     host=self.host,
                     user=self.user,
-                    database=db_name,
-                    password="1234"
+                    password=self.password
                 )
                 self.cur = self.conn.cursor()
                 self.create_database(db_name)
@@ -90,12 +91,15 @@ class DatabaseManager:
         self.cur.execute(query, (user_id, model))
         self.conn.commit()
 
-    
-    # 데이터베이스에 로봇 정보 저장
-    def save_robot_setting(self, user_id, model):
-        query = "INSERT INTO RobotSetting (UserID, Model) VALUES (%s, %s)"
-        self.cur.execute(query, (user_id, model))
-        self.conn.commit()
+    # 최근 등록한 이름 가져오기 
+    def get_last_user_name(self):
+        query = "SELECT Name FROM Users ORDER BY UserID DESC LIMIT 1"
+        self.cur.execute(query)
+        result = self.cur.fetchone()
+        if result:
+            return result[0]
+        else:
+            return None
 
 
     def close_connection(self):

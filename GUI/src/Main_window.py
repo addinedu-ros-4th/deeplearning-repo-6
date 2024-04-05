@@ -9,8 +9,6 @@ from GUI.src.inputUser import InputUserClass
 from GUI.src.train import TrainClass
 
 
-
-
 class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
@@ -69,6 +67,9 @@ class MainWindow(QMainWindow):
         self.stacked_widget.addWidget(self.train_page)
         self.stacked_widget.setCurrentWidget(self.train_page)
 
+
+    def show_main_page(self):
+        self.stacked_widget.setCurrentWidget(self.train_page)
 
     def closeEvent(self, event):
         if hasattr(self.Sr_page, 'closeEvent'):
