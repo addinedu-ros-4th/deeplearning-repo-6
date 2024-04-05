@@ -16,7 +16,7 @@ from_class = uic.loadUiType("GUI/ui/inputUser.ui")[0]
 
 class InputUserClass(QMainWindow, from_class) :
     
-    def __init__(self,main_window):
+    def __init__(self ,main_window):
         super().__init__()
         self.main_window = main_window
         self.setupUi(self)
