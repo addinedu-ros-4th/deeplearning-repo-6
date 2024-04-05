@@ -36,14 +36,19 @@ class LoginWindow(QMainWindow):
             QMessageBox.warning(self, "경고", "비밀번호는 4자리만 가능합니다.")
         else:
             self.loginSuccess(name, password)  # MainWindow 객체의 show_Sr_page 메서드 호출
+            
     
-
     def loginSuccess(self, name, password):
         self.db_manager.connect_database()
         
-        user_exists = self.db_manager.find_elements(name, password)
+        userInfo = self.db_manager.find_elements(name, password)
         
-        if user_exists:
+        if userInfo:
+            # 로그인 기록 저장
+            userID = userInfo[0]
+            self.db_manager.save_login_records(userID)
+            
+            # 로그인 성공 페이지로 전환
             self.main_window.show_Sr_page()
         else:
             QMessageBox.warning(self, "로그인 실패", "사용자 이름 또는 비밀번호가 잘못되었습니다.")

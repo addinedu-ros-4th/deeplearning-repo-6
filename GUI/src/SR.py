@@ -111,7 +111,7 @@ class Mike_thread2(QThread):
             
 
         self.finished.emit()
-
+"""
 class WebCamThread(QThread):
     change_pixmap_signal = pyqtSignal(QImage)
     def run(self):
@@ -133,11 +133,42 @@ class WebCamThread(QThread):
                 break
 
         cap.release()  # 웹캠 연결 해제
+"""
+
+class WebCamThread(QThread):
+    change_pixmap_signal = pyqtSignal(QImage)
+
+    def __init__(self):
+        super().__init__()
+        self.stopped = False
+
+    def stop(self):
+        self.stopped = True
+
+    def run(self):
+        cap = cv2.VideoCapture(0)
+
+        while not self.stopped:
+            ret, frame = cap.read()  # 웹캠에서 프레임 읽기
+            if ret:
+                # OpenCV에서 읽은 이미지를 PyQt용 QImage으로 변환
+                rgb_image = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+                h, w, ch = rgb_image.shape
+                bytes_per_line = ch * w
+                qt_image = QImage(rgb_image.data, w, h, bytes_per_line, QImage.Format_RGB888)
+
+                # 이미지 변경 신호를 발생시켜 메인 스레드로 이미지 전달
+                self.change_pixmap_signal.emit(qt_image)
+            else:
+                print("Failed to receive frame")
+                break
+
+        cap.release()  # 웹캠 연결 해제
 
 class ChatModule(QtWidgets.QMainWindow):
-    def __init__(self,parent = None):
-        super(ChatModule, self).__init__(parent)
-
+    def __init__(self,main_window):
+        super(ChatModule, self).__init__()
+        self.main_window = main_window
         # 데이터 경로 설정
         self.data_path = "GUI/mic_data"
 
@@ -186,7 +217,7 @@ class ChatModule(QtWidgets.QMainWindow):
         self.start_monitoring()  
         self.setFixedSize(600, 900)  # 고정된 크기 설정
 
-
+        self.ui.btn_back.clicked.connect(self.back_page)
     # UI 요소 생성
     def create_ui_elements(self):
         self.ui = Ui_MainWindow()
@@ -341,6 +372,24 @@ class ChatModule(QtWidgets.QMainWindow):
         if self.file_monitor.running:
             self.file_monitor.stop()  # 모니터링 스레드 종료
         event.accept()  # GUI 종료
+
+    def back_page(self):
+        self.main_window.show_login_page()
+        if self.webcam_thread.isRunning():
+            self.webcam_thread.stop()  # 웹캠 스레드 종료
+
+        if self.mike_thread is not None and self.mike_thread.isRunning():
+            self.mike_thread.stop()  # 마이크 스레드 종료 요청
+
+        #속성이나 메서드의 존재 여부를 확인
+        if hasattr(self.model_config_thread, 'is_alive') and self.model_config_thread.is_alive():
+            self.model_config_thread.stop()  # 모델 구성 업데이트 스레드 종료
+        if self.file_monitor.running:
+            self.file_monitor.stop()  # 모니터링 스레드 종료
+        
+
+        
+
 
 if __name__ == "__main__":
     app = QtWidgets.QApplication([])

@@ -101,6 +101,12 @@ class DatabaseManager:
         else:
             return None
 
+    # 데이터베이스에 로그인 기록 저장
+    def save_login_records(self, userID):
+        query = "INSERT INTO LoginRecords (UserID) VALUES (%s)"
+        self.cur.execute(query, (userID))
+        self.conn.commit()
+
 
     def close_connection(self):
         if self.cur:
@@ -108,8 +114,9 @@ class DatabaseManager:
         if self.conn:
             self.conn.close()
     
+    
     def find_elements(self, name, password):
-        query = "select UserId, Name, Password from Users where Name = %s and (Password) = %s;"
+        query = "SELECT UserId, Name, Password from Users where Name = %s and (Password) = %s;"
         self.cur.execute(query, (name, password))
         result = self.cur.fetchone()
         self.close_connection()
