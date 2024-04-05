@@ -5,6 +5,7 @@ from PyQt5.QtGui import *
 from PyQt5 import uic
 from PyQt5.QtCore import *
 import os
+from PyQt5.QtCore import QTimer
 from GUI.src.DesignManager import DesignManager
 
 from GUI.src.Loading import Loading # GIF
@@ -25,13 +26,12 @@ class TrainClass(QMainWindow, from_class) :
         self.createDirectory(model_save_path)
         
         self.main_window = main_window
+        # 학습 완료 후 main page로 전환
+        self.successBtn.clicked.connect(self.goHome)
         
         self.initUI()
         # Face recognize model train
-        self.train()
-        
-        # Change window
-        self.successBtn.clicked.connect(self.changeWindow)
+        QTimer.singleShot(2000, self.train)
         
         
     def initUI(self):
@@ -76,17 +76,19 @@ class TrainClass(QMainWindow, from_class) :
         self.faceRecognizer.train_model()
         
         # Train Success Signal
-        self.faceRecognizer.trainingCompleted.connect(self.trainSuccess)
+        self.faceRecognizer.trainCompleted.connect(self.trainSuccess)
+    
     
     # 훈련 완료 판단
     def trainSuccess(self):
-        self.movie.stop() # GIF 종료
+        # self.movie.stop() # GIF 종료
         self.successBtn.show() # 화면 전환 버튼 활성화
         self.successBtn.setText("Home")
         self.label.setText("당신만의 'Tier'가 생성되었습니다.")
-    
-    # main 페이지로 이동
-    def changeWindow(self):
+        
+        
+    def goHome(self):
+        # Change window
         self.main_window.show_main_page()
     
     
