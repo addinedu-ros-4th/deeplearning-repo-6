@@ -5,7 +5,9 @@ from PyQt5.QtGui import *
 from PyQt5 import uic
 from PyQt5.QtCore import *
 import os
-from PyQt5.QtCore import QTimer
+from PyQt5.QtCore import QTimer , QSize
+from PyQt5.QtWidgets import QMainWindow , QApplication
+from PyQt5.QtGui import QMovie
 
 from GUI.src.Loading import Loading # GIF
 from Face_recognize.face_save_learn import FaceTrainer # Face 학습 model

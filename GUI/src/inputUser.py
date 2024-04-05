@@ -7,6 +7,9 @@ from PyQt5.QtCore import *
 import cv2
 from PIL import Image
 import threading
+from PyQt5.QtWidgets import QMessageBox, QApplication , QMainWindow
+from PyQt5.QtCore import QTimer
+from PyQt5.QtGui import QImage, QPixmap
 
 from GUI.src.Camera import Camera
 from GUI.src.Loading import Loading

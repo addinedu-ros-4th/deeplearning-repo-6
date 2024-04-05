@@ -6,6 +6,8 @@ import time
 import threading
 import cvlib as cv
 from GUI.src.DatabaseControl import DatabaseManager #데이터베이스 관리 클래스
+from PyQt5.QtCore import pyqtSignal
+from PyQt5.QtCore import QThread
 
 class Camera(QThread):                         
     update = pyqtSignal(np.ndarray)
