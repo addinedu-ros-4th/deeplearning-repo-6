@@ -74,6 +74,7 @@ class LoginWindow(QMainWindow):
     def update_image(self, image, recognized_name):
         # 이미지 라벨 업데이트
         pixmap = QPixmap.fromImage(image)
+        pixmap = pixmap.scaled(self.ui.Cam_window.size())
         self.ui.Cam_window.setPixmap(pixmap)
         self.name = ""
         if not self.name :
