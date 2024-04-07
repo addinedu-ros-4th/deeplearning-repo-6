@@ -18,6 +18,7 @@ import speech_recognition as sr
 from datetime import datetime
 from gtts import gTTS
 import pygame
+import time 
 
 
 ui = "GUI/ui/SR.ui"
@@ -161,7 +162,7 @@ class WebCamThread(QThread):
                 # 이미지 변경 신호를 발생시켜 메인 스레드로 이미지 전달
                 self.change_pixmap_signal.emit(qt_image)
             else:
-                print("Failed to receive frame")
+                print("SRpage  : Failed to receive frame")
                 break
 
         cap.release()  # 웹캠 연결 해제
@@ -395,9 +396,7 @@ class ChatModule(QtWidgets.QMainWindow):
 
     def back_page(self):
         self.main_window.show_login_page()
-        if self.webcam_thread.isRunning():
-            self.webcam_thread.stop()  # 웹캠 스레드 종료
-
+            
         if self.mike_thread is not None and self.mike_thread.isRunning():
             self.mike_thread.stop()  # 마이크 스레드 종료 요청
 
@@ -405,7 +404,11 @@ class ChatModule(QtWidgets.QMainWindow):
         if hasattr(self.model_config_thread, 'is_alive') and self.model_config_thread.is_alive():
             self.model_config_thread.stop()  # 모델 구성 업데이트 스레드 종료
         if self.file_monitor.running:
-            self.file_monitor.stop()  # 모니터링 스레드 종료
+            self.file_monitor.stop()    # 모니터링 스레드 종료
+
+        if self.webcam_thread.isRunning():
+            self.webcam_thread.stop()  # 웹캠 스레드 종료
+            
 
 if __name__ == "__main__":
     app = QtWidgets.QApplication([])

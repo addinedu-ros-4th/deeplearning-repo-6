@@ -39,10 +39,10 @@ class WebCamThread(QThread):
                 # 이미지 변경 신호를 발생시켜 메인 스레드로 이미지 전달
                 self.change_pixmap_signal.emit(qt_image , recognized_name)
             else:
-                print("Failed to receive frame")
+                print("Login page : failed to receive frame")
                 break
 
-        cap.release()  # 웹캠 연결 해제
+        cap.release()
 
 class LoginWindow(QMainWindow):
     def __init__(self,main_window):
@@ -108,6 +108,8 @@ class LoginWindow(QMainWindow):
             self.db_manager.save_login_records(userID)
             
             # 로그인 성공 페이지로 전환
+            self.webcam_thread.stop()
+            self.webcam_thread.wait()
             self.main_window.show_Sr_page()
         else:
             QMessageBox.warning(self, "로그인 실패", "사용자 이름 또는 비밀번호가 잘못되었습니다.")
