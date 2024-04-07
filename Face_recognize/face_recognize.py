@@ -5,7 +5,7 @@ import yaml
 
 class FaceRecognizer:
     def __init__(self, model_path, names_dict_path):
-        self.recognizer = cv2.face.LBPHFaceRecognizer_create()
+        self.recognizer = cv2.face.LBPHFaceRecognizer.create()
         self.recognizer.read(model_path)
         self.names_dict = self.load_names_dict(names_dict_path)
 
