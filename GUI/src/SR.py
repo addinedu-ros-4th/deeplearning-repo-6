@@ -395,10 +395,8 @@ class ChatModule(QtWidgets.QMainWindow):
         event.accept()  # GUI 종료
 
     def back_page(self):
-        self.main_window.show_login_page()
-            
         if self.mike_thread is not None and self.mike_thread.isRunning():
-            self.mike_thread.stop()  # 마이크 스레드 종료 요청
+            self.mike_thread.stop()  # 마이크 스레드 종료 요청  
 
         #속성이나 메서드의 존재 여부를 확인
         if hasattr(self.model_config_thread, 'is_alive') and self.model_config_thread.is_alive():
@@ -408,6 +406,8 @@ class ChatModule(QtWidgets.QMainWindow):
 
         if self.webcam_thread.isRunning():
             self.webcam_thread.stop()  # 웹캠 스레드 종료
+
+        self.main_window.show_login_page()
             
 
 if __name__ == "__main__":
