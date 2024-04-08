@@ -7,10 +7,6 @@ from GUI.src.SR import ChatModule
 from GUI.src.userSetting import UserRegistrationForm
 from GUI.src.inputUser import InputUserClass
 from GUI.src.train import TrainClass
-<<<<<<< HEAD
-=======
-
->>>>>>> localrobodb
 
 class MainWindow(QMainWindow):
     def __init__(self):
