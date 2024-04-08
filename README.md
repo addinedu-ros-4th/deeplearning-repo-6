@@ -12,12 +12,5 @@
 
 <br>
 
-#### 기능 리스트
-![Screenshot from 2024-03-20 10-13-57](https://github.com/gaeun0123/openCV_study/assets/102429136/45de8f14-1976-4714-aa04-2648c55955ec)
-
-#### 시스템 구성도
-![시스템구성도 drawio](https://github.com/gaeun0123/openCV_study/assets/102429136/4ee73dbf-668b-4d3b-ae24-7b86bbab4148)
-
-
 
 > 빛나는 미래를 선물할, 당신만의 로봇 동반자 '티어'
