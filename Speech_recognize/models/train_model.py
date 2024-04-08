@@ -5,6 +5,7 @@ import openai
 api_key = "your-api-key"
 openai.api_key = api_key
 
+
 class ChatGPTAssistant:
     def __init__(self, model_configs):
         self.model_configs = model_configs

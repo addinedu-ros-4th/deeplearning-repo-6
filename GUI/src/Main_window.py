@@ -5,20 +5,22 @@ from PyQt5 import uic
 from GUI.src.Login import LoginWindow
 from GUI.src.SR import ChatModule
 from GUI.src.userSetting import UserRegistrationForm
-from GUI.src.inputUser import WindowClass
-
+from GUI.src.inputUser import InputUserClass
+from GUI.src.train import TrainClass
 
 class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
         self.main_page = uic.loadUi('GUI/ui/Main_window.ui')
+        main_size = self.main_page.size()
+        width = main_size.width()
+        height = main_size.height()
+        self.main_page.setFixedSize(width, height)  # width와 height는 원하는 크기입니다.
 
         self.stacked_widget = QStackedWidget(self)  # QStackedWidget 인스턴스 생성
         self.setCentralWidget(self.stacked_widget)  # MainWindow의 중앙 위젯으로 설정
 
         self.stacked_widget.addWidget(self.main_page)  # Main 페이지를 stacked widget에 추가
-        main_widget_size = self.size()
-        self.resize(main_widget_size)
 
         self.stacked_widget.setCurrentWidget(self.main_page)  # 처음에 Main 페이지를 보여줌
 
@@ -53,14 +55,24 @@ class MainWindow(QMainWindow):
 
 
     def show_inputUser_page(self):
-        self.inputUser_page = WindowClass(self) 
+        self.inputUser_page = InputUserClass(self) 
         self.stacked_widget.addWidget(self.inputUser_page) #SR 페이지를 stacked widget에 추가
         self.stacked_widget.setCurrentWidget(self.inputUser_page)
+    
+    def show_train_page(self):
+        self.train_page = TrainClass(self)
+        self.stacked_widget.addWidget(self.train_page)
+        self.stacked_widget.setCurrentWidget(self.train_page)
+
+
+    def show_main_page(self):
+        self.stacked_widget.setCurrentWidget(self.main_page)
 
     def closeEvent(self, event):
         if hasattr(self.Sr_page, 'closeEvent'):
             self.Sr_page.closeEvent(event)
         event.accept()
+
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)

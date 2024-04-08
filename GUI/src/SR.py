@@ -2,6 +2,7 @@
 from Speech_recognize.VoiceRecorder import VoiceRecorder  
 from Speech_recognize.gpt import ChatGPTAssistant, ModelConfigThread
 from Speech_recognize.googleapi import FileMonitor, AudioTranscriber
+from GUI.src.DatabaseControl import DatabaseManager
 
 import os
 import sys
@@ -11,12 +12,14 @@ from PyQt5 import QtWidgets,uic
 from PyQt5.QtCore import pyqtSignal, QThread, QObject
 from PyQt5.QtWidgets import QMainWindow, QApplication
 from PyQt5.QtGui import QImage, QPixmap
+from PyQt5.QtCore import Qt
 
 
 import speech_recognition as sr
 from datetime import datetime
 from gtts import gTTS
 import pygame
+import time 
 
 
 ui = "GUI/ui/SR.ui"
@@ -111,7 +114,7 @@ class Mike_thread2(QThread):
             
 
         self.finished.emit()
-
+"""
 class WebCamThread(QThread):
     change_pixmap_signal = pyqtSignal(QImage)
     def run(self):
@@ -133,16 +136,50 @@ class WebCamThread(QThread):
                 break
 
         cap.release()  # 웹캠 연결 해제
+"""
+
+class WebCamThread(QThread):
+    change_pixmap_signal = pyqtSignal(QImage)
+
+    def __init__(self):
+        super().__init__()
+        self.stopped = False
+
+    def stop(self):
+        self.stopped = True
+
+    def run(self):
+        cap = cv2.VideoCapture(0)
+
+        while not self.stopped:
+            ret, frame = cap.read()  # 웹캠에서 프레임 읽기
+            if ret:
+                # OpenCV에서 읽은 이미지를 PyQt용 QImage으로 변환
+                rgb_image = cv2.cvtColor(frame, cv2.COLOR_BGR2RGB)
+                h, w, ch = rgb_image.shape
+                bytes_per_line = ch * w
+                qt_image = QImage(rgb_image.data, w, h, bytes_per_line, QImage.Format_RGB888)
+
+                # 이미지 변경 신호를 발생시켜 메인 스레드로 이미지 전달
+                self.change_pixmap_signal.emit(qt_image)
+            else:
+                print("SRpage  : Failed to receive frame")
+                break
+
+        cap.release()  # 웹캠 연결 해제
 
 class ChatModule(QtWidgets.QMainWindow):
-    def __init__(self,parent = None):
-        super(ChatModule, self).__init__(parent)
-
+    def __init__(self,main_window):
+        super(ChatModule, self).__init__()
+        self.main_window = main_window
         # 데이터 경로 설정
         self.data_path = "GUI/mic_data"
 
         if not os.path.exists(self.data_path):
             os.makedirs(self.data_path)
+
+        # Database search
+        self.db_manager = DatabaseManager("localhost", "root")
 
         # 모델 구성 정의
         self.model_configs = [
@@ -151,6 +188,9 @@ class ChatModule(QtWidgets.QMainWindow):
             {"model": "gpt-3.5-turbo", "system_message": "딱딱한 말투를 사용하고, 자신이 저지른 악행에 대해 합리화를 잘할뿐더러 타인과 타협도 잘 하지 않는 완고한 성격이야", "assistant_message": "나는 필연적인 존재다."},
             {"model": "gpt-3.5-turbo", "system_message": "친절한 챗 GPT그대로 활동하면 돼. 존대해줘.", "assistant_message": "도움이 필요하신가요?"},
         ]
+
+         # ChatGPTAssistant 인스턴스 생성
+        self.assistant = ChatGPTAssistant(self.model_configs)
 
         # UI 요소 생성을 메인 스레드에서 수행
         self.create_ui_elements()
@@ -173,11 +213,6 @@ class ChatModule(QtWidgets.QMainWindow):
 
         # 음성 출력 버튼 이벤트 핸들러 연결
         self.ui.btn_Output.clicked.connect(self.voice_button_clicked)
-
-        self.selected_model_index = 1  # 초기 모델 인덱스 설정
-        
-        # ChatGPTAssistant 인스턴스 생성
-        self.assistant = ChatGPTAssistant(self.model_configs)
         
         # 모델 구성 업데이트 스레드 시작
         self.start_model_config_thread()
@@ -186,6 +221,7 @@ class ChatModule(QtWidgets.QMainWindow):
         self.start_monitoring()  
         self.setFixedSize(600, 900)  # 고정된 크기 설정
 
+        self.ui.btn_back.clicked.connect(self.back_page)
 
     # UI 요소 생성
     def create_ui_elements(self):
@@ -203,9 +239,27 @@ class ChatModule(QtWidgets.QMainWindow):
          # 콤보박스 선택 시그널 연결
         self.ui.cbox_Model.currentIndexChanged.connect(self.handle_model_selection)
 
+        #유저 정보에 맞게 GUI 수정
+        self.user_name_label()
+        self.user_model_label()
+
     def update_image(self, image):
         # 이미지 라벨 업데이트
-        self.ui.Cam_window.setPixmap(QPixmap.fromImage(image))
+        pixmap = QPixmap.fromImage(image)
+        pixmap = pixmap.scaled(self.ui.Cam_window.size())
+        self.ui.Cam_window.setPixmap(pixmap)
+
+    def user_name_label(self):
+        self.db_manager.connect_database()
+        username = self.db_manager.find_username()
+        self.ui.Label_User_Name.setText(username)
+
+    def user_model_label(self):
+        self.db_manager.connect_database()
+        usermodel = self.db_manager.find_usermodel()
+        index = self.ui.cbox_Model.findText(usermodel)
+        if index != -1:  # 문자열이 존재하는 경우
+            self.ui.cbox_Model.setCurrentIndex(index)
 
     # 마이크 버튼 클릭 이벤트 핸들러
     def toggle_mike(self):
@@ -270,7 +324,8 @@ class ChatModule(QtWidgets.QMainWindow):
             selected_model_config = self.model_configs[self.selected_model_index]
             self.assistant.update_model_config(selected_model_config)  # 모델 구성 업데이트
             print("현재 선택된 모델:", selected_text)
-
+            self.db_manager.connect_database()
+            self.db_manager.update_usermodel(selected_text)
 
     # 오디오 처리 콜백 함수
     def process_audio(self, file_path, model_index):
@@ -341,6 +396,22 @@ class ChatModule(QtWidgets.QMainWindow):
         if self.file_monitor.running:
             self.file_monitor.stop()  # 모니터링 스레드 종료
         event.accept()  # GUI 종료
+
+    def back_page(self):
+        if self.mike_thread is not None and self.mike_thread.isRunning():
+            self.mike_thread.stop()  # 마이크 스레드 종료 요청  
+
+        #속성이나 메서드의 존재 여부를 확인
+        if hasattr(self.model_config_thread, 'is_alive') and self.model_config_thread.is_alive():
+            self.model_config_thread.stop()  # 모델 구성 업데이트 스레드 종료
+        if self.file_monitor.running:
+            self.file_monitor.stop()    # 모니터링 스레드 종료
+
+        if self.webcam_thread.isRunning():
+            self.webcam_thread.stop()  # 웹캠 스레드 종료
+
+        self.main_window.show_main_page()
+
 
 if __name__ == "__main__":
     app = QtWidgets.QApplication([])

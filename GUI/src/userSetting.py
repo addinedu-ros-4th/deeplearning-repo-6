@@ -3,11 +3,11 @@ import sys
 from PyQt5.QtWidgets import QApplication, QMainWindow, QStackedWidget, QWidget
 from PyQt5.QtGui import QPixmap
 from PyQt5 import uic
-from GUI.src.inputUser import WindowClass
+from GUI.src.inputUser import InputUserClass
 import sys
 from PyQt5.QtWidgets import QApplication, QMainWindow, QMessageBox
 from PyQt5.uic import loadUi
-from PyQt5.QtCore import QDate
+from PyQt5.QtCore import QDate 
 from PyQt5.QtGui import QIntValidator
 
 from GUI.src.DatabaseControl import DatabaseManager #데이터베이스 관리 클래스
@@ -57,8 +57,6 @@ class UserRegistrationForm(QMainWindow):
         # 사용자가 입력한 정보 가져오기
         name = self.Txt_name.text() 
         password = self.Txt_pw.text()
-        if len(password) < 4:
-            QMessageBox.warning(self, "경고", "비밀번호는 4자리만 가능합니다.")
         birth = self.dateEdit.date().toString("yyyy-MM-dd")  
         if self.radio_man.isChecked():
             gender = self.radio_man.text()
@@ -76,8 +74,9 @@ class UserRegistrationForm(QMainWindow):
             self.main_window.show_inputUser_page()
             
         else:
-            # 입력 필드 중 하나 이상이 비어있는 경우에는 알림 메시지 표시
-            QMessageBox.critical(self, "오류", "모든 필드를 입력하세요.")
+            # 입력 필드 중 하나 이상이 비어 있거나 비밀번호가 4자리가 아닌 경우 알림 메시지 표시
+            QMessageBox.critical(self, "오류", "모든 필드를 입력하고 비밀번호는 4자리여야 합니다.")
+
     
     def db_connect(self):
         self.DBManager = DatabaseManager("localhost", "root")   # manager 객체 생성

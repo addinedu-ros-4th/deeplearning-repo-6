@@ -163,3 +163,6 @@ GUI/data/face
 Speech_recognize/config.py
 GUI/data/mic_data
 mic_data
+
+# 얼굴 훈련 모델
+Face_recognize/model

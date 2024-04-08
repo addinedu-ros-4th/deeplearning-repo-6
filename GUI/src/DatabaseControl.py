@@ -5,11 +5,11 @@ import pandas as pd
 class DatabaseManager:
     def __init__(self, host, user):
         self.host = host
-        self.user = user
+        self.user = "root"
         self.db_name = "tier"
         self.cur = None
         self.conn = None
-    
+        self.password = "1234"
     
     # 데이터베이스 연결
     def connect_database(self, db_name=None):
@@ -19,13 +19,16 @@ class DatabaseManager:
             self.conn = mysql.connector.connect(
                 host=self.host,
                 user=self.user,
-                database=db_name
+                database=db_name,
+                password=self.password
             )
+            
         except mysql.connector.Error as err:
             if err.errno == mysql.connector.errorcode.ER_BAD_DB_ERROR:
                 self.conn = mysql.connector.connect(
                     host=self.host,
-                    user=self.user
+                    user=self.user,
+                    password=self.password
                 )
                 self.cur = self.conn.cursor()
                 self.create_database(db_name)
@@ -69,22 +72,79 @@ class DatabaseManager:
     
     
     # 데이터베이스에 사용자 정보 저장
-    def save_data(self, name, gender, birth, password):
-        if gender in ["남성", "남자", "Male", "남"]:
-            gender = "남"
-        elif gender in ["여성", "여자", "Female", "여"]:
-            gender = "여"
-        else:
-            gender = "Other"
-            
+    def save_data(self, name, gender, birth, password):   
         query = "INSERT INTO Users (Name, Gender, DOB, Password) VALUES (%s, %s, %s, %s)"
         self.cur.execute(query, (name, gender, birth, password))
         self.conn.commit()
 
+        query = "SELECT UserID FROM Users ORDER BY UserID DESC LIMIT 1;"
+        self.cur.execute(query)
+        user_id = self.cur.fetchone()[0]
+        
+        return user_id
     
+    # 데이터베이스에 로봇 정보 저장
+    def save_robot_setting(self, user_id, model):
+        query = "INSERT INTO RobotSetting (UserID, Model) VALUES (%s, %s)"
+        self.cur.execute(query, (user_id, model))
+        self.conn.commit()
+
+    # 최근 등록한 이름 가져오기 
+    def get_last_user_name(self):
+        query = "SELECT Name FROM Users ORDER BY UserID DESC LIMIT 1"
+        self.cur.execute(query)
+        result = self.cur.fetchone()
+        if result:
+            return result[0]
+        else:
+            return None
+
+    def find_elements(self, name, password):
+        query = "SELECT UserId, Name, Password from Users where Name = %s and (Password) = %s;"
+        self.cur.execute(query, (name, password))
+        result = self.cur.fetchone()
+        self.close_connection()
+        return result
+    
+    # 데이터베이스에 로그인 기록 저장
+    def save_login_records(self, userID):
+        if not self.conn.is_connected():  # 커넥션이 연결되어 있지 않으면
+            self.connect_database()  # 데이터베이스에 연결
+        query = "INSERT INTO LoginRecords (UserID) VALUES (%s)"
+        self.cur.execute(query, (userID,))
+        self.conn.commit()
+    
+    def find_username(self):
+        query = " SELECT Name  FROM Users  WHERE UserID = (SELECT UserID FROM LoginRecords ORDER BY RecordID DESC LIMIT 1);"
+        self.cur.execute(query)
+        result = self.cur.fetchone()
+        if result:
+            username = result[0]
+        else:
+            username = None
+        return username
+
+    def find_usermodel(self):
+        query = " SELECT Model FROM RobotSetting WHERE UserID = (SELECT UserID FROM LoginRecords ORDER BY RecordID DESC LIMIT 1);"
+        self.cur.execute(query)
+        result = self.cur.fetchone()
+        if result:
+            usermodel = result[0]
+        else:
+            usermodel = None
+        return usermodel
+    
+    def update_usermodel(self, selected_text):
+        query = "UPDATE RobotSetting SET Model = %s WHERE UserID = (SELECT UserID FROM LoginRecords ORDER BY RecordID DESC LIMIT 1);"
+        self.cur.execute(query, (selected_text,))
+        self.conn.commit()
+        
+
     def close_connection(self):
         if self.cur:
             self.cur.close()
         if self.conn:
             self.conn.close()
+    
+    
     
