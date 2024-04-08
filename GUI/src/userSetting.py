@@ -65,18 +65,30 @@ class UserRegistrationForm(QMainWindow):
         elif self.radio_woman.isChecked():
             gender = self.radio_woman.text()
 
-        # 입력된 정보가 모두 존재하는지 확인
-        if name.strip() and gender.strip() and birth.strip() and password.strip():
-            # 모든 필드에 값이 존재하는 경우에만 사용자 등록 수행
-            self.DBManager.save_data(name, gender, birth, password)
-            self.DBManager.close_connection()
-            # 화면 전환
-            self.main_window.show_inputUser_page()
-            
+        # cbox_Model의 현재 선택된 텍스트 가져오기
+        model = self.cbox_Model.currentText()
+        
+        # 모든 필드에 값이 존재하고 비밀번호가 4자리인 경우에만 사용자 등록 수행
+        if name.strip() and gender.strip() and birth.strip() and len(password.strip()) == 4:
+            # 사용자 데이터 저장
+            user_id = self.DBManager.save_data(name, gender, birth, password)
+            if user_id is not None:
+                # 로봇 설정 데이터 저장
+                self.DBManager.save_robot_setting(user_id, model)
+                self.DBManager.close_connection()
+                # 화면 전환
+                self.main_window.show_inputUser_page()
+            else:
+                # 사용자 정보를 저장하지 못한 경우에는 임의의 사용자 ID를 1로 설정하여 저장
+                user_id = 1
+                self.DBManager.save_robot_setting(user_id, model)
+                self.DBManager.close_connection()
+                # 화면 전환
+                self.main_window.show_inputUser_page()
         else:
             # 입력 필드 중 하나 이상이 비어 있거나 비밀번호가 4자리가 아닌 경우 알림 메시지 표시
             QMessageBox.critical(self, "오류", "모든 필드를 입력하고 비밀번호는 4자리여야 합니다.")
-
+    
     
     def db_connect(self):
         self.DBManager = DatabaseManager("localhost", "root")   # manager 객체 생성
