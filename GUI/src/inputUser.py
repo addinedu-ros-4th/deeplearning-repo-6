@@ -7,6 +7,10 @@ from PyQt5.QtCore import *
 import cv2
 from PIL import Image
 import threading
+from PyQt5.QtWidgets import QMessageBox, QApplication , QMainWindow
+from PyQt5.QtCore import QTimer
+from PyQt5.QtGui import QImage, QPixmap
+from PyQt5.QtCore import Qt
 
 from GUI.src.Camera import Camera
 from GUI.src.Loading import Loading
@@ -96,10 +100,9 @@ class InputUserClass(QMainWindow, from_class) :
             h, w, c = image.shape
             qimage = QImage(image.data, w, h, w*c, QImage.Format_RGB888)
         
-            self.pixmap = self.pixmap.fromImage(qimage)
-            self.pixmap = self.pixmap.scaled(self.userCamScreen.width(), self.userCamScreen.height())
-            
-            self.userCamScreen.setPixmap(self.pixmap)
+            pixmap = QPixmap.fromImage(qimage)
+            pixmap = pixmap.scaled(self.userCamScreen.size())
+            self.userCamScreen.setPixmap(pixmap)
         
         self.count += 1
     
@@ -124,7 +127,17 @@ class InputUserClass(QMainWindow, from_class) :
     def GIFLoading(self):
         img_path = "GUI/data/countdown.gif"
         if self.camera.recordingCount < 2:
-            self.loadingInstance = Loading(self, img_path, 521, 271, (30, 50), (521, 271), True)
+            # userCamScreen 위젯의 크기 가져오기
+            width = self.userCamScreen.width()
+            height = self.userCamScreen.height()+19 # 크기 수정
+
+            # userCamScreen의 정중앙 위치 계산
+            screen_rect = self.userCamScreen.geometry()
+            x = screen_rect.left() + (screen_rect.width() - width) // 2
+            y = screen_rect.top() + (screen_rect.height() - height) // 2
+            
+            # 로딩 인스턴스 생성 시 userCamScreen의 크기에 맞게 이미지 크기 조정
+            self.loadingInstance = Loading(self, img_path, width, height, (x, y), (width, height), True)
             
             self.cameraBtn.setEnabled(False)
             self.frameStartBtn.setEnabled(False)

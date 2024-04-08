@@ -8,7 +8,6 @@ from GUI.src.userSetting import UserRegistrationForm
 from GUI.src.inputUser import InputUserClass
 from GUI.src.train import TrainClass
 
-
 class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
@@ -70,7 +69,6 @@ class MainWindow(QMainWindow):
 
     def show_main_page(self):
         self.stacked_widget.setCurrentWidget(self.main_page)
-
 
     def closeEvent(self, event):
         if hasattr(self.Sr_page, 'closeEvent'):

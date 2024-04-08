@@ -9,8 +9,6 @@ class DatabaseManager:
         self.db_name = "tier"
         self.cur = None
         self.conn = None
-
-
         self.password = "1234"
     
     # 데이터베이스 연결
@@ -22,7 +20,7 @@ class DatabaseManager:
                 host=self.host,
                 user=self.user,
                 database=db_name,
-                password="1234"
+                password=self.password
             )
             
         except mysql.connector.Error as err:
@@ -101,12 +99,46 @@ class DatabaseManager:
         else:
             return None
 
+    def find_elements(self, name, password):
+        query = "SELECT UserId, Name, Password from Users where Name = %s and (Password) = %s;"
+        self.cur.execute(query, (name, password))
+        result = self.cur.fetchone()
+        self.close_connection()
+        return result
+    
     # 데이터베이스에 로그인 기록 저장
     def save_login_records(self, userID):
+        if not self.conn.is_connected():  # 커넥션이 연결되어 있지 않으면
+            self.connect_database()  # 데이터베이스에 연결
         query = "INSERT INTO LoginRecords (UserID) VALUES (%s)"
-        self.cur.execute(query, (userID))
+        self.cur.execute(query, (userID,))
         self.conn.commit()
+    
+    def find_username(self):
+        query = " SELECT Name  FROM Users  WHERE UserID = (SELECT UserID FROM LoginRecords ORDER BY RecordID DESC LIMIT 1);"
+        self.cur.execute(query)
+        result = self.cur.fetchone()
+        if result:
+            username = result[0]
+        else:
+            username = None
+        return username
 
+    def find_usermodel(self):
+        query = " SELECT Model FROM RobotSetting WHERE UserID = (SELECT UserID FROM LoginRecords ORDER BY RecordID DESC LIMIT 1);"
+        self.cur.execute(query)
+        result = self.cur.fetchone()
+        if result:
+            usermodel = result[0]
+        else:
+            usermodel = None
+        return usermodel
+    
+    def update_usermodel(self, selected_text):
+        query = "UPDATE RobotSetting SET Model = %s WHERE UserID = (SELECT UserID FROM LoginRecords ORDER BY RecordID DESC LIMIT 1);"
+        self.cur.execute(query, (selected_text,))
+        self.conn.commit()
+        
 
     def close_connection(self):
         if self.cur:
@@ -115,9 +147,4 @@ class DatabaseManager:
             self.conn.close()
     
     
-    def find_elements(self, name, password):
-        query = "SELECT UserId, Name, Password from Users where Name = %s and (Password) = %s;"
-        self.cur.execute(query, (name, password))
-        result = self.cur.fetchone()
-        self.close_connection()
-        return result is not None
+    
