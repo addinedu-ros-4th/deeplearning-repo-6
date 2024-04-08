@@ -8,6 +8,7 @@ import os
 from PyQt5.QtCore import QTimer , QSize
 from PyQt5.QtWidgets import QMainWindow , QApplication
 from PyQt5.QtGui import QMovie
+from PyQt5.QtCore import pyqtSlot
 
 from GUI.src.Loading import Loading # GIF
 from Face_recognize.face_save_learn import FaceTrainer # Face 학습 model
@@ -73,19 +74,20 @@ class TrainClass(QMainWindow, from_class) :
     # 훈련 시작
     def train(self):
         self.faceRecognizer = FaceTrainer(data_path, model_save_path)
+       
+        self.faceRecognizer.trainCompleted.connect(self.mySlot)
         self.faceRecognizer.train_model()
-        
-        # Train Success Signal
-        self.faceRecognizer.trainCompleted.connect(self.trainSuccess)
     
     
-    # 훈련 완료 판단
-    def trainSuccess(self):
-        # self.movie.stop() # GIF 종료
+    # 훈련 완료 시그널 슬롯
+    @pyqtSlot(bool)
+    def mySlot(self):
+        self.movie.stop() # GIF 종료
+        self.gif.hide()
         self.successBtn.show() # 화면 전환 버튼 활성화
+        self.successBtn.clicked.connect(self.goHome) # 화면 전환 함수 연결
         self.successBtn.setText("Home")
-        self.label.setText("당신만의 'Tier'가 생성되었습니다.")
-        
+        self.label.setText("   당신만의 'Tier'가 생성되었습니다.")
         
     def goHome(self):
         # Change window

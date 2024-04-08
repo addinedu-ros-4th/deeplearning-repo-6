@@ -68,7 +68,7 @@ class MainWindow(QMainWindow):
 
 
     def show_main_page(self):
-        self.stacked_widget.setCurrentWidget(self.train_page)
+        self.stacked_widget.setCurrentWidget(self.main_page)
 
     def closeEvent(self, event):
         if hasattr(self.Sr_page, 'closeEvent'):

@@ -244,7 +244,9 @@ class ChatModule(QtWidgets.QMainWindow):
 
     def update_image(self, image):
         # 이미지 라벨 업데이트
-        self.ui.Cam_window.setPixmap(QPixmap.fromImage(image))
+        pixmap = QPixmap.fromImage(image)
+        pixmap = pixmap.scaled(self.ui.Cam_window.size())
+        self.ui.Cam_window.setPixmap(pixmap)
 
     def user_name_label(self):
         self.db_manager.connect_database()
@@ -408,7 +410,7 @@ class ChatModule(QtWidgets.QMainWindow):
             self.webcam_thread.stop()  # 웹캠 스레드 종료
 
         self.main_window.show_login_page()
-            
+
 
 if __name__ == "__main__":
     app = QtWidgets.QApplication([])
