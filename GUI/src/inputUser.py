@@ -100,12 +100,9 @@ class InputUserClass(QMainWindow, from_class) :
             h, w, c = image.shape
             qimage = QImage(image.data, w, h, w*c, QImage.Format_RGB888)
         
-            pixmap = self.pixmap.fromImage(qimage)
-            scaled_pixmap = pixmap.scaled(self.userCamScreen.size(), Qt.KeepAspectRatio, Qt.SmoothTransformation)
-        
-            # 이미지를 중앙에 배치
-            self.userCamScreen.setPixmap(scaled_pixmap)
-            self.userCamScreen.setAlignment(Qt.AlignCenter)
+            pixmap = QPixmap.fromImage(qimage)
+            pixmap = pixmap.scaled(self.userCamScreen.size())
+            self.userCamScreen.setPixmap(pixmap)
         
         self.count += 1
     
@@ -130,7 +127,17 @@ class InputUserClass(QMainWindow, from_class) :
     def GIFLoading(self):
         img_path = "GUI/data/countdown.gif"
         if self.camera.recordingCount < 2:
-            self.loadingInstance = Loading(self, img_path, 521, 271, (30, 50), (521, 271), True)
+            # userCamScreen 위젯의 크기 가져오기
+            width = self.userCamScreen.width()
+            height = self.userCamScreen.height()+19 # 크기 수정
+
+            # userCamScreen의 정중앙 위치 계산
+            screen_rect = self.userCamScreen.geometry()
+            x = screen_rect.left() + (screen_rect.width() - width) // 2
+            y = screen_rect.top() + (screen_rect.height() - height) // 2
+            
+            # 로딩 인스턴스 생성 시 userCamScreen의 크기에 맞게 이미지 크기 조정
+            self.loadingInstance = Loading(self, img_path, width, height, (x, y), (width, height), True)
             
             self.cameraBtn.setEnabled(False)
             self.frameStartBtn.setEnabled(False)
