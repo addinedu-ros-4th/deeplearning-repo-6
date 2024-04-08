@@ -179,7 +179,7 @@ QRadioButton::indicator:checked {
 </string>
    </property>
    <property name="text">
-    <string>남자</string>
+    <string>남</string>
    </property>
   </widget>
   <widget class="QRadioButton" name="radio_woman">
@@ -199,7 +199,7 @@ QRadioButton::indicator:checked {
 </string>
    </property>
    <property name="text">
-    <string>여자</string>
+    <string>여</string>
    </property>
   </widget>
   <widget class="QDateEdit" name="dateEdit">

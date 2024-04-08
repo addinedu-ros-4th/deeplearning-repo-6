@@ -16,8 +16,8 @@
   <widget class="QPushButton" name="Btn_Login">
    <property name="geometry">
     <rect>
-     <x>310</x>
-     <y>320</y>
+     <x>400</x>
+     <y>390</y>
      <width>101</width>
      <height>41</height>
     </rect>
@@ -34,8 +34,8 @@
   <widget class="QTextEdit" name="Txt_Name">
    <property name="geometry">
     <rect>
-     <x>160</x>
-     <y>160</y>
+     <x>120</x>
+     <y>50</y>
      <width>251</width>
      <height>41</height>
     </rect>
@@ -50,8 +50,8 @@
   <widget class="QLabel" name="Label_Name">
    <property name="geometry">
     <rect>
-     <x>160</x>
-     <y>120</y>
+     <x>120</x>
+     <y>10</y>
      <width>121</width>
      <height>31</height>
     </rect>
@@ -73,8 +73,8 @@
   <widget class="QLabel" name="Label_Pw">
    <property name="geometry">
     <rect>
-     <x>160</x>
-     <y>220</y>
+     <x>120</x>
+     <y>360</y>
      <width>131</width>
      <height>31</height>
     </rect>
@@ -96,8 +96,8 @@
   <widget class="QLineEdit" name="Txt_Pw">
    <property name="geometry">
     <rect>
-     <x>160</x>
-     <y>260</y>
+     <x>120</x>
+     <y>400</y>
      <width>251</width>
      <height>41</height>
     </rect>
@@ -107,6 +107,26 @@
 	color: rgb(58, 134, 255);
 	background-color: white;
 	border: 2px solid rgb(58, 134, 255);</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="Cam_window">
+   <property name="geometry">
+    <rect>
+     <x>120</x>
+     <y>100</y>
+     <width>341</width>
+     <height>251</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">
+	color: rgb(58, 134, 255);
+	background-color: white;
+	border: 2px solid rgb(58, 134, 255);
+</string>
+   </property>
+   <property name="text">
+    <string>web_cam</string>
    </property>
   </widget>
  </widget>

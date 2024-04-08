@@ -55,7 +55,7 @@
    <property name="geometry">
     <rect>
      <x>430</x>
-     <y>590</y>
+     <y>630</y>
      <width>91</width>
      <height>61</height>
     </rect>
@@ -132,7 +132,7 @@
      <x>70</x>
      <y>570</y>
      <width>341</width>
-     <height>101</height>
+     <height>131</height>
     </rect>
    </property>
    <property name="styleSheet">
@@ -150,9 +150,9 @@
    <property name="geometry">
     <rect>
      <x>70</x>
-     <y>60</y>
+     <y>80</y>
      <width>451</width>
-     <height>371</height>
+     <height>341</height>
     </rect>
    </property>
    <property name="styleSheet">
@@ -164,6 +164,24 @@
    </property>
    <property name="text">
     <string>web_cam</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="btn_back">
+   <property name="geometry">
+    <rect>
+     <x>0</x>
+     <y>20</y>
+     <width>51</width>
+     <height>41</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">color: white;
+	background-color: qlineargradient(spread:pad, x1:0, y1:0, x2:0.857143, y2:0.857955, stop:0 rgba(10, 242, 251, 255), stop:1 rgba(224, 6, 159, 255));
+	border-radius: 20px;</string>
+   </property>
+   <property name="text">
+    <string>Home</string>
    </property>
   </widget>
  </widget>
