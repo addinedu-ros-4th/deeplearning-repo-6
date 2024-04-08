@@ -10,6 +10,7 @@ import threading
 from PyQt5.QtWidgets import QMessageBox, QApplication , QMainWindow
 from PyQt5.QtCore import QTimer
 from PyQt5.QtGui import QImage, QPixmap
+from PyQt5.QtCore import Qt
 
 from GUI.src.Camera import Camera
 from GUI.src.Loading import Loading
@@ -99,10 +100,12 @@ class InputUserClass(QMainWindow, from_class) :
             h, w, c = image.shape
             qimage = QImage(image.data, w, h, w*c, QImage.Format_RGB888)
         
-            self.pixmap = self.pixmap.fromImage(qimage)
-            self.pixmap = self.pixmap.scaled(self.userCamScreen.width(), self.userCamScreen.height())
-            
-            self.userCamScreen.setPixmap(self.pixmap)
+            pixmap = self.pixmap.fromImage(qimage)
+            scaled_pixmap = pixmap.scaled(self.userCamScreen.size(), Qt.KeepAspectRatio, Qt.SmoothTransformation)
+        
+            # 이미지를 중앙에 배치
+            self.userCamScreen.setPixmap(scaled_pixmap)
+            self.userCamScreen.setAlignment(Qt.AlignCenter)
         
         self.count += 1
     
