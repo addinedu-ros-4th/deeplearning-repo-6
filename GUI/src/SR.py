@@ -12,6 +12,7 @@ from PyQt5 import QtWidgets,uic
 from PyQt5.QtCore import pyqtSignal, QThread, QObject
 from PyQt5.QtWidgets import QMainWindow, QApplication
 from PyQt5.QtGui import QImage, QPixmap
+from PyQt5.QtCore import Qt
 
 
 import speech_recognition as sr
@@ -245,8 +246,11 @@ class ChatModule(QtWidgets.QMainWindow):
     def update_image(self, image):
         # 이미지 라벨 업데이트
         pixmap = QPixmap.fromImage(image)
-        pixmap = pixmap.scaled(self.ui.Cam_window.size())
-        self.ui.Cam_window.setPixmap(pixmap)
+        scaled_pixmap = pixmap.scaled(self.ui.Cam_window.size(), Qt.KeepAspectRatio, Qt.SmoothTransformation)
+        
+        # 이미지를 중앙에 배치
+        self.ui.Cam_window.setPixmap(scaled_pixmap)
+        self.ui.Cam_window.setAlignment(Qt.AlignCenter)
 
     def user_name_label(self):
         self.db_manager.connect_database()

@@ -150,9 +150,9 @@
    <property name="geometry">
     <rect>
      <x>70</x>
-     <y>60</y>
+     <y>80</y>
      <width>451</width>
-     <height>371</height>
+     <height>341</height>
     </rect>
    </property>
    <property name="styleSheet">

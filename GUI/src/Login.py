@@ -7,6 +7,7 @@ from PyQt5.QtGui import QIntValidator
 from GUI.src.DatabaseControl import DatabaseManager
 from PyQt5.QtGui import QImage, QPixmap
 from Face_recognize.face_recognize import FaceRecognizer
+from PyQt5.QtCore import Qt
 
 class WebCamThread(QThread):
     change_pixmap_signal = pyqtSignal(QImage, str)
@@ -74,8 +75,12 @@ class LoginWindow(QMainWindow):
     def update_image(self, image, recognized_name):
         # 이미지 라벨 업데이트
         pixmap = QPixmap.fromImage(image)
-        pixmap = pixmap.scaled(self.ui.Cam_window.size())
-        self.ui.Cam_window.setPixmap(pixmap)
+        scaled_pixmap = pixmap.scaled(self.ui.Cam_window.size(), Qt.KeepAspectRatio, Qt.SmoothTransformation)
+        
+        # 이미지를 중앙에 배치
+        self.ui.Cam_window.setPixmap(scaled_pixmap)
+        self.ui.Cam_window.setAlignment(Qt.AlignCenter)
+
         self.name = ""
         if not self.name :
             self.name = recognized_name
