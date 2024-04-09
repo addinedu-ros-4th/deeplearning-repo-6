@@ -92,7 +92,7 @@ class UserRegistrationForm(QMainWindow):
         else:
             # 입력 필드 중 하나 이상이 비어 있거나 비밀번호가 4자리가 아닌 경우 알림 메시지 표시
             QMessageBox.critical(self, "오류", "모든 필드를 입력하고 비밀번호는 4자리여야 합니다.")
-
+    
     
     def db_connect(self):
         self.DBManager = DatabaseManager("localhost", "root")   # manager 객체 생성
