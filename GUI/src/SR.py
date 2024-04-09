@@ -174,6 +174,7 @@ class ChatModule(QtWidgets.QMainWindow):
         self.main_window = main_window
         # 데이터 경로 설정
         self.data_path = "GUI/mic_data"
+        self.selected_model_index = None
 
         if not os.path.exists(self.data_path):
             os.makedirs(self.data_path)

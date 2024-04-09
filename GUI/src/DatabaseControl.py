@@ -9,7 +9,7 @@ class DatabaseManager:
         self.db_name = "tier"
         self.cur = None
         self.conn = None
-        self.password = "1234"
+        self.password = "your-password"
     
     # 데이터베이스 연결
     def connect_database(self, db_name=None):

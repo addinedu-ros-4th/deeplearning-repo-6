@@ -1,6 +1,6 @@
 import openai
 from Speech_recognize.googleapi import AudioTranscriber, FileMonitor
-from Speech_recognize.models.train_model import api_key
+from Speech_recognize.config import api_key
 import os
 import json
 import random
