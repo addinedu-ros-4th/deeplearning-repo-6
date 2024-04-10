@@ -252,7 +252,8 @@ class ChatModule(QtWidgets.QMainWindow):
     def user_name_label(self):
         self.db_manager.connect_database()
         username = self.db_manager.find_username()
-        self.ui.Label_User_Name.setText(username)
+        self.ui.Label_User_Name.setText("\"안녕하세요. "+ username + "님""\"")
+        self.ui.robot_model_select_text.setText("로봇 대화형 모델 설정")
 
     def user_model_label(self):
         self.db_manager.connect_database()
