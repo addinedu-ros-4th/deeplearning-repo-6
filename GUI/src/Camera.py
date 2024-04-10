@@ -13,8 +13,8 @@ class Camera(QThread):
     update = pyqtSignal(np.ndarray)
     finishedRecording = pyqtSignal()
     signalNoFace = pyqtSignal()
-    
-    def __init__(self, parent=None):
+
+    def __init__(self,parent=None):
         super().__init__()
         self.isRunning = False # 카메라 동작 플래그
         self.recording = False # 녹화 시작 플래그

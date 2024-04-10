@@ -76,7 +76,7 @@
 	border-radius: 20px;</string>
     </property>
     <property name="text">
-     <string>Sing up</string>
+     <string>Sign up</string>
     </property>
    </widget>
    <widget class="QLabel" name="label">
