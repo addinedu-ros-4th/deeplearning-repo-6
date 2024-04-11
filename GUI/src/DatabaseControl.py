@@ -147,13 +147,9 @@ class DatabaseManager:
             self.conn.close()
     
     
-<<<<<<< Updated upstream
-    
-=======
     def find_elements(self, name, password):
         query = "SELECT UserId, Name, Password from Users where Name = %s and (Password) = %s;"
         self.cur.execute(query, (name, password))
         result = self.cur.fetchone()
         self.close_connection()
-        return result is not None
->>>>>>> Stashed changes
+        return result
