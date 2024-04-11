@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>476</width>
-    <height>470</height>
+    <width>474</width>
+    <height>632</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -86,7 +86,7 @@
    <property name="geometry">
     <rect>
      <x>80</x>
-     <y>327</y>
+     <y>427</y>
      <width>67</width>
      <height>21</height>
     </rect>
@@ -108,7 +108,7 @@
    <property name="geometry">
     <rect>
      <x>360</x>
-     <y>340</y>
+     <y>440</y>
      <width>91</width>
      <height>61</height>
     </rect>
@@ -125,8 +125,8 @@
   <widget class="QComboBox" name="cbox_Model">
    <property name="geometry">
     <rect>
-     <x>360</x>
-     <y>270</y>
+     <x>80</x>
+     <y>370</y>
      <width>91</width>
      <height>31</height>
     </rect>
@@ -244,7 +244,7 @@ QRadioButton::indicator:checked {
    <property name="geometry">
     <rect>
      <x>80</x>
-     <y>360</y>
+     <y>460</y>
      <width>240</width>
      <height>45</height>
     </rect>
@@ -291,6 +291,28 @@ QRadioButton::indicator:checked {
    </property>
    <property name="text">
     <string>Other</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="Label_robot_setting">
+   <property name="geometry">
+    <rect>
+     <x>80</x>
+     <y>330</y>
+     <width>161</width>
+     <height>21</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">	color: white;
+	background-color: rgb(58, 134, 255);
+	border-radius: 5px;
+</string>
+   </property>
+   <property name="text">
+    <string>로봇 대화형 모델 설정</string>
+   </property>
+   <property name="alignment">
+    <set>Qt::AlignCenter</set>
    </property>
   </widget>
  </widget>

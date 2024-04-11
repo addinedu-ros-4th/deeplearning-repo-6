@@ -6,8 +6,8 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>580</width>
-    <height>470</height>
+    <width>574</width>
+    <height>465</height>
    </rect>
   </property>
   <property name="windowTitle">
@@ -16,10 +16,10 @@
   <widget class="QPushButton" name="Btn_Login">
    <property name="geometry">
     <rect>
-     <x>400</x>
-     <y>390</y>
-     <width>101</width>
-     <height>41</height>
+     <x>330</x>
+     <y>380</y>
+     <width>131</width>
+     <height>61</height>
     </rect>
    </property>
    <property name="styleSheet">
@@ -28,7 +28,7 @@
 	border-radius: 20px;</string>
    </property>
    <property name="text">
-    <string>log in</string>
+    <string>Sign in</string>
    </property>
   </widget>
   <widget class="QTextEdit" name="Txt_Name">
@@ -36,7 +36,7 @@
     <rect>
      <x>120</x>
      <y>50</y>
-     <width>251</width>
+     <width>121</width>
      <height>41</height>
     </rect>
    </property>
@@ -45,6 +45,9 @@
 	color: rgb(58, 134, 255);
 	background-color: white;
 	border: 2px solid rgb(58, 134, 255);</string>
+   </property>
+   <property name="readOnly">
+    <bool>true</bool>
    </property>
   </widget>
   <widget class="QLabel" name="Label_Name">
@@ -98,7 +101,7 @@
     <rect>
      <x>120</x>
      <y>400</y>
-     <width>251</width>
+     <width>131</width>
      <height>41</height>
     </rect>
    </property>
