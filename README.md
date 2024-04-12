@@ -18,6 +18,8 @@
 #### 시스템 구성도
 ![시스템구성도 drawio](https://github.com/gaeun0123/openCV_study/assets/102429136/4ee73dbf-668b-4d3b-ae24-7b86bbab4148)
 
+#### 음성 인식 시퀀스
+![image](https://github.com/addinedu-ros-4th/deeplearning-repo-6/assets/55430286/936a9e28-6b1f-49c9-83bf-d3cc9ecf6e07)
 
 
 > 빛나는 미래를 선물할, 당신만의 로봇 동반자 '티어'
