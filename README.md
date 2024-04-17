@@ -18,8 +18,8 @@
 <br>
 <br>
 MBTI ```F```와 ```T```의 답변은 매우 다릅니다. <br>
-사용자가 '나만의 로봇' 성격을 선택하면, 본인과 비슷한 성향의 답변을 들을 수 있는 것, <br><br>
-즉, ***```개인화```*** 로봇을 개발하는 것이 최종 목표입니다. <br>
+### 본인과 비슷한 성향의 로봇과 대화 하고 싶지 않나요? <br>
+#### 그러기 위해 ***```개인화```*** 된 로봇에 초점을 맞추어 사용자를 ```인식```하고, ```맞춤형 대화```를 생성하는 모델을 개발하였습니다. <br>
 
 
 <br>
@@ -59,10 +59,18 @@ MBTI ```F```와 ```T```의 답변은 매우 다릅니다. <br>
 <br>
 
 ## 🫂 역할
+|구분|이름|업무|
+|:---:|:---:|:---|
+|팀장|도준엽|- 음성인식 오픈 소스 자료 조사 및 테스트 <br> - 마이크 음성 입력 모듈 제작 <br> - Speech Recognize 응용 모듈 구현|
+|팀원|최가은|- 객체 인식 CNN 모델 생성 <br> - 모델 성능 평가 <br> - Database 구축, 관리 및 Database Control 모듈 구현 <br>|
+|팀원|장종찬|- 객체 인식, 객체추적 모델 조사 및 구현 <br> - 얼굴인식 모델 조사 및 구현 <br>|
+|팀원|양혜경|- 음성 인식 API 자료 조사 및 테스트 <br> - Google.cloud API 응용 <br> - GPT(chatbot) 구현 및 Fine Tuning <br>|
+|팀원|임대환|- 객체 인식 모델 조사 및 구현 <br> - DB Query 작성 <br>|
 
 <br>
 
 ## 🔎 기능 리스트
+![tier_기능리스트](https://github.com/addinedu-ros-4th/deeplearning-repo-6/assets/102429136/90e12d4b-3162-499b-892b-c4796a529352)
 
 <br>
 
@@ -70,7 +78,29 @@ MBTI ```F```와 ```T```의 답변은 매우 다릅니다. <br>
 ![face_flow-GUI 구성도 (1)](https://github.com/addinedu-ros-4th/deeplearning-repo-6/assets/102429136/a5460814-0197-4bab-88fc-1c8a4386296e)
 
 ## 📹 시현 영상
+### 1. 사용자 얼굴 데이터 수집 <br>
 
+[crop_cam.webm](https://github.com/addinedu-ros-4th/deeplearning-repo-6/assets/102429136/409162b0-fb3d-4faf-85ee-c1e9ac9f06ed)
+
+여러 각도의 촬영을 통해 얼굴인식의 정확도를 높인다.
+
+### 2. 얼굴 인식 모델로 학습 <br>
+
+[crop_train.webm](https://github.com/addinedu-ros-4th/deeplearning-repo-6/assets/102429136/33feb121-3cfd-45b0-bdeb-458c5873f929)
+
+CVlib 얼굴 인식 모델을 활용하여 수집한 데이터를 학습한다.
+
+### 3. Face Login <br>
+
+[crop_login.webm](https://github.com/addinedu-ros-4th/deeplearning-repo-6/assets/102429136/bd67ccc2-de00-4649-85ae-a86268e0cd4e)
+
+학습된 모델을 사용하여 사용자를 인식하면 Login (사용자의 로봇에 접근) 할 수 있다.
+
+### 4. 음성 인식, 답변 출력 <br>
+
+[Screencast from 04-17-2024 07:04:08 PM.webm](https://github.com/addinedu-ros-4th/deeplearning-repo-6/assets/102429136/78f6d158-e84b-4959-9e24-519d048a7d55)
+
+사용자는 GUI에서 상시 자신이 지정한 Robot Model 유형을 변경할 수 있다.
 
 <br>
 
