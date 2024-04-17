@@ -7,15 +7,12 @@ from GUI.src.SR import ChatModule
 from GUI.src.userSetting import UserRegistrationForm
 from GUI.src.inputUser import InputUserClass
 from GUI.src.train import TrainClass
-<<<<<<< HEAD
-=======
-
->>>>>>> localrobodb
 
 class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
         self.main_page = uic.loadUi('GUI/ui/Main_window.ui')
+        self.setWindowTitle("RobotFace")
         main_size = self.main_page.size()
         width = main_size.width()
         height = main_size.height()

@@ -1,8 +1,10 @@
 import json
 import openai
+from Speech_recognize.config import api_key
+from Speech_recognize.models.train_models import
 
 # OpenAI API 키 설정
-api_key = "your-api-key"
+api_key = api_key
 openai.api_key = api_key
 
 

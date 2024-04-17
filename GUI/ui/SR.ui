@@ -7,8 +7,14 @@
     <x>0</x>
     <y>0</y>
     <width>580</width>
-    <height>731</height>
+    <height>824</height>
    </rect>
+  </property>
+  <property name="font">
+   <font>
+    <weight>75</weight>
+    <bold>true</bold>
+   </font>
   </property>
   <property name="windowTitle">
    <string>Form</string>
@@ -17,10 +23,17 @@
    <property name="geometry">
     <rect>
      <x>430</x>
-     <y>470</y>
+     <y>520</y>
      <width>91</width>
      <height>61</height>
     </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>14</pointsize>
+     <weight>75</weight>
+     <bold>true</bold>
+    </font>
    </property>
    <property name="styleSheet">
     <string notr="true">color: white;
@@ -35,30 +48,43 @@
    <property name="geometry">
     <rect>
      <x>70</x>
-     <y>20</y>
+     <y>30</y>
      <width>211</width>
-     <height>31</height>
+     <height>41</height>
     </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>15</pointsize>
+     <weight>75</weight>
+     <bold>true</bold>
+    </font>
    </property>
    <property name="styleSheet">
     <string notr="true">
 	color: rgb(58, 134, 255);
-	background-color: white;
-	border: 2px solid rgb(58, 134, 255);
+
 </string>
    </property>
    <property name="text">
-    <string>사용자 명</string>
+    <string>&lt;html&gt;&lt;head/&gt;&lt;body&gt;&lt;p&gt;&lt;span style=&quot; font-weight:600;&quot;&gt;사용자 명&lt;/span&gt;&lt;/p&gt;&lt;/body&gt;&lt;/html&gt;</string>
    </property>
   </widget>
   <widget class="QPushButton" name="btn_Output">
    <property name="geometry">
     <rect>
      <x>430</x>
-     <y>630</y>
+     <y>650</y>
      <width>91</width>
      <height>61</height>
     </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>14</pointsize>
+     <weight>75</weight>
+     <bold>true</bold>
+    </font>
    </property>
    <property name="styleSheet">
     <string notr="true">color: white;
@@ -72,8 +98,8 @@
   <widget class="QComboBox" name="cbox_Model">
    <property name="geometry">
     <rect>
-     <x>430</x>
-     <y>20</y>
+     <x>220</x>
+     <y>451</y>
      <width>91</width>
      <height>31</height>
     </rect>
@@ -110,7 +136,7 @@
    <property name="geometry">
     <rect>
      <x>70</x>
-     <y>460</y>
+     <y>510</y>
      <width>341</width>
      <height>81</height>
     </rect>
@@ -130,7 +156,7 @@
    <property name="geometry">
     <rect>
      <x>70</x>
-     <y>570</y>
+     <y>620</y>
      <width>341</width>
      <height>131</height>
     </rect>
@@ -169,11 +195,18 @@
   <widget class="QPushButton" name="btn_back">
    <property name="geometry">
     <rect>
-     <x>0</x>
-     <y>20</y>
-     <width>51</width>
-     <height>41</height>
+     <x>490</x>
+     <y>10</y>
+     <width>81</width>
+     <height>51</height>
     </rect>
+   </property>
+   <property name="font">
+    <font>
+     <pointsize>13</pointsize>
+     <weight>75</weight>
+     <bold>true</bold>
+    </font>
    </property>
    <property name="styleSheet">
     <string notr="true">color: white;
@@ -181,7 +214,24 @@
 	border-radius: 20px;</string>
    </property>
    <property name="text">
-    <string>Home</string>
+    <string>Logout</string>
+   </property>
+  </widget>
+  <widget class="QLabel" name="robot_model_select_text">
+   <property name="geometry">
+    <rect>
+     <x>70</x>
+     <y>450</y>
+     <width>141</width>
+     <height>31</height>
+    </rect>
+   </property>
+   <property name="styleSheet">
+    <string notr="true">	color: rgb(58, 134, 255);
+</string>
+   </property>
+   <property name="text">
+    <string>로봇 대화형 모델 설정</string>
    </property>
   </widget>
  </widget>
