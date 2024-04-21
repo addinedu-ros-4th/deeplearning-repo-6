@@ -53,7 +53,7 @@ MBTI ```F```와 ```T```의 답변은 매우 다릅니다. <br>
 | 도준엽 👑 | 최가은 | 장종찬 | 양혜경 | 임대환 |
 | :-----------------: | :--------: | :--------: | :-------: | :-------: |
 | <img src="https://github.com/addinedu-ros-4th/deeplearning-repo-6/assets/102429136/fb00f213-743f-462f-947d-1475f5ee963d" width="170"> | <img src="https://github.com/addinedu-ros-4th/deeplearning-repo-6/assets/102429136/62df3088-628b-4551-8ac3-9b3a2009c390" width="160">  | <img src="https://github.com/addinedu-ros-4th/deeplearning-repo-6/assets/102429136/5cf07b7c-ce29-4de7-a6fd-2bca61eeeb0e" width="170"> | <img src="https://github.com/addinedu-ros-4th/deeplearning-repo-6/assets/102429136/bb0a0579-8c6d-4481-ac6a-893ba91d448d" width="170"> | <img src="https://github.com/addinedu-ros-4th/deeplearning-repo-6/assets/102429136/d23fbd7e-0a7c-4d3f-9c09-c0ea068df991" width="170">  |
-| [DJ_Y](https://github.com/djy0404)            | [ Silver ](https://https://github.com/gaeun0123)   | [Chan](https://github.com/jongchanjang)   | [HG_Y](https://github.com/hyegyeong-Y)  | [Hawn](https://github.com/Hwan9794)  |
+| [DJ_Y](https://github.com/djy0404)            | [Silver](https://github.com/gaeun0123)   | [Chan](https://github.com/jongchanjang)   | [HG_Y](https://github.com/hyegyeong-Y)  | [Hawn](https://github.com/Hwan9794)  |
 
 
 <br>
