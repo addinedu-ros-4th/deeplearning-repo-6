@@ -102,6 +102,13 @@ CVlib 얼굴 인식 모델을 활용하여 수집한 데이터를 학습한다.
 
 사용자는 GUI에서 상시 자신이 지정한 Robot Model 유형을 변경할 수 있다.
 
+## 티어 사용방법 
+1.requirement를 설치한다.
+2. ~/deeplearning-repo-6-main 해당 경로에서 터미널에
+>> PYTHONPATH=. python3 -m GUI.src.Main_window 실행
+**but, ModuleNotFoundError: No module named 'Speech_recognize' 이와 같은 에러가 나올텐데**
+Speech_recognize폴더에 api_key = "sk~ 로 시작하는config.py가 필요하다.
+(개인 google_api_key라서 보안상의 이유로 git에는 올리지 못했다. 그러므로 본인 google_api_key로 실행해야 한다)
 <br>
 
 > 빛나는 미래를 선물할, 당신만의 로봇 동반자 '티어'와 함께하세요
